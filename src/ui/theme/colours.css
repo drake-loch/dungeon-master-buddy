@@ -1,0 +1,16 @@
+:root {
+    /* colours */
+    --col-dark-main: hsl(0, 0%, 0%);
+    --col-dark-dark: hsl(0, 0%, 10%);
+    --col-dark-light: hsl(0, 0%, 25%);
+    --col-dark-lighter: hsl(0, 0%, 45%);
+
+    /* inputs */
+    --col-input: hsl(0, 0%, 90%);
+    --col-highlight: hsl(229, 100%, 78%);
+
+    /* buttons */
+    --button-warning:rgb(207, 0, 0);
+    --button-good:rgb(0, 189, 25);
+    --button-good-disabled:hsl(128, 100%, 15%);
+}
