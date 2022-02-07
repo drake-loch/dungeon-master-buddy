@@ -3,11 +3,12 @@
     export const toggleMod = () => {
         showMod = !showMod;
     };
+    export let size = "small";
 </script>
 
 {#if showMod}
     <section>
-        <div>
+        <div class={size}>
             <slot />
         </div>
     </section>
@@ -33,10 +34,16 @@
         padding: 1rem;
     }
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1030px) {
         div {
             margin: 0 auto;
-            width: 50%;
+        }
+        .small {
+            min-width: 30%;
+            max-width: 35%;
+        }
+        .large {
+            min-width: 50%;
         }
     }
 </style>

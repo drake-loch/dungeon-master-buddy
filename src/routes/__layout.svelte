@@ -11,6 +11,5 @@
         background-color: var(--col-dark-light);
         min-height: calc(100vh);
         box-sizing: border-box;
-        padding: 1rem;
     }
 </style>

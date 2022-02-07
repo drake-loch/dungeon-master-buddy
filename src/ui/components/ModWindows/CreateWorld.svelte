@@ -6,13 +6,14 @@
     import { AddDefaultSkills } from "/src/utilities/skillsConfig";
 
     export let toggleMod;
+    export let worlds = [];
 
     let worldName = "";
     let skillType;
 
     function submitHandler(e) {
         e.preventDefault();
-        CreateNewWorld(worldName, skillType);
+        worlds = CreateNewWorld(worldName, skillType);
         toggleMod();
     }
 </script>
@@ -20,11 +21,13 @@
 <h1>Create World</h1>
 
 <form on:submit={submitHandler}>
-    <LittleButton
-        disabled={worldName.length < 1 || !skillType?.name}
-        type="good">Create World</LittleButton
-    >
-    <LittleButton func={toggleMod} type="warning">Cancel</LittleButton>
+    <div>
+        <LittleButton
+            disabled={worldName.length < 1 || !skillType?.name}
+            type="good">Create World</LittleButton
+        >
+        <LittleButton func={toggleMod} type="warning">Cancel</LittleButton>
+    </div>
     <TextInput
         label="World Name: "
         placeholder="Enter a name..."
@@ -40,5 +43,14 @@
 <style>
     h1 {
         margin-bottom: 2rem;
+    }
+
+    @media only screen and (min-width: 1030px) {
+        div {
+            width: 30%;
+            display: flex;
+            justify-content: space-between;
+            margin-left: auto;
+        }
     }
 </style>

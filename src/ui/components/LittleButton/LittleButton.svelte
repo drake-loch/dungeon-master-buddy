@@ -25,13 +25,14 @@
 
 <style>
     button {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        padding: 0.5rem 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 1);
+        padding: 0.5rem 0.85rem;
         font-size: 1rem;
         background-color: var(--col-dark-lighter);
         margin-bottom: 1rem;
+        border-radius: 0.15rem;
     }
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1030px) {
         button {
             padding: 0.25rem 0.5rem;
             font-size: 0.8rem;
@@ -45,9 +46,10 @@
     }
     .good {
         background-color: var(--button-good);
-        color: black;
+        color: white;
     }
     .good:disabled {
         background-color: var(--button-good-disabled);
+        color: var(--col-dark-light);
     }
 </style>

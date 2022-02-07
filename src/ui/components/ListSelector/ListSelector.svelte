@@ -1,10 +1,15 @@
 <script>
     import { onMount } from "svelte";
 
-    export let items = undefined;
+    export let items = [];
     export let selectedItem = undefined;
+
     function selectItem(item) {
         selectedItem = item;
+    }
+
+    $: {
+        items = items;
     }
 </script>
 
@@ -45,11 +50,14 @@
         display: flex;
         align-items: center;
     }
+    p:hover {
+        cursor: pointer;
+    }
     .selected {
         background-color: var(--col-highlight);
     }
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1030px) {
         div {
             width: 30%;
         }

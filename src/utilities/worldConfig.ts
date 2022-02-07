@@ -4,7 +4,7 @@ import { AddDefaultSkills } from "./skillsConfig";
 export function CreateNewWorld(name: string, skillset?) {
     const newWorld = {
         name: name,
-        id: 1,
+        id: GetWorlds()?.length > 0 ? GetWorlds().length : 0,
         continents: [],
         deities: [],
         wandNPCs: [],
@@ -19,9 +19,10 @@ export function CreateNewWorld(name: string, skillset?) {
             skillSets: AddDefaultSkills(),
         },
     };
-    console.log(newWorld);
-    if (GetWorlds()) {
 
+    console.log(newWorld);
+
+    if (GetWorlds()) {
         const worlds = GetWorlds();
         worlds.push(newWorld)
         console.log(worlds);
@@ -31,6 +32,7 @@ export function CreateNewWorld(name: string, skillset?) {
         localStorage.setItem("worlds", JSON.stringify([newWorld]));
     }
 
+    return GetWorlds();
 
 }
 
@@ -41,4 +43,36 @@ export function GetWorlds() {
     } else {
         return null
     }
+}
+
+export function DeleteWorld(worldToDelete) {
+    let worlds = JSON.parse(localStorage.getItem("worlds"));
+    let newWorlds = worlds.filter(world => {
+        if (world.id !== worldToDelete.id && world.name !== worldToDelete.name) {
+            console.log("bingo!");
+            return world
+        }
+    })
+    localStorage.setItem("worlds", JSON.stringify(newWorlds));
+    return newWorlds
+}
+
+export function SetSelectedWorld(world) {
+    localStorage.setItem("selectedWorld", JSON.stringify({ name: world.name, id: world.id }));
+}
+
+export function GetSelectedWorld() {
+    const query = JSON.parse(localStorage.getItem("selectedWorld"));
+    if (query) {
+        return GetWorlds().find((world) => {
+            if (query.id === world.id && query.id === world.id) {
+                return world
+            } else {
+                return null;
+            }
+        })
+    } else {
+        return null;
+    }
+
 }

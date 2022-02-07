@@ -12,9 +12,9 @@
         flex-direction: column;
     }
 
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1030px) {
         div {
-            width: 50%;
+            width: 25%;
             flex-direction: column;
         }
     }

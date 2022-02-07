@@ -30,7 +30,7 @@
     }
 
     /* Desktop */
-    @media only screen and (min-width: 768px) {
+    @media only screen and (min-width: 1030px) {
         div {
             display: flex;
             flex-direction: row;

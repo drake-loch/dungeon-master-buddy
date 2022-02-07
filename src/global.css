@@ -1,6 +1,32 @@
-@import 'ui/theme/theme.css'
+@import 'ui/theme/theme.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;400;700&display=swap');
 
 
-/* @media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 1030px) {
 
   } */
+
+
+  :root{
+    --desktop:1030px;
+  }
+
+
+  *,body,html{
+    font-family: 'Roboto Slab', serif;
+  }
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 400;
+}
+
+@media only screen and (min-width: 768px) {
+  h1 {
+      font-size: 4rem;
+      margin-bottom: 5rem;
+  }
+  h2 {
+      font-size: 1.5rem;
+  }
+}
