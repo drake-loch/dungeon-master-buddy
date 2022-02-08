@@ -15,12 +15,21 @@
 </script>
 
 {#if world}
-    <h1>Hello there!</h1>
+    <section />
 {/if}
 
 <style>
-    h1 {
-        background-color: red;
-        height: 200vh;
+    section {
+        width: 100%;
+        height: 150vh;
+        overflow-y: scroll;
+        box-sizing: border-box;
+        padding: 1rem 0.5rem;
+    }
+
+    @media only screen and (min-width: 1030px) {
+        :global(body) {
+            overflow: hidden;
+        }
     }
 </style>
