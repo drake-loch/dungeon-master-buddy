@@ -5,9 +5,11 @@
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
     import CreateWorld from "/src/ui/components/ModWindows/CreateWorld.svelte";
     import { onMount } from "svelte";
-    import { DeleteWorld } from "/src/utilities/worldConfig";
-    import { SetSelectedWorld } from "/src/utilities/worldConfig";
-    import { GetSelectedWorld } from "/src/utilities/worldConfig";
+    import {
+        DeleteWorld,
+        GetSelectedWorld,
+        SetSelectedWorld,
+    } from "/src/utilities/worldConfig";
 
     let selectedWorld = undefined;
     let worlds = [];

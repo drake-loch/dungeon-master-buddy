@@ -1,3 +1,4 @@
+import { getMyWorlds, setWorld } from "./firebase";
 import { AddDefaultSkills } from "./skillsConfig";
 
 
@@ -31,13 +32,16 @@ export function CreateNewWorld(name: string, skillset?) {
         console.log("No Worlds");
         localStorage.setItem("worlds", JSON.stringify([newWorld]));
     }
+    setWorld(newWorld);
 
     return GetWorlds();
 
 }
 
+
 export function GetWorlds() {
     let toReturn = JSON.parse(localStorage.getItem('worlds'));
+    // let toReturn = await getMyWorlds();
     if (toReturn) {
         return toReturn;
     } else {

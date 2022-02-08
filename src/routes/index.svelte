@@ -1,9 +1,6 @@
 <script>
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
-    function test() {
-        console.log("PING");
-    }
 </script>
 
 <div>

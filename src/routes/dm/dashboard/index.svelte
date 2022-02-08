@@ -1,4 +1,5 @@
 <script>
+    // @ts-ignore
     import { GetSelectedWorld } from "/src/utilities/worldConfig";
     import { onMount } from "svelte";
 
