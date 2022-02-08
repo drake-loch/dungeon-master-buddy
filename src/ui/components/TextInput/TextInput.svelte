@@ -2,11 +2,18 @@
     export let label = "";
     export let val = "";
     export let placeholder = "";
+    export let fieldType = "text";
 </script>
 
 <div>
     <label for="this">{label}</label>
-    <input type="text" {placeholder} bind:value={val} />
+    {#if fieldType === "text"}
+        <input type="text" {placeholder} bind:value={val} />
+    {:else if fieldType === "email"}
+        <input type="email" {placeholder} bind:value={val} />
+    {:else if fieldType === "password"}
+        <input type="password" {placeholder} bind:value={val} />
+    {/if}
 </div>
 
 <style>

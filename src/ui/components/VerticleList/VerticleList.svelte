@@ -1,7 +1,8 @@
 <script>
+    export let width = "";
 </script>
 
-<div>
+<div class={width}>
     <slot />
 </div>
 
@@ -15,7 +16,9 @@
     @media only screen and (min-width: 1030px) {
         div {
             width: 25%;
-            flex-direction: column;
+        }
+        .full {
+            width: 100%;
         }
     }
 </style>

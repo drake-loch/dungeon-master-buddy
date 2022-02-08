@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getFirestore, doc, collection, getDocs, setDoc } from 'firebase/firestore/lite';
+import authStore from "../stores/index";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -15,7 +16,16 @@ const app = initializeApp(firebaseConfig)
 
 
 const db = getFirestore(app);
-const auth = getAuth();
+export const auth = getAuth();
+
+auth.onAuthStateChanged((user) => {
+    authStore.set({
+        isLoggedIn: user !== null,
+        user,
+        firebaseControlled: true,
+    });
+});
+
 
 export async function setWorld(world) {
     await setDoc(doc(db, "worlds", world.name), world)
@@ -24,4 +34,17 @@ export async function setWorld(world) {
 export async function getMyWorlds() {
     return (await getDocs(collection(db, 'worlds'))).docs.map(doc => doc.data())
 }
+
+export async function CreateUser(email: string, password: string) {
+    createUserWithEmailAndPassword(auth, email, password);
+}
+export async function SignIn(email: string, password: string) {
+    signInWithEmailAndPassword(auth, email, password)
+}
+
+export async function LogOff() {
+    auth.signOut();
+}
+
+
 
