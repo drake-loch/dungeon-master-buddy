@@ -14,7 +14,7 @@
             //not logged in
             $user = null;
             $isLoggedIn = false;
-            goto("/");
+            // goto("/");
         }
     });
 </script>
