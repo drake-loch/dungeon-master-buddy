@@ -1,5 +1,6 @@
 <script lang="ts">
     import "../global.css";
+    import { user, isLoggedIn } from "../stores/index";
 </script>
 
 <div>

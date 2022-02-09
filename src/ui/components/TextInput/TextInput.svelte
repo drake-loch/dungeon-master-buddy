@@ -30,6 +30,7 @@
     input {
         font-size: 1.5rem;
         border: 2px solid rgb(170, 170, 170);
+        border-radius: 5px;
     }
     input:focus {
         outline: none;

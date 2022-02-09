@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
@@ -10,18 +10,23 @@
         GetSelectedWorld,
         SetSelectedWorld,
     } from "/src/utilities/worldConfig";
+    import { user, isLoggedIn } from "../../stores/index";
 
-    let selectedWorld = undefined;
+    let selectedWorld = null;
     let worlds = [];
     let toggleMod;
+
+    $: loggedUser = $user;
 
     onMount(async () => {
         if (localStorage.getItem("worlds")) {
             worlds = JSON.parse(localStorage.getItem("worlds"));
         }
+        console.log($user);
     });
     function deleteWorld() {
         worlds = DeleteWorld(selectedWorld);
+        selectedWorld = null;
     }
     function selectWorld() {
         SetSelectedWorld(selectedWorld);
@@ -32,6 +37,7 @@
 <ModWindow bind:this={toggleMod}>
     <CreateWorld bind:worlds toggleMod={toggleMod.toggleMod} />
 </ModWindow>
+
 <div class="page">
     <h1>Welcome, <br /><span>Dungeon Master!</span></h1>
     <h2>Please select a world</h2>

@@ -1,10 +1,12 @@
+import type { User } from "firebase/auth";
 import { getMyWorlds, setWorld } from "./firebase";
 import { AddDefaultSkills } from "./skillsConfig";
 
 
-export function CreateNewWorld(name: string, skillset?) {
+export function CreateNewWorld(name: string, user: User, skillset?) {
     const newWorld = {
         name: name,
+        creatorID: user.uid,
         id: GetWorlds()?.length > 0 ? GetWorlds().length : 0,
         continents: [],
         deities: [],
@@ -21,7 +23,6 @@ export function CreateNewWorld(name: string, skillset?) {
         },
     };
 
-    console.log(newWorld);
 
     if (GetWorlds()) {
         const worlds = GetWorlds();
@@ -32,7 +33,8 @@ export function CreateNewWorld(name: string, skillset?) {
         console.log("No Worlds");
         localStorage.setItem("worlds", JSON.stringify([newWorld]));
     }
-    setWorld(newWorld);
+
+    setWorld(newWorld, user);
 
     return GetWorlds();
 
@@ -41,7 +43,6 @@ export function CreateNewWorld(name: string, skillset?) {
 
 export function GetWorlds() {
     let toReturn = JSON.parse(localStorage.getItem('worlds'));
-    // let toReturn = await getMyWorlds();
     if (toReturn) {
         return toReturn;
     } else {

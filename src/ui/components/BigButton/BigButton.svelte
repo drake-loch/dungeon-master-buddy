@@ -1,10 +1,12 @@
 <script>
+    import { goto } from "$app/navigation";
+
     export let func = undefined;
     export let nav = undefined;
     export let type = "";
 
     function navHandler() {
-        window.location = nav;
+        goto(nav);
     }
 </script>
 
@@ -57,7 +59,7 @@
     @media only screen and (min-width: 1030px) {
         button {
             padding: 1rem 0.5rem;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             margin-bottom: 1rem;
         }
     }

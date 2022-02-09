@@ -34,7 +34,7 @@
         height: 30vh;
         display: flex;
         background-color: var(--col-input);
-        border: 2px solid black;
+        border: 2px solid rgb(37, 37, 37);
         margin-bottom: 1rem;
         padding: 0.5rem 0;
         box-sizing: border-box;

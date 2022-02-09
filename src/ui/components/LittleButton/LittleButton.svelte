@@ -1,11 +1,13 @@
 <script>
+    import { goto } from "$app/navigation";
+
     export let func = undefined;
     export let nav = undefined;
     export let type = "";
     export let disabled = false;
 
     function navHandler() {
-        window.location = nav;
+        goto(nav);
     }
 </script>
 

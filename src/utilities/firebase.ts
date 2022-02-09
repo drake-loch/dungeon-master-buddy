@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { getFirestore, doc, collection, getDocs, setDoc } from 'firebase/firestore/lite';
-import authStore from "../stores/index";
+import { getFirestore, doc, collection, getDocs, setDoc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
+import { user, isLoggedIn } from "../stores/index";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -18,17 +18,17 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app);
 export const auth = getAuth();
 
-auth.onAuthStateChanged((user) => {
-    authStore.set({
-        isLoggedIn: user !== null,
-        user,
-        firebaseControlled: true,
-    });
-});
+export async function initUserDataInDB(user) {
+    // await setDoc(doc(db, "users"), user.uid)
+    await setDoc(doc(db, "users", user.uid), { worlds: [] })
+}
 
 
-export async function setWorld(world) {
-    await setDoc(doc(db, "worlds", world.name), world)
+export async function setWorld(world, user) {
+    console.log(user);
+
+    await updateDoc(doc(db, "users", user.uid), { worlds: arrayUnion(world) })
+
 }
 
 export async function getMyWorlds() {
@@ -36,10 +36,10 @@ export async function getMyWorlds() {
 }
 
 export async function CreateUser(email: string, password: string) {
-    createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password);
 }
 export async function SignIn(email: string, password: string) {
-    signInWithEmailAndPassword(auth, email, password)
+    return signInWithEmailAndPassword(auth, email, password)
 }
 
 export async function LogOff() {

@@ -4,6 +4,7 @@
     import TextInput from "../TextInput/TextInput.svelte";
     import { CreateNewWorld } from "../../../utilities/worldConfig";
     import { AddDefaultSkills } from "/src/utilities/skillsConfig";
+    import { user } from "../../../stores/index";
 
     export let toggleMod;
     export let worlds = [];
@@ -13,7 +14,7 @@
 
     function submitHandler(e) {
         e.preventDefault();
-        worlds = CreateNewWorld(worldName, skillType);
+        worlds = CreateNewWorld(worldName, $user, skillType);
         toggleMod();
     }
 </script>

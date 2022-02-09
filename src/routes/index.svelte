@@ -2,49 +2,44 @@
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import { onMount } from "svelte";
-    import authStore from "../stores/index";
+    import { user, isLoggedIn } from "../stores/index";
     import TextInput from "/src/ui/components/TextInput/TextInput.svelte";
-    import { CreateUser, LogOff, SignIn, auth } from "/src/utilities/firebase";
-    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
+    import {
+        CreateUser,
+        LogOff,
+        SignIn,
+        initUserDataInDB,
+    } from "/src/utilities/firebase";
 
-    let loggedUser = null;
+    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
 
     let email = "";
     let password = "";
-    authStore.subscribe(async ({ isLoggedIn, firebaseControlled, user }) => {
-        if (isLoggedIn && firebaseControlled) {
-            loggedUser = user;
-            // console.log(loggedUser);
-        }
-    });
 
-    onMount(async () => {
-        auth.onAuthStateChanged((user) => {
-            authStore.set({
-                isLoggedIn: user !== null,
-                user,
-                firebaseControlled: true,
-            });
-        });
-    });
-
-    function login(e) {
+    async function login(e) {
         e.preventDefault();
-        SignIn(email, password);
+        let res = await SignIn(email, password);
+        $user = res.user;
+        $isLoggedIn = true;
     }
-    function createAcc(e) {
+    async function createAcc(e) {
         e.preventDefault();
-        CreateUser(email, password);
+        let res = await CreateUser(email, password);
+        $user = res.user;
+        $isLoggedIn = true;
+        initUserDataInDB($user);
     }
     function logoff() {
         LogOff();
+        $user = null;
+        $isLoggedIn = false;
     }
 </script>
 
 <div class="page">
     <h1>Welcome to <span>DM Buddy!</span></h1>
     <br />
-    {#if loggedUser}
+    {#if $isLoggedIn}
         <h2>Are you a...</h2>
 
         <VerticleList>
@@ -53,14 +48,15 @@
         </VerticleList>
         <LittleButton func={logoff} type="warning">Logout</LittleButton>
     {:else}
-        <h2>Login</h2>
+        <h2 class="login">Login</h2>
         <form>
-            <TextInput bind:val={email} fieldType="email" label="email" />
+            <TextInput bind:val={email} fieldType="email" label="Email:" />
             <TextInput
                 bind:val={password}
                 fieldType="password"
-                label="password"
+                label="Password:"
             />
+            <br />
             <VerticleList width="full">
                 <BigButton func={(e) => login(e)}>Login</BigButton>
                 <BigButton func={(e) => createAcc(e)}>Create Account</BigButton>
@@ -79,6 +75,10 @@
     h2 {
         margin-bottom: 2rem;
         font-weight: 400;
+        color: white;
+    }
+    .login {
+        font-weight: bold;
     }
     span {
         color: var(--col-brand);
@@ -95,8 +95,8 @@
             font-size: 4rem;
             margin-bottom: 5rem;
         }
-        h2 {
-            font-size: 1.5rem;
+        .login {
+            font-size: 2rem;
         }
         .page {
             height: 60vh;
@@ -106,7 +106,7 @@
             box-sizing: border-box;
         }
         form {
-            width: 25%;
+            width: 30%;
             display: flex;
             flex-direction: column;
         }
