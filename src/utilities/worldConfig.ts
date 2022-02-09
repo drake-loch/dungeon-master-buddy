@@ -50,6 +50,12 @@ export function GetWorlds() {
     }
 }
 
+export async function GetWorldsFromDB(user) {
+    let users = await getMyWorlds(user)
+    let world = users.find((u) => u?.projectID === user.uid)
+    return world.worlds
+}
+
 export function DeleteWorld(worldToDelete) {
     let worlds = JSON.parse(localStorage.getItem("worlds"));
     let newWorlds = worlds.filter(world => {

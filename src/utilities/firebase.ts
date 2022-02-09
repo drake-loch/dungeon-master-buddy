@@ -20,7 +20,7 @@ export const auth = getAuth();
 
 export async function initUserDataInDB(user) {
     // await setDoc(doc(db, "users"), user.uid)
-    await setDoc(doc(db, "users", user.uid), { worlds: [] })
+    await setDoc(doc(db, "users", user.uid), { worlds: [], projectID: user.uid })
 }
 
 
@@ -31,8 +31,12 @@ export async function setWorld(world, user) {
 
 }
 
-export async function getMyWorlds() {
-    return (await getDocs(collection(db, 'worlds'))).docs.map(doc => doc.data())
+export async function getMyWorlds(user) {
+    return (await getDocs(collection(db, `users`))).docs.map(doc => {
+        if (doc.data().projectID === user.uid) {
+            return doc.data()
+        }
+    })
 }
 
 export async function CreateUser(email: string, password: string) {

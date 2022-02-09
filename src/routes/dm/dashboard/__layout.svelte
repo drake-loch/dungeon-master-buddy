@@ -1,4 +1,7 @@
 <script>
+    import NavButton from "/src/ui/components/NavButton/NavButton.svelte";
+    import { slide } from "svelte/transition";
+
     let collapseMenu = false;
     let size = "";
     function toggleCollapse() {
@@ -8,23 +11,31 @@
 </script>
 
 {#if collapseMenu}
-    <div class="nav-menu">
-        <button>Dashboard</button>
-        <button>NPC List</button>
+    <div transition:slide class="nav-menu">
+        <NavButton text="Dashboard" collapseMenu={!collapseMenu} />
+        <NavButton text="NPC List" collapseMenu={!collapseMenu} />
+        <NavButton nav="/dm" text="World List" collapseMenu={!collapseMenu} />
+        <NavButton
+            func={null}
+            type="warning end"
+            text="Logout"
+            collapseMenu={!collapseMenu}
+        />
     </div>
 {/if}
 
 <section>
     <nav class={size + " deskNav"}>
-        {#if collapseMenu}
-            <button on:click={toggleCollapse}>{">"}</button>
-            <button>D</button>
-            <button>N</button>
-        {:else}
-            <button on:click={toggleCollapse}>{"< "}collapse</button>
-            <button>Dashboard</button>
-            <button>NPC List</button>
-        {/if}
+        <NavButton func={toggleCollapse} text="> Collapse <" {collapseMenu} />
+        <NavButton text="Dashboard" {collapseMenu} />
+        <NavButton text="NPC List" {collapseMenu} />
+        <NavButton nav="/dm" text="World List" {collapseMenu} />
+        <NavButton
+            func={null}
+            type="warning end"
+            text="Logout"
+            {collapseMenu}
+        />
     </nav>
     <nav class="navMob">
         <div class="burg-icon" on:click={() => toggleCollapse()}>
@@ -43,6 +54,7 @@
         height: 100vh;
         background-color: rgb(24, 24, 24);
         display: flex;
+        gap: 0.25rem;
         flex-direction: column;
     }
     .burg-icon {
@@ -86,7 +98,9 @@
             overflow-y: hidden;
         }
         .deskNav {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
             width: 25%;
             height: 100vh;
             background-color: var(--col-dark-dark);

@@ -9,6 +9,7 @@
         DeleteWorld,
         GetSelectedWorld,
         SetSelectedWorld,
+        GetWorldsFromDB,
     } from "/src/utilities/worldConfig";
     import { user, isLoggedIn } from "../../stores/index";
 
@@ -20,10 +21,12 @@
 
     onMount(async () => {
         if (localStorage.getItem("worlds")) {
-            worlds = JSON.parse(localStorage.getItem("worlds"));
+            updateWorlds();
         }
-        console.log($user);
     });
+    async function updateWorlds() {
+        worlds = await GetWorldsFromDB($user);
+    }
     function deleteWorld() {
         worlds = DeleteWorld(selectedWorld);
         selectedWorld = null;
@@ -35,7 +38,7 @@
 </script>
 
 <ModWindow bind:this={toggleMod}>
-    <CreateWorld bind:worlds toggleMod={toggleMod.toggleMod} />
+    <CreateWorld {updateWorlds} bind:worlds toggleMod={toggleMod.toggleMod} />
 </ModWindow>
 
 <div class="page">

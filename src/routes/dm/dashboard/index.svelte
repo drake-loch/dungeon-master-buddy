@@ -2,6 +2,7 @@
     // @ts-ignore
     import { GetSelectedWorld } from "/src/utilities/worldConfig";
     import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
 
     let world = null;
 
@@ -10,7 +11,7 @@
         if (world) {
             //do stuff
         } else {
-            window.location.assign("/");
+            goto("/");
         }
     });
 </script>

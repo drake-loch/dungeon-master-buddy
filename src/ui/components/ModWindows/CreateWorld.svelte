@@ -8,13 +8,15 @@
 
     export let toggleMod;
     export let worlds = [];
+    export let updateWorlds = () => {};
 
     let worldName = "";
     let skillType;
 
-    function submitHandler(e) {
+    async function submitHandler(e) {
         e.preventDefault();
-        worlds = CreateNewWorld(worldName, $user, skillType);
+        CreateNewWorld(worldName, $user, skillType);
+        updateWorlds();
         toggleMod();
     }
 </script>
