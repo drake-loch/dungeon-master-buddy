@@ -35,7 +35,7 @@
 <style>
     button {
         border: none;
-        padding: 1.25rem 0.5rem;
+        padding: 1rem 0.5rem;
         font-size: 2rem;
         box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.75);
         background-color: var(--col-dark-lighter);

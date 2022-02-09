@@ -25,9 +25,11 @@
     label {
         font-size: 1.2rem;
         margin-bottom: 0.25rem;
+        color: white;
     }
     input {
         font-size: 1.5rem;
+        border: 2px solid rgb(170, 170, 170);
     }
     input:focus {
         outline: none;

@@ -11,16 +11,14 @@
 
     let email = "";
     let password = "";
+    authStore.subscribe(async ({ isLoggedIn, firebaseControlled, user }) => {
+        if (isLoggedIn && firebaseControlled) {
+            loggedUser = user;
+            // console.log(loggedUser);
+        }
+    });
 
     onMount(async () => {
-        authStore.subscribe(
-            async ({ isLoggedIn, firebaseControlled, user }) => {
-                if (isLoggedIn && firebaseControlled) {
-                    loggedUser = user;
-                    // console.log(loggedUser);
-                }
-            }
-        );
         auth.onAuthStateChanged((user) => {
             authStore.set({
                 isLoggedIn: user !== null,
