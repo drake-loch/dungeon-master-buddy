@@ -12,8 +12,16 @@
 
 {#if collapseMenu}
     <div transition:slide class="nav-menu">
-        <NavButton text="Dashboard" collapseMenu={!collapseMenu} />
-        <NavButton text="NPC List" collapseMenu={!collapseMenu} />
+        <NavButton
+            nav="/dm/dashboard"
+            text="Dashboard"
+            collapseMenu={!collapseMenu}
+        />
+        <NavButton
+            nav="/dm/dashboard/builder"
+            text="Character Bulder"
+            collapseMenu={!collapseMenu}
+        />
         <NavButton nav="/dm" text="World List" collapseMenu={!collapseMenu} />
         <NavButton
             func={null}
@@ -27,8 +35,12 @@
 <section>
     <nav class={size + " deskNav"}>
         <NavButton func={toggleCollapse} text="> Collapse <" {collapseMenu} />
-        <NavButton text="Dashboard" {collapseMenu} />
-        <NavButton text="NPC List" {collapseMenu} />
+        <NavButton nav="/dm/dashboard" text="Dashboard" {collapseMenu} />
+        <NavButton
+            nav="/dm/dashboard/builder"
+            text="Character Bulder"
+            {collapseMenu}
+        />
         <NavButton nav="/dm" text="World List" {collapseMenu} />
         <NavButton
             func={null}
@@ -71,13 +83,6 @@
         height: 8px;
         background-color: white;
     }
-    button {
-        border: none;
-        font-size: 1.5rem;
-        background-color: var(--col-dark-main);
-        color: white;
-        margin-bottom: 0.5rem;
-    }
     .navMob {
         display: flex;
         justify-content: flex-end;
@@ -101,7 +106,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
-            width: 25%;
+            width: 20%;
             height: 100vh;
             background-color: var(--col-dark-dark);
         }

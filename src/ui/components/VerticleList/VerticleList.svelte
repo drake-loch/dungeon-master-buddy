@@ -13,6 +13,10 @@
         flex-direction: column;
     }
 
+    .space {
+        padding: 0.5rem 0;
+    }
+
     @media only screen and (min-width: 1030px) {
         div {
             width: 25%;

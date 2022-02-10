@@ -41,6 +41,9 @@
             margin-bottom: 1rem;
         }
     }
+    button:hover {
+        background-color: var(--col-dark-lightest);
+    }
 
     .warning {
         background-color: var(--button-warning);
