@@ -4,17 +4,31 @@
     import "../global.css";
     import { user, isLoggedIn } from "../stores/index";
     import { goto } from "$app/navigation";
+    import { GetWorldsFromDB } from "/src/utilities/worldConfig";
+    import { worlds } from "/src/stores/worldsStore";
+    import { selectedWorld } from "/src/stores/worldsStore";
 
-    auth.onAuthStateChanged((u) => {
+    auth.onAuthStateChanged(async (u) => {
         if (u) {
             //logged in
             $user = u;
             $isLoggedIn = true;
+            worlds.set(await GetWorldsFromDB($user));
+
+            if (localStorage.getItem("selectedWorld")) {
+                $selectedWorld = JSON.parse(
+                    localStorage.getItem("selectedWorld")
+                );
+            } else {
+                $selectedWorld = null;
+                goto("/dm");
+            }
         } else {
             //not logged in
             $user = null;
             $isLoggedIn = false;
-            // goto("/");
+            goto("/");
+            $worlds = [];
         }
     });
 </script>

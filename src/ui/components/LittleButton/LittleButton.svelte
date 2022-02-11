@@ -37,8 +37,9 @@
     @media only screen and (min-width: 1030px) {
         button {
             padding: 0.25rem 0.5rem;
-            font-size: 0.8rem;
+            font-size: 1rem;
             margin-bottom: 1rem;
+            width: fit-content;
         }
     }
     button:hover {

@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getFirestore, doc, collection, getDocs, setDoc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
-import { user, isLoggedIn } from "../stores/index";
+// import { worlds } from '/src/stores/worldsStore';
+import { get } from 'svelte/store';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -25,8 +26,6 @@ export async function initUserDataInDB(user) {
 
 
 export async function setWorld(world, user) {
-    console.log(user);
-
     await updateDoc(doc(db, "users", user.uid), { worlds: arrayUnion(world) })
 
 }
@@ -48,6 +47,17 @@ export async function SignIn(email: string, password: string) {
 
 export async function LogOff() {
     auth.signOut();
+}
+
+export async function UpdateWorldInDB(user, w) {
+    console.log("updating world in db");
+
+    // console.log(JSON.stringify(w));
+
+    // localStorage.setItem("worlds", JSON.stringify(w));
+
+    await updateDoc(doc(db, "users", user.uid), { worlds: w })
+    // await updateDoc(doc(db, "users", user.uid), { worlds: arrayUnion(...worlds) })
 }
 
 

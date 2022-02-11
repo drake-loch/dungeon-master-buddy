@@ -1,13 +1,12 @@
 <script>
-    import LittleButton from "../LittleButton/LittleButton.svelte";
-    import SelectInput from "../SelectInput/SelectInput.svelte";
-    import TextInput from "../TextInput/TextInput.svelte";
-    import { CreateNewWorld } from "../../../utilities/worldConfig";
+    import LittleButton from "../../LittleButton/LittleButton.svelte";
+    import SelectInput from "../../SelectInput/SelectInput.svelte";
+    import TextInput from "../../TextInput/TextInput.svelte";
+    import { CreateNewWorld } from "../../../../utilities/worldConfig";
     import { AddDefaultSkills } from "/src/utilities/skillsConfig";
-    import { user } from "../../../stores/index";
+    import { user } from "../../../../stores/index";
 
     export let toggleMod;
-    export let worlds = [];
     export let updateWorlds = () => {};
 
     let worldName = "";

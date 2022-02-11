@@ -6,7 +6,8 @@
 
 <div>
     <label for="this">{label}</label>
-    <select name={val} {placeholder} bind:value={val}>
+    <select name={val} bind:value={val}>
+        <option value="" disabled>{placeholder}</option>
         <slot />
     </select>
 </div>
@@ -20,9 +21,13 @@
     label {
         font-size: 1.2rem;
         margin-bottom: 0.25rem;
+        color: white;
     }
     select {
         font-size: 1.5rem;
+        border: 2px solid rgb(170, 170, 170);
+        border-radius: 5px;
+        width: 100%;
     }
     select:focus {
         outline: none;
@@ -39,9 +44,11 @@
         }
         label {
             font-size: 1rem;
+            margin: 0;
+            width: 25%;
         }
         select {
-            display: flex;
+            width: 50%;
             align-items: center;
             font-size: 1.25rem;
         }

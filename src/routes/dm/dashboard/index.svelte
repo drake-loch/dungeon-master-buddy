@@ -24,7 +24,11 @@
             nav="/dm/dashboard/continents"
             options={[
                 { name: "Manage continents", nav: "/dm/dashboard/continents" },
-                { name: "View Regions", nav: "/dm/dashboard/regions-list" },
+                { name: "View Provinces", nav: "/dm/dashboard/provinces-list" },
+                {
+                    name: "View Settlements",
+                    nav: "/dm/dashboard/settlements-list",
+                },
             ]}
             title="Continents"
         />

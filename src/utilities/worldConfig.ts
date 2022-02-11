@@ -1,13 +1,34 @@
 import type { User } from "firebase/auth";
-import { getMyWorlds, setWorld } from "./firebase";
+import { getMyWorlds, setWorld, UpdateWorldInDB } from "./firebase";
 import { AddDefaultSkills } from "./skillsConfig";
+import { get } from "svelte/store";
+import { worlds, selectedWorld } from "/src/stores/worldsStore";
+
+export interface World {
+    name: string,
+    creatorID: number,
+    id: number,
+    continents: [],
+    deities: [],
+    wandNPCs: [],
+    allNPCs: [],
+    orgs: [],
+    religions: [],
+    campaigns: [],
+    races: [],
+    species: [],
+    settings: {
+        skillSetFormat: [],
+        skillSets: [],
+    },
+}
 
 
 export function CreateNewWorld(name: string, user: User, skillset?) {
     const newWorld = {
         name: name,
         creatorID: user.uid,
-        id: GetWorlds()?.length > 0 ? GetWorlds().length : 0,
+        id: get(worlds)?.length > 0 ? get(worlds).length : 0,
         continents: [],
         deities: [],
         wandNPCs: [],
@@ -24,11 +45,11 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
     };
 
 
-    if (GetWorlds()) {
-        const worlds = GetWorlds();
-        worlds.push(newWorld)
-        console.log(worlds);
-        localStorage.setItem("worlds", JSON.stringify(worlds));
+    if (get(worlds)) {
+        const ws = get(worlds)
+        ws.push(newWorld)
+        console.log(ws);
+        localStorage.setItem("worlds", JSON.stringify(ws));
     } else {
         console.log("No Worlds");
         localStorage.setItem("worlds", JSON.stringify([newWorld]));
@@ -36,24 +57,15 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
 
     setWorld(newWorld, user);
 
-    return GetWorlds();
-
+    return get(worlds);
 }
 
-
-export function GetWorlds() {
-    let toReturn = JSON.parse(localStorage.getItem('worlds'));
-    if (toReturn) {
-        return toReturn;
-    } else {
-        return null
-    }
-}
 
 export async function GetWorldsFromDB(user) {
     let users = await getMyWorlds(user)
     let world = users.find((u) => u?.projectID === user.uid)
-    return world.worlds
+
+    return world?.worlds ? world.worlds : []
 }
 
 export function DeleteWorld(worldToDelete) {
@@ -68,14 +80,10 @@ export function DeleteWorld(worldToDelete) {
     return newWorlds
 }
 
-export function SetSelectedWorld(world) {
-    localStorage.setItem("selectedWorld", JSON.stringify({ name: world.name, id: world.id }));
-}
-
 export function GetSelectedWorld() {
     const query = JSON.parse(localStorage.getItem("selectedWorld"));
     if (query) {
-        return GetWorlds().find((world) => {
+        return get(worlds).find((world) => {
             if (query.id === world.id && query.id === world.id) {
                 return world
             } else {
@@ -85,5 +93,31 @@ export function GetSelectedWorld() {
     } else {
         return null;
     }
+}
 
+export function UpdateWorld(user, newWorld) {
+    //takes a world and updates it in localStorage
+    console.log("updating world");
+    let w = get(worlds);
+    w.splice(newWorld.id, 1, newWorld);
+    UpdateWorldInDB(user, w);
+}
+
+export function AddNewContinent(user, name?: string) {
+    let sw = get(selectedWorld);
+    const newContinent = {
+        name: name || "New Continent",
+        id: sw.id || 0,
+        provinces: [],
+        settlements: [],
+        npcs: [],
+    };
+
+
+    sw.continents.push(newContinent);
+    console.log(sw);
+
+    UpdateWorld(user, sw);
+
+    return sw;
 }

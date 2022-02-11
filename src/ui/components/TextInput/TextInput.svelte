@@ -28,6 +28,7 @@
         color: white;
     }
     input {
+        width: 100%;
         font-size: 1.5rem;
         border: 2px solid rgb(170, 170, 170);
         border-radius: 5px;
@@ -40,15 +41,17 @@
     /* Desktop */
     @media only screen and (min-width: 1030px) {
         div {
-            display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
         }
         label {
             font-size: 1rem;
+            margin: 0;
+            width: 25%;
         }
         input {
+            width: 50%;
             display: flex;
             align-items: center;
             font-size: 1.25rem;

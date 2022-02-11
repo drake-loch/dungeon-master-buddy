@@ -3,7 +3,6 @@
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
-    import CreateWorld from "/src/ui/components/ModWindows/CreateWorld.svelte";
     import { onMount } from "svelte";
     import {
         DeleteWorld,
@@ -12,43 +11,40 @@
         GetWorldsFromDB,
     } from "/src/utilities/worldConfig";
     import { user, isLoggedIn } from "../../stores/index";
+    import CreateWorld from "/src/ui/components/ModWindow/ModWindows/CreateWorld.svelte";
+    import { worlds, selectedWorld } from "/src/stores/worldsStore";
 
-    let selectedWorld = null;
-    let worlds = [];
+    let selectedW = null;
     let toggleMod;
 
-    $: loggedUser = $user;
-
     onMount(async () => {
-        if (localStorage.getItem("worlds")) {
-            updateWorlds();
-        }
+        updateWorlds();
     });
     async function updateWorlds() {
-        worlds = await GetWorldsFromDB($user);
+        $worlds = await GetWorldsFromDB($user);
     }
     function deleteWorld() {
-        worlds = DeleteWorld(selectedWorld);
-        selectedWorld = null;
+        // $worlds = DeleteWorld(selectedWorld);
+        // selectedWorld = null;
     }
     function selectWorld() {
-        SetSelectedWorld(selectedWorld);
-        console.log(GetSelectedWorld());
+        $selectedWorld = selectedW;
+        localStorage.setItem("selectedWorld", JSON.stringify($selectedWorld));
     }
 </script>
 
 <ModWindow bind:this={toggleMod}>
-    <CreateWorld {updateWorlds} bind:worlds toggleMod={toggleMod.toggleMod} />
+    <CreateWorld {updateWorlds} toggleMod={toggleMod.toggleMod} />
 </ModWindow>
 
 <div class="page">
     <h1>Welcome, <br /><span>Dungeon Master!</span></h1>
     <h2>Please select a world</h2>
     <div class="content">
-        <ListSelector bind:selectedItem={selectedWorld} items={worlds} />
+        <ListSelector bind:selectedItem={selectedW} items={$worlds} />
         <div class="margin">
             <VerticleList>
-                {#if selectedWorld}
+                {#if selectedW}
                     <BigButton
                         type="good"
                         func={selectWorld}
