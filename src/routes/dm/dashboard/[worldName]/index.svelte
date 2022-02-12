@@ -10,12 +10,17 @@
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
     import { page } from "$app/stores";
     import { selectedWorld, worlds } from "/src/stores/worldsStore";
+    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
+    import { breadcrumb } from "/src/utilities/breadCrumbStore";
 
     export let wName = $page.params.worldName;
 
     onMount(async () => {
         if ($selectedWorld) {
             //do stuff
+            $breadcrumb.current = $selectedWorld.name;
+            $breadcrumb.currentType = "world";
+            $breadcrumb.path = [];
         } else {
             console.log("no world selected");
             let w = FindWorldByName(wName);
@@ -31,7 +36,7 @@
 
 {#if $selectedWorld}
     <section>
-        <h1>{$selectedWorld.name}</h1>
+        <Breadcrumb />
         <PanelHolder>
             <CoolPanel
                 title="Continents"
@@ -104,11 +109,6 @@
 {/if}
 
 <style>
-    h1 {
-        color: var(--col-brand);
-        font-weight: 700;
-        margin: 1rem 0 0 1rem;
-    }
     @media only screen and (min-width: 1030px) {
         :global(body) {
             overflow: hidden;

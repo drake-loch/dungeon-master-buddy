@@ -10,7 +10,7 @@
     function toggleCollapse() {
         $navExpanded = !$navExpanded;
     }
-    $: size = $navExpanded ? "col" : "wide";
+    $: size = $navExpanded ? "col" : "";
 </script>
 
 {#if $navExpanded}
@@ -43,7 +43,9 @@
             <div class="line" />
         </div>
     </nav>
-    <slot />
+    <div class="content">
+        <slot />
+    </div>
 </section>
 
 <style>
@@ -103,8 +105,8 @@
         .col {
             width: 5%;
         }
-        .wide {
-            width: 35%;
+        .content {
+            width: 100%;
         }
     }
 </style>
