@@ -125,3 +125,8 @@ export function AddNewContinent(user, name?: string) {
 
     return sw;
 }
+//function to find a world by name, returns the world if found, else returns null
+export function FindWorldByName(name: string) {
+    let w = get(worlds);
+    return w.find((w) => w.name === name);
+}

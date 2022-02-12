@@ -2,53 +2,39 @@
     import NavButton from "/src/ui/components/NavButton/NavButton.svelte";
     import { slide } from "svelte/transition";
     import { LogOff } from "/src/utilities/firebase";
+    import { selectedWorld } from "/src/stores/worldsStore";
+    import { navExpanded } from "/src/stores/navbarStore";
 
-    let collapseMenu = false;
+    // let collapseMenu = false;
     let size = "";
     function toggleCollapse() {
-        collapseMenu = !collapseMenu;
-        size = collapseMenu ? "col" : "";
+        $navExpanded = !$navExpanded;
     }
+    $: size = $navExpanded ? "col" : "wide";
 </script>
 
-{#if collapseMenu}
+{#if $navExpanded}
     <div transition:slide class="nav-menu">
+        <NavButton text="Dashboard" nav="/dm/dashboard/{$selectedWorld.name}" />
         <NavButton
-            nav="/dm/dashboard"
-            text="Dashboard"
-            collapseMenu={!collapseMenu}
-        />
-        <NavButton
-            nav="/dm/dashboard/builder"
             text="Character Bulder"
-            collapseMenu={!collapseMenu}
+            nav="/dm/dashboard/{$selectedWorld.name}/builder"
         />
-        <NavButton nav="/dm" text="World List" collapseMenu={!collapseMenu} />
-        <NavButton
-            func={LogOff}
-            type="warning end"
-            text="Logout"
-            collapseMenu={!collapseMenu}
-        />
+        <NavButton nav="/dm" text="World List" />
+        <NavButton text="Logout" func={LogOff} type="warning end" />
     </div>
 {/if}
 
 <section>
     <nav class={size + " deskNav"}>
-        <NavButton func={toggleCollapse} text="> Collapse <" {collapseMenu} />
-        <NavButton nav="/dm/dashboard" text="Dashboard" {collapseMenu} />
+        <NavButton func={toggleCollapse} text="> Collapse <" />
+        <NavButton nav="/dm/dashboard/{$selectedWorld.name}" text="Dashboard" />
         <NavButton
-            nav="/dm/dashboard/builder"
+            nav="/dm/dashboard/{$selectedWorld.name}/builder"
             text="Character Bulder"
-            {collapseMenu}
         />
-        <NavButton nav="/dm" text="World List" {collapseMenu} />
-        <NavButton
-            func={null}
-            type="warning end"
-            text="Logout"
-            {collapseMenu}
-        />
+        <NavButton nav="/dm" text="World List" />
+        <NavButton func={null} type="warning end" text="Logout" />
     </nav>
     <nav class="navMob">
         <div class="burg-icon" on:click={() => toggleCollapse()}>
@@ -117,9 +103,8 @@
         .col {
             width: 5%;
         }
-        button {
-            width: 100%;
-            font-size: 3rem;
+        .wide {
+            width: 35%;
         }
     }
 </style>

@@ -1,15 +1,16 @@
 <script>
     import { goto } from "$app/navigation";
+    import { navExpanded } from "/src/stores/navbarStore";
 
     export let func = undefined;
     export let nav = undefined;
     export let type = "";
-    export let collapseMenu = false;
+    // export let collapseMenu = false;
     export let text = "";
     export let isEnd = false;
     let formattedText = "";
 
-    $: if (collapseMenu) {
+    $: if ($navExpanded) {
         formattedText = text[0];
     } else {
         formattedText = text;
