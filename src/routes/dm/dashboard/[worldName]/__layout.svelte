@@ -34,7 +34,7 @@
             text="Character Bulder"
         />
         <NavButton nav="/dm" text="World List" />
-        <NavButton func={null} type="warning end" text="Logout" />
+        <NavButton func={LogOff} type="warning end" text="Logout" />
     </nav>
     <nav class="navMob">
         <div class="burg-icon" on:click={() => toggleCollapse()}>

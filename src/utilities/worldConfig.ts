@@ -3,6 +3,9 @@ import { getMyWorlds, setWorld, UpdateWorldInDB } from "./firebase";
 import { AddDefaultSkills } from "./skillsConfig";
 import { get } from "svelte/store";
 import { worlds, selectedWorld } from "/src/stores/worldsStore";
+import { selectedContinent } from "./continentsConfig";
+import type { Province } from "./provinceConfig";
+import type { Settlement } from "./settlementConfig";
 
 export interface World {
     name: string,
@@ -125,8 +128,30 @@ export function AddNewContinent(user, name?: string) {
 
     return sw;
 }
+
+
 //function to find a world by name, returns the world if found, else returns null
 export function FindWorldByName(name: string) {
     let w = get(worlds);
     return w.find((w) => w.name === name);
+}
+
+//function to add a new province to a world
+export function AddNewProvince(user, name?: string) {
+    let sc = get(selectedContinent);
+    const newProvince: Province = {
+        name: name || "New Province",
+        id: sc.provinces.length || 0,
+        settlements: [],
+    };
+
+    sc.provinces.push(newProvince);
+    //update selected continent in selected world
+    let sw = get(selectedWorld);
+    sw.continents.splice(sw.continents.findIndex((c) => c.id === sc.id), 1, sc);
+
+
+    UpdateWorld(user, sw);
+
+    return sc;
 }

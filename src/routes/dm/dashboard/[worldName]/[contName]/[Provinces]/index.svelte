@@ -9,33 +9,30 @@
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
     import { page } from "$app/stores";
-    import { selectedWorld, selectedContinent } from "/src/stores/worldsStore";
+    import { selectedWorld } from "/src/stores/worldsStore";
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
+    import { selectedContinent } from "/src/utilities/continentsConfig";
+    import { selectedProvince } from "/src/utilities/provinceConfig";
 
     export let wName = $page.params.worldName;
     export let cName = $page.params.contName;
 
     onMount(async () => {
-        if ($selectedWorld && $selectedContinent) {
+        if ($selectedWorld && $selectedContinent && $selectedProvince) {
             //do stuff
-            $breadcrumb.current = $selectedContinent.name;
-            $breadcrumb.currentType = "continent";
+            $breadcrumb.current = $selectedProvince.name;
+            $breadcrumb.currentType = "Province";
             $breadcrumb.path = [
+                {
+                    url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
+                    name: $selectedContinent.name,
+                },
                 {
                     url: `/dm/dashboard/${$selectedWorld.name}`,
                     name: $selectedWorld.name,
                 },
             ];
-        } else {
-            console.log("no world selected");
-            let w = FindWorldByName(wName);
-            if (w.name) {
-                $selectedWorld = w;
-                //set selected world in local storage
-                localStorage.setItem("selectedWorld", w);
-            }
-            // goto("/");
         }
     });
 </script>
@@ -45,12 +42,12 @@
         <Breadcrumb />
         <PanelHolder>
             <CoolPanel
-                title="Provinces"
-                nav="/dm/dashboard/{$selectedWorld.name}/continents/{$selectedContinent.name}/provinces"
+                title="Settlements"
+                nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince}/settlements"
                 options={[
                     {
-                        name: "Manage Provinces",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/continents/${$selectedContinent.name}/provinces`,
+                        name: "Manage Settlements",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/settlements`,
                     },
                     {
                         name: "Manage continents",

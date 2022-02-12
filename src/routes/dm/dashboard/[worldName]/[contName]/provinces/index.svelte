@@ -10,54 +10,57 @@
     import { onMount } from "svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
-
-    let continents = [];
-    // let selectedContinent = null;
+    import { selectedProvince } from "/src/utilities/provinceConfig";
+    import CreateProvince from "/src/ui/components/ModWindow/ModWindows/CreateProvince.svelte";
 
     let toggleMod;
+
     onMount(async () => {
-        if ($selectedWorld) {
+        if ($selectedWorld && $selectedContinent) {
             //do stuff
-            $breadcrumb.current = "Continents";
+            $breadcrumb.current = "Provinces";
             $breadcrumb.currentType = "View & Create";
             $breadcrumb.path = [
+                {
+                    url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
+                    name: $selectedContinent.name,
+                },
                 {
                     url: `/dm/dashboard/${$selectedWorld.name}`,
                     name: $selectedWorld.name,
                 },
             ];
         }
-        $selectedContinent = null;
+        $selectedProvince = null;
     });
 </script>
 
 <ModWindow bind:this={toggleMod}>
-    <CreateContinent toggleMod={toggleMod.toggleMod} />
+    <CreateProvince toggleMod={toggleMod.toggleMod} />
 </ModWindow>
 
 <section>
     <Breadcrumb />
-    <h3>Continents</h3>
+    <h3>Provinces</h3>
     <div>
         <ListSelector
-            items={$selectedWorld.continents}
-            bind:selectedItem={$selectedContinent}
+            items={$selectedContinent.provinces}
+            bind:selectedItem={$selectedProvince}
         />
         <VerticleList>
-            {#if $selectedContinent}
+            {#if $selectedProvince}
                 <BigButton
                     type="good"
                     func={null}
-                    nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}"
+                    nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince.name}"
                 >
-                    Select Continent</BigButton
+                    Select Province</BigButton
                 >
-                <BigButton type="warning" func={null}
-                    >Delete Continents</BigButton
+                <BigButton type="warning" func={null}>Delete Province</BigButton
                 >
             {/if}
             <BigButton func={() => toggleMod.toggleMod()}
-                >Create Continent</BigButton
+                >Create Province</BigButton
             >
         </VerticleList>
     </div>

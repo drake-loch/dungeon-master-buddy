@@ -4,4 +4,4 @@ import { writable } from 'svelte/store';
 
 export const worlds = writable([]);
 export const selectedWorld = writable({})
-export const selectedContinent = writable({})
+// export const selectedProvince = writable({})

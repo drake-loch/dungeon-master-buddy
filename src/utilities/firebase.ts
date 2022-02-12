@@ -1,3 +1,4 @@
+import { goto } from '$app/navigation';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getFirestore, doc, collection, getDocs, setDoc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
@@ -47,6 +48,7 @@ export async function SignIn(email: string, password: string) {
 
 export async function LogOff() {
     auth.signOut();
+    goto('/');
 }
 
 export async function UpdateWorldInDB(user, w) {
