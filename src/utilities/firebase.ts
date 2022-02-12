@@ -51,13 +51,7 @@ export async function LogOff() {
 
 export async function UpdateWorldInDB(user, w) {
     console.log("updating world in db");
-
-    // console.log(JSON.stringify(w));
-
-    // localStorage.setItem("worlds", JSON.stringify(w));
-
     await updateDoc(doc(db, "users", user.uid), { worlds: w })
-    // await updateDoc(doc(db, "users", user.uid), { worlds: arrayUnion(...worlds) })
 }
 
 

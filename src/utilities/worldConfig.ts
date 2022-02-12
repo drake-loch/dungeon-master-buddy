@@ -68,16 +68,19 @@ export async function GetWorldsFromDB(user) {
     return world?.worlds ? world.worlds : []
 }
 
-export function DeleteWorld(worldToDelete) {
-    let worlds = JSON.parse(localStorage.getItem("worlds"));
-    let newWorlds = worlds.filter(world => {
-        if (world.id !== worldToDelete.id && world.name !== worldToDelete.name) {
-            console.log("bingo!");
-            return world
-        }
-    })
-    localStorage.setItem("worlds", JSON.stringify(newWorlds));
-    return newWorlds
+export function DeleteWorld(worldToDelete, user: User) {
+    let w = get(worlds);
+
+    //remove world to delete from worlds array and update new worlds array with ids that reflect their position in a array
+    w.splice(worldToDelete.id, 1);
+    w.forEach((w, i) => {
+        w.id = i;
+    });
+
+    worlds.set(w);
+    console.log(w);
+
+    UpdateWorldInDB(user, w);
 }
 
 export function GetSelectedWorld() {
@@ -100,6 +103,7 @@ export function UpdateWorld(user, newWorld) {
     console.log("updating world");
     let w = get(worlds);
     w.splice(newWorld.id, 1, newWorld);
+    sessionStorage.setItem("worlds", JSON.stringify(w));
     UpdateWorldInDB(user, w);
 }
 

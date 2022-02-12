@@ -1,6 +1,7 @@
 <script>
     import NavButton from "/src/ui/components/NavButton/NavButton.svelte";
     import { slide } from "svelte/transition";
+    import { LogOff } from "/src/utilities/firebase";
 
     let collapseMenu = false;
     let size = "";
@@ -24,7 +25,7 @@
         />
         <NavButton nav="/dm" text="World List" collapseMenu={!collapseMenu} />
         <NavButton
-            func={null}
+            func={LogOff}
             type="warning end"
             text="Logout"
             collapseMenu={!collapseMenu}

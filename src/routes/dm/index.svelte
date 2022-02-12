@@ -24,8 +24,8 @@
         $worlds = await GetWorldsFromDB($user);
     }
     function deleteWorld() {
-        // $worlds = DeleteWorld(selectedWorld);
-        // selectedWorld = null;
+        DeleteWorld(selectedWorld, $user);
+        $selectedWorld = null;
     }
     function selectWorld() {
         $selectedWorld = selectedW;
@@ -48,7 +48,8 @@
                     <BigButton
                         type="good"
                         func={selectWorld}
-                        nav="/dm/dashboard">Select World</BigButton
+                        nav="/dm/dashboard/{selectedW.name}"
+                        >Select World</BigButton
                     >
                     <BigButton type="warning" func={deleteWorld}
                         >Delete World</BigButton

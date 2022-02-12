@@ -19,15 +19,11 @@
                 $selectedWorld = JSON.parse(
                     localStorage.getItem("selectedWorld")
                 );
-            } else {
-                $selectedWorld = null;
-                goto("/dm");
             }
         } else {
             //not logged in
             $user = null;
             $isLoggedIn = false;
-            goto("/");
             $worlds = [];
         }
     });
