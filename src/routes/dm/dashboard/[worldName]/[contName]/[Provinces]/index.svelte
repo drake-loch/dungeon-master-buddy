@@ -1,15 +1,10 @@
 <script>
     // @ts-ignore
-    import {
-        GetSelectedWorld,
-        FindWorldByName,
-    } from "/src/utilities/worldConfig";
+    import { selectedWorld } from "/src/utilities/worldConfig";
     import { onMount } from "svelte";
-    import { goto } from "$app/navigation";
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
     import { page } from "$app/stores";
-    import { selectedWorld } from "/src/stores/worldsStore";
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
@@ -20,7 +15,6 @@
 
     onMount(async () => {
         if ($selectedWorld && $selectedContinent && $selectedProvince) {
-            //do stuff
             $breadcrumb.current = $selectedProvince.name;
             $breadcrumb.currentType = "Province";
             $breadcrumb.path = [

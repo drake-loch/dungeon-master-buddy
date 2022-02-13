@@ -1,34 +1,35 @@
 <script>
+    import { CreateNewSettlement } from "/src/utilities/settlementConfig";
+
     import LittleButton from "../../LittleButton/LittleButton.svelte";
     import TextInput from "../../TextInput/TextInput.svelte";
     import { user } from "/src/stores";
     import { selectedContinent } from "/src/utilities/continentsConfig";
-    import { AddNewProvince } from "/src/utilities/provinceConfig";
 
     export let toggleMod;
 
-    let provName = "";
+    let settlementName = "";
 
     async function submitHandler(e) {
         e.preventDefault();
-        $selectedContinent = AddNewProvince($user, provName);
+        $selectedContinent = CreateNewSettlement($user, settlementName);
         toggleMod();
     }
 </script>
 
-<h1>Create Province</h1>
+<h1>Create Settlement</h1>
 
 <form on:submit={submitHandler}>
     <div>
-        <LittleButton disabled={provName.length < 1} type="good"
-            >Create Province</LittleButton
+        <LittleButton disabled={settlementName.length < 1} type="good"
+            >Create Settlement</LittleButton
         >
         <LittleButton func={toggleMod} type="warning">Cancel</LittleButton>
     </div>
     <TextInput
-        label="Province Name: "
+        label="Settlement Name: "
         placeholder="Enter a name..."
-        bind:val={provName}
+        bind:val={settlementName}
     />
 </form>
 

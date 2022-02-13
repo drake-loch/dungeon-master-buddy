@@ -2,8 +2,6 @@ import { goto } from '$app/navigation';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getFirestore, doc, collection, getDocs, setDoc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
-// import { worlds } from '/src/stores/worldsStore';
-import { get } from 'svelte/store';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -51,7 +49,7 @@ export async function LogOff() {
     goto('/');
 }
 
-export async function UpdateWorldInDB(user, w) {
+export async function UpdateWorldsInDB(user, w) {
     console.log("updating world in db");
     await updateDoc(doc(db, "users", user.uid), { worlds: w })
 }

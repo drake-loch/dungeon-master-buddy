@@ -1,17 +1,18 @@
+import { writable } from 'svelte/store';
 import type { User } from "firebase/auth";
-import { getMyWorlds, setWorld, UpdateWorldInDB } from "./firebase";
+import { getMyWorlds, setWorld, UpdateWorldsInDB } from "./firebase";
 import { AddDefaultSkills } from "./skillsConfig";
 import { get } from "svelte/store";
-import { worlds, selectedWorld } from "/src/stores/worldsStore";
-import { selectedContinent } from "./continentsConfig";
+// import { worlds, selectedWorld } from "/src/stores/worldsStore";
+import type { Continent } from "./continentsConfig";
 import type { Province } from "./provinceConfig";
 import type { Settlement } from "./settlementConfig";
 
 export interface World {
     name: string,
-    creatorID: number,
+    creatorID: string,
     id: number,
-    continents: [],
+    continents: Continent[],
     deities: [],
     wandNPCs: [],
     allNPCs: [],
@@ -27,8 +28,12 @@ export interface World {
 }
 
 
+export const worlds = writable<World[]>([]);
+export const selectedWorld = writable<World>()
+
+
 export function CreateNewWorld(name: string, user: User, skillset?) {
-    const newWorld = {
+    const newWorld: World = {
         name: name,
         creatorID: user.uid,
         id: get(worlds)?.length > 0 ? get(worlds).length : 0,
@@ -83,7 +88,7 @@ export function DeleteWorld(worldToDelete, user: User) {
     worlds.set(w);
     console.log(w);
 
-    UpdateWorldInDB(user, w);
+    UpdateWorldsInDB(user, w);
 }
 
 export function GetSelectedWorld() {
@@ -107,51 +112,12 @@ export function UpdateWorld(user, newWorld) {
     let w = get(worlds);
     w.splice(newWorld.id, 1, newWorld);
     sessionStorage.setItem("worlds", JSON.stringify(w));
-    UpdateWorldInDB(user, w);
-}
-
-export function AddNewContinent(user, name?: string) {
-    let sw = get(selectedWorld);
-    const newContinent = {
-        name: name || "New Continent",
-        id: sw.id || 0,
-        provinces: [],
-        settlements: [],
-        npcs: [],
-    };
-
-
-    sw.continents.push(newContinent);
-    console.log(sw);
-
-    UpdateWorld(user, sw);
-
-    return sw;
+    UpdateWorldsInDB(user, w);
 }
 
 
 //function to find a world by name, returns the world if found, else returns null
 export function FindWorldByName(name: string) {
-    let w = get(worlds);
+    let w: World[] = get(worlds);
     return w.find((w) => w.name === name);
-}
-
-//function to add a new province to a world
-export function AddNewProvince(user, name?: string) {
-    let sc = get(selectedContinent);
-    const newProvince: Province = {
-        name: name || "New Province",
-        id: sc.provinces.length || 0,
-        settlements: [],
-    };
-
-    sc.provinces.push(newProvince);
-    //update selected continent in selected world
-    let sw = get(selectedWorld);
-    sw.continents.splice(sw.continents.findIndex((c) => c.id === sc.id), 1, sc);
-
-
-    UpdateWorld(user, sw);
-
-    return sc;
 }

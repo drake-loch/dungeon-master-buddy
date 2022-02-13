@@ -3,13 +3,15 @@
     import {
         GetSelectedWorld,
         FindWorldByName,
+        selectedWorld,
+        worlds,
     } from "/src/utilities/worldConfig";
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
     import { page } from "$app/stores";
-    import { selectedWorld, worlds } from "/src/stores/worldsStore";
+    // import { selectedWorld, worlds } from "/src/utilities/worldConfig";
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
 

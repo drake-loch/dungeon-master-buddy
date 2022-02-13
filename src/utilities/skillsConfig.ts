@@ -5,8 +5,7 @@ interface Skill {
 }
 interface SkillSet {
     name: string,
-    baseValue: number,
-    mod: number,
+    skills: Skill[],
 }
 
 export function CreateNewSkill(name: string) {
@@ -19,8 +18,8 @@ export function CreateNewSkill(name: string) {
     return newSkill
 }
 
-export function CreateNewSkillSet() {
-    const newSkillSet = {
+export function CreateNewSkillSet(): SkillSet {
+    const newSkillSet: SkillSet = {
         name: "",
         skills: [],
     };
@@ -33,8 +32,8 @@ export function CreateNewSkillSetNamed(name: string) {
     };
 }
 
-export function AddDefaultSkills() {
-    let skillArrays = [];
+export function AddDefaultSkills(): SkillSet[] {
+    let skillArrays: SkillSet[] = [];
 
     const newSkillSet1 = CreateNewSkillSetNamed("familiar");
     newSkillSet1.skills.push(CreateNewSkill("strength"));

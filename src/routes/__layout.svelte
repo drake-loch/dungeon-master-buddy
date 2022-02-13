@@ -5,8 +5,10 @@
     import { user, isLoggedIn } from "../stores/index";
     import { goto } from "$app/navigation";
     import { GetWorldsFromDB } from "/src/utilities/worldConfig";
-    import { worlds } from "/src/stores/worldsStore";
-    import { selectedWorld } from "/src/stores/worldsStore";
+    // import { worlds } from "/src/stores/worldsStore";
+    // import { selectedWorld } from "/src/stores/worldsStore";
+    import { worlds } from "/src/utilities/worldConfig";
+    import { selectedWorld } from "/src/utilities/worldConfig";
 
     auth.onAuthStateChanged(async (u) => {
         if (u) {

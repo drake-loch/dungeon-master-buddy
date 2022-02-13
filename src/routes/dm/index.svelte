@@ -6,13 +6,14 @@
     import { onMount } from "svelte";
     import {
         DeleteWorld,
-        GetSelectedWorld,
-        SetSelectedWorld,
         GetWorldsFromDB,
+        worlds,
+        selectedWorld,
     } from "/src/utilities/worldConfig";
     import { user, isLoggedIn } from "../../stores/index";
     import CreateWorld from "/src/ui/components/ModWindow/ModWindows/CreateWorld.svelte";
-    import { worlds, selectedWorld } from "/src/stores/worldsStore";
+    // import { worlds } from "src/utilities/worldConfig";
+    // import { worlds, selectedWorld } from "/src/stores/worldsStore";
 
     let selectedW = null;
     let toggleMod;

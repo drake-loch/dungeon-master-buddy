@@ -1,14 +1,13 @@
 <script>
     import LittleButton from "../../LittleButton/LittleButton.svelte";
-    import SelectInput from "../../SelectInput/SelectInput.svelte";
     import TextInput from "../../TextInput/TextInput.svelte";
     import {
-        AddNewContinent,
         CreateNewWorld,
+        selectedWorld,
     } from "../../../../utilities/worldConfig";
     import { user } from "/src/stores";
-    import { selectedWorld } from "../../../../stores/worldsStore";
     import { onDestroy } from "svelte";
+    import { AddNewContinent } from "/src/utilities/continentsConfig";
 
     export let toggleMod;
     export let updateWorlds = () => {};

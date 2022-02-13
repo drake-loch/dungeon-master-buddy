@@ -1,10 +1,7 @@
 <script>
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
-
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
-    import CreateContinent from "/src/ui/components/ModWindow/ModWindows/CreateContinent.svelte";
-    import { selectedWorld } from "/src/stores/worldsStore";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { onMount } from "svelte";
@@ -12,6 +9,7 @@
     import { selectedContinent } from "/src/utilities/continentsConfig";
     import { selectedProvince } from "/src/utilities/provinceConfig";
     import CreateProvince from "/src/ui/components/ModWindow/ModWindows/CreateProvince.svelte";
+    import { selectedWorld } from "/src/utilities/worldConfig";
 
     let toggleMod;
 

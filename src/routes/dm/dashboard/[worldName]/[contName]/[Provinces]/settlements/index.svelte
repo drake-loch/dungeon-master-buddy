@@ -1,23 +1,21 @@
 <script>
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
-
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
-    import CreateContinent from "/src/ui/components/ModWindow/ModWindows/CreateContinent.svelte";
-    import { selectedWorld } from "/src/stores/worldsStore";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { onMount } from "svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
     import { selectedProvince } from "/src/utilities/provinceConfig";
-    import CreateProvince from "/src/ui/components/ModWindow/ModWindows/CreateProvince.svelte";
+    import CreateSettlement from "/src/ui/components/ModWindow/ModWindows/CreateSettlement.svelte";
+    import { selectedWorld } from "/src/utilities/worldConfig";
+    import { selectedSettlement } from "/src/utilities/settlementConfig";
 
     let toggleMod;
 
     onMount(async () => {
-        if ($selectedWorld && $selectedContinent) {
-            //do stuff
+        if ($selectedWorld && $selectedContinent && $selectedProvince) {
             $breadcrumb.current = "Settlements";
             $breadcrumb.currentType = "View & Create";
             $breadcrumb.path = [
@@ -35,12 +33,12 @@
                 },
             ];
         }
-        $selectedProvince = null;
+        $selectedSettlement = null;
     });
 </script>
 
 <ModWindow bind:this={toggleMod}>
-    <CreateProvince toggleMod={toggleMod.toggleMod} />
+    <CreateSettlement toggleMod={toggleMod.toggleMod} />
 </ModWindow>
 
 <section>
@@ -48,15 +46,15 @@
     <h3>Settlements</h3>
     <div>
         <ListSelector
-            items={$selectedContinent.provinces}
-            bind:selectedItem={$selectedProvince}
+            items={$selectedProvince.settlements}
+            bind:selectedItem={$selectedSettlement}
         />
         <VerticleList>
-            {#if $selectedProvince}
+            {#if $selectedSettlement}
                 <BigButton
                     type="good"
                     func={null}
-                    nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince.name}"
+                    nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince.name}/{$selectedSettlement.name}"
                 >
                     Select Settlements</BigButton
                 >

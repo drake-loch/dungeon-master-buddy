@@ -2,7 +2,7 @@
     import NavButton from "/src/ui/components/NavButton/NavButton.svelte";
     import { slide } from "svelte/transition";
     import { LogOff } from "/src/utilities/firebase";
-    import { selectedWorld } from "/src/stores/worldsStore";
+    import { selectedWorld } from "/src/utilities/worldConfig";
     import { navExpanded } from "/src/stores/navbarStore";
 
     // let collapseMenu = false;
