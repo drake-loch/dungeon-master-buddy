@@ -52,9 +52,9 @@
         color: var(--col-brand);
         font-weight: 700;
         line-height: 3.5rem;
-        letter-spacing: 6px;
+        letter-spacing: 4px;
         width: fit-content;
-        font-size: 4.25rem;
+        font-size: 3rem;
         margin: 0;
     }
     h2 {
@@ -84,6 +84,10 @@
             letter-spacing: 3px;
             font-size: 1.25rem;
             padding: 0 0.5rem;
+        }
+        h1 {
+            font-size: 4.25rem;
+            letter-spacing: 6px;
         }
     }
 </style>

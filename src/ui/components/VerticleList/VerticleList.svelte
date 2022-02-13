@@ -20,6 +20,7 @@
     @media only screen and (min-width: 1030px) {
         div {
             width: 25%;
+            padding: 0.5rem 1.5rem;
         }
         .full {
             width: 100%;

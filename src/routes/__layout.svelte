@@ -29,6 +29,11 @@
     });
 </script>
 
+<svelte:head>
+    <title>Dungeon Master Buddy</title>
+    <html lang="en" />
+</svelte:head>
+
 <div>
     <slot />
 </div>
