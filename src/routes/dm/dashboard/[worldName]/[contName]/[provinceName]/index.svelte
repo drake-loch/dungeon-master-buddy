@@ -13,25 +13,23 @@
     export let wName = $page.params.worldName;
     export let cName = $page.params.contName;
 
-    onMount(async () => {
-        if ($selectedWorld && $selectedContinent && $selectedProvince) {
-            $breadcrumb.current = $selectedProvince.name;
-            $breadcrumb.currentType = "Province";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
-                    name: $selectedContinent.name,
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
-    });
+    $: if ($selectedWorld && $selectedContinent && $selectedProvince) {
+        $breadcrumb.current = $selectedProvince.name;
+        $breadcrumb.currentType = "Province";
+        $breadcrumb.path = [
+            {
+                url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
+                name: $selectedContinent.name,
+            },
+            {
+                url: `/dm/dashboard/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
 </script>
 
-{#if $selectedWorld}
+{#if $selectedWorld && $selectedContinent && $selectedProvince}
     <section>
         <Breadcrumb />
         <PanelHolder>

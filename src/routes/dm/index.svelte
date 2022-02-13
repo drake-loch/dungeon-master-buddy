@@ -20,6 +20,7 @@
 
     onMount(async () => {
         updateWorlds();
+        sessionStorage.setItem("worlds", JSON.stringify($worlds));
     });
     async function updateWorlds() {
         $worlds = await GetWorldsFromDB($user);
@@ -30,7 +31,7 @@
     }
     function selectWorld() {
         $selectedWorld = selectedW;
-        localStorage.setItem("selectedWorld", JSON.stringify($selectedWorld));
+        // localStorage.setItem("selectedWorld", JSON.stringify($selectedWorld));
     }
 </script>
 

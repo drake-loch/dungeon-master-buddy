@@ -1,6 +1,6 @@
 <script>
     // @ts-ignore
-    import { selectedWorld, FindWorldByName } from "/src/utilities/worldConfig";
+    import { selectedWorld } from "/src/utilities/worldConfig";
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
@@ -11,34 +11,36 @@
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
 
-    export let wName = $page.params.worldName;
-    export let cName = $page.params.contName;
+    export let contName = $page.params.contName;
 
-    onMount(async () => {
-        if ($selectedWorld && $selectedContinent) {
-            //do stuff
-            $breadcrumb.current = $selectedContinent.name;
-            $breadcrumb.currentType = "continent";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        } else {
-            console.log("no world selected");
-            let w = FindWorldByName(wName);
-            if (w.name) {
-                $selectedWorld = w;
-                //set selected world in local storage
-                localStorage.setItem("selectedWorld", w);
-            }
-            // goto("/");
-        }
-    });
+    $: if ($selectedWorld && $selectedContinent) {
+        //do stuff
+        $breadcrumb.current = $selectedContinent.name;
+        $breadcrumb.currentType = "continent";
+        $breadcrumb.path = [
+            {
+                url: `/dm/dashboard/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
+
+    // onMount(() => {
+    //     if ($selectedWorld && $selectedContinent) {
+    //         //do stuff
+    //         $breadcrumb.current = $selectedContinent.name;
+    //         $breadcrumb.currentType = "continent";
+    //         $breadcrumb.path = [
+    //             {
+    //                 url: `/dm/dashboard/${$selectedWorld.name}`,
+    //                 name: $selectedWorld.name,
+    //             },
+    //         ];
+    //     }
+    // });
 </script>
 
-{#if $selectedWorld}
+{#if $selectedWorld && $selectedContinent}
     <section>
         <Breadcrumb />
         <PanelHolder>

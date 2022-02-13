@@ -57,10 +57,10 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
         const ws = get(worlds)
         ws.push(newWorld)
         console.log(ws);
-        localStorage.setItem("worlds", JSON.stringify(ws));
+        sessionStorage.setItem("worlds", JSON.stringify(ws));
     } else {
         console.log("No Worlds");
-        localStorage.setItem("worlds", JSON.stringify([newWorld]));
+        sessionStorage.setItem("worlds", JSON.stringify([newWorld]));
     }
 
     setWorld(newWorld, user);
@@ -70,8 +70,10 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
 
 
 export async function GetWorldsFromDB(user) {
-    let users = await getMyWorlds(user)
-    let world = users.find((u) => u?.projectID === user.uid)
+    let w = await getMyWorlds(user)
+    let world = w.find((u) => u?.projectID === user.uid)
+    // console.log(world);
+
 
     return world?.worlds ? world.worlds : []
 }
@@ -116,8 +118,6 @@ export function UpdateWorld(user, newWorld) {
 }
 
 
-//function to find a world by name, returns the world if found, else returns null
-export function FindWorldByName(name: string) {
-    let w: World[] = get(worlds);
-    return w.find((w) => w.name === name);
+export function FindItemByName(listToSearch: any[], name: string) {
+    return listToSearch.find((w) => w.name === name);
 }

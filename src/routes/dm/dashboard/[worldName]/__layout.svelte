@@ -1,52 +1,92 @@
+<script context="module">
+    export async function load({ params }) {
+        let worldName = params.worldName;
+        return {
+            stuff: { worldName },
+            props: { worldName },
+        };
+    }
+</script>
+
 <script>
     import NavButton from "/src/ui/components/NavButton/NavButton.svelte";
     import { slide } from "svelte/transition";
     import { LogOff } from "/src/utilities/firebase";
     import { selectedWorld } from "/src/utilities/worldConfig";
     import { navExpanded } from "/src/stores/navbarStore";
+    import { onMount } from "svelte";
+    import { user } from "/src/stores";
+    import { GetWorldsFromDB } from "/src/utilities/worldConfig";
+    import { FindItemByName } from "/src/utilities/worldConfig";
+    import { worlds } from "/src/utilities/worldConfig";
+
+    export let worldName;
 
     // let collapseMenu = false;
     let size = "";
     function toggleCollapse() {
-        $navExpanded = !$navExpanded;
+        navExpanded.set(!$navExpanded);
     }
     $: size = $navExpanded ? "col" : "";
+
+    onMount(async () => {
+        if (!$selectedWorld && $user) {
+            console.log("No world selected");
+            if (sessionStorage.getItem("worlds")) {
+                console.log("Worlds in session store");
+                $worlds = JSON.parse(sessionStorage.getItem("worlds"));
+                $selectedWorld = $worlds.find((w) => w.name === worldName);
+            } else {
+                $worlds = await GetWorldsFromDB($user);
+                console.log($worlds);
+                $selectedWorld = $worlds.find((w) => w.name === worldName);
+            }
+        }
+    });
 </script>
 
-{#if $navExpanded}
-    <div transition:slide class="nav-menu">
-        <NavButton text="Dashboard" nav="/dm/dashboard/{$selectedWorld.name}" />
-        <NavButton
-            text="Character Bulder"
-            nav="/dm/dashboard/{$selectedWorld.name}/builder"
-        />
-        <NavButton nav="/dm" text="World List" />
-        <NavButton text="Logout" func={LogOff} type="warning end" />
-    </div>
-{/if}
-
-<section>
-    <nav class={size + " deskNav"}>
-        <NavButton func={toggleCollapse} text="> Collapse <" />
-        <NavButton nav="/dm/dashboard/{$selectedWorld.name}" text="Dashboard" />
-        <NavButton
-            nav="/dm/dashboard/{$selectedWorld.name}/builder"
-            text="Character Bulder"
-        />
-        <NavButton nav="/dm" text="World List" />
-        <NavButton func={LogOff} type="warning end" text="Logout" />
-    </nav>
-    <nav class="navMob">
-        <div class="burg-icon" on:click={() => toggleCollapse()}>
-            <div class="line" />
-            <div class="line" />
-            <div class="line" />
+{#if $selectedWorld}
+    {#if $navExpanded}
+        <div transition:slide class="nav-menu">
+            <NavButton
+                text="Dashboard"
+                nav="/dm/dashboard/{$selectedWorld.name}"
+            />
+            <NavButton
+                text="Character Bulder"
+                nav="/dm/dashboard/{$selectedWorld.name}/builder"
+            />
+            <NavButton nav="/dm" text="World List" />
+            <NavButton text="Logout" func={LogOff} type="warning end" />
         </div>
-    </nav>
-    <div class="content">
-        <slot />
-    </div>
-</section>
+    {/if}
+
+    <section>
+        <nav class={size + " deskNav"}>
+            <NavButton func={toggleCollapse} text="> Collapse <" />
+            <NavButton
+                nav="/dm/dashboard/{$selectedWorld.name}"
+                text="Dashboard"
+            />
+            <NavButton
+                nav="/dm/dashboard/{$selectedWorld.name}/builder"
+                text="Character Bulder"
+            />
+            <NavButton nav="/dm" text="World List" />
+            <NavButton func={LogOff} type="warning end" text="Logout" />
+        </nav>
+        <nav class="navMob">
+            <div class="burg-icon" on:click={() => toggleCollapse()}>
+                <div class="line" />
+                <div class="line" />
+                <div class="line" />
+            </div>
+        </nav>
+        <div class="content">
+            <slot />
+        </div>
+    </section>
+{/if}
 
 <style>
     .nav-menu {

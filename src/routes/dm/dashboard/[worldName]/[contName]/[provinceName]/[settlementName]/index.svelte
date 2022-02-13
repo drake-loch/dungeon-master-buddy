@@ -11,32 +11,32 @@
     import { selectedProvince } from "/src/utilities/provinceConfig";
     import { selectedSettlement } from "/src/utilities/settlementConfig";
 
-    export let wName = $page.params.worldName;
-    export let cName = $page.params.contName;
-
-    onMount(async () => {
-        if ($selectedWorld && $selectedContinent && $selectedProvince) {
-            $breadcrumb.current = $selectedSettlement.name;
-            $breadcrumb.currentType = "Settlement";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}`,
-                    name: $selectedProvince.name,
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
-                    name: $selectedContinent.name,
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
-    });
+    $: if (
+        $selectedWorld &&
+        $selectedContinent &&
+        $selectedProvince &&
+        $selectedSettlement
+    ) {
+        $breadcrumb.current = $selectedSettlement.name;
+        $breadcrumb.currentType = "Settlement";
+        $breadcrumb.path = [
+            {
+                url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}`,
+                name: $selectedProvince.name,
+            },
+            {
+                url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
+                name: $selectedContinent.name,
+            },
+            {
+                url: `/dm/dashboard/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
 </script>
 
-{#if $selectedWorld}
+{#if $selectedWorld && $selectedContinent && $selectedProvince && $selectedSettlement}
     <section>
         <Breadcrumb />
         <PanelHolder>

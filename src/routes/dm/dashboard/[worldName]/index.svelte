@@ -2,7 +2,6 @@
     // @ts-ignore
     import {
         GetSelectedWorld,
-        FindWorldByName,
         selectedWorld,
         worlds,
     } from "/src/utilities/worldConfig";
@@ -15,7 +14,7 @@
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
 
-    export let wName = $page.params.worldName;
+    // export let wName = $page.params.worldName;
 
     onMount(async () => {
         if ($selectedWorld) {
@@ -23,15 +22,6 @@
             $breadcrumb.current = $selectedWorld.name;
             $breadcrumb.currentType = "world";
             $breadcrumb.path = [];
-        } else {
-            console.log("no world selected");
-            let w = FindWorldByName(wName);
-            if (w.name) {
-                $selectedWorld = w;
-                //set selected world in local storage
-                localStorage.setItem("selectedWorld", w);
-            }
-            // goto("/");
         }
     });
 </script>

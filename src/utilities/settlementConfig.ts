@@ -15,7 +15,7 @@ export interface Settlement {
     settlements: Settlement[],
 }
 
-export const selectedSettlement = writable({})
+export const selectedSettlement = writable<Settlement | null>(null)
 
 
 //function that creates a new settlement and adds it to the world
