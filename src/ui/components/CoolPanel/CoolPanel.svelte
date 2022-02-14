@@ -1,7 +1,5 @@
 <script>
     import { goto } from "$app/navigation";
-    import LittleButton from "../LittleButton/LittleButton.svelte";
-    import VerticleList from "../VerticleList/VerticleList.svelte";
 
     export let title = "";
     export let options = [];
@@ -17,17 +15,28 @@
 >
     <h3 class={title === "" ? "empty" : ""}>{title}</h3>
     {#if showMenu}
-        <VerticleList width="full space">
+        <div class="holder">
             {#each options as option}
-                <LittleButton nav={option?.nav}>
+                <button on:click={() => goto(option.nav)}>
                     {option.name}
-                </LittleButton>
+                </button>
             {/each}
-        </VerticleList>
+        </div>
     {/if}
 </div>
 
 <style>
+    button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.25rem 0;
+        background-color: rgba(0, 0, 0, 0.15);
+        border: none;
+        color: black;
+    }
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
     .empty {
         background-color: rgba(0, 0, 0, 0);
         border: none;
@@ -43,6 +52,7 @@
         border-bottom: 2px solid var(--col-dark-lightest);
         border-right: 2px solid var(--col-dark-lightest);
         box-sizing: border-box;
+        overflow: hidden;
     }
     .card:hover {
         background-color: var(--col-dark-lightest);
@@ -56,6 +66,14 @@
         border-bottom: 1px solid rgba(0, 0, 0, 0.15);
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
+    }
+    .holder {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        height: fit-content;
+        padding-top: 0.25rem;
     }
     @media only screen and (min-width: 1030px) {
         .card {

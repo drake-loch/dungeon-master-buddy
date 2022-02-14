@@ -49,6 +49,29 @@
                 ]}
             />
             <CoolPanel
+                title="Character Builder"
+                options={[
+                    {
+                        name: "Build Character",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                    },
+                    {
+                        name: "Create NPC",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/npc`,
+                    },
+                    {
+                        name: "Create PC",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/pc`,
+                    },
+                    {
+                        name: "Create Creature",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/creature`,
+                    },
+                ]}
+            />
+            <CoolPanel title="Races" />
+
+            <CoolPanel
                 title="Character Sheet"
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
             />
@@ -65,36 +88,14 @@
                     },
                 ]}
             />
-            <CoolPanel
-                title="Character Builder"
-                options={[
-                    {
-                        name: "Build Character",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
-                    },
-                    {
-                        name: "Create NPC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/npc`,
-                    },
-                    {
-                        name: "Create PC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/pc`,
-                    },
-                    {
-                        name: "Create Monster",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/monster`,
-                    },
-                ]}
-            />
             <CoolPanel title="Spellbook" />
             <CoolPanel title="Religions" />
             <CoolPanel title="Organizations" />
             <CoolPanel title="Factions" />
-            <CoolPanel title="Monster" />
-            <CoolPanel title="Races" />
+            <CoolPanel title="Campaigns" />
+            <CoolPanel title="Lore" />
             <CoolPanel title="Items" />
             <CoolPanel title="Settings" />
-            <CoolPanel title="Regions" />
             <CoolPanel />
         </PanelHolder>
     </section>
