@@ -32,7 +32,7 @@
     onMount(async () => {
         if (!$selectedWorld && $user) {
             console.log("No world selected");
-            if (sessionStorage.getItem("worlds")) {
+            if (JSON.parse(sessionStorage.getItem("worlds")).length > 0) {
                 console.log("Worlds in session store");
                 $worlds = JSON.parse(sessionStorage.getItem("worlds"));
                 $selectedWorld = $worlds.find((w) => w.name === worldName);

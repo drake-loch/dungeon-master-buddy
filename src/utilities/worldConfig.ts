@@ -3,10 +3,10 @@ import type { User } from "firebase/auth";
 import { getMyWorlds, setWorld, UpdateWorldsInDB } from "./firebase";
 import { AddDefaultSkills } from "./skillsConfig";
 import { get } from "svelte/store";
-// import { worlds, selectedWorld } from "/src/stores/worldsStore";
 import type { Continent } from "./continentsConfig";
 import type { Province } from "./provinceConfig";
 import type { Settlement } from "./settlementConfig";
+import type { Race } from './charManager';
 
 export interface World {
     name: string,
@@ -19,7 +19,7 @@ export interface World {
     orgs: [],
     religions: [],
     campaigns: [],
-    races: [],
+    races: Race[],
     species: [],
     settings: {
         skillSetFormat: [],
@@ -44,7 +44,7 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
         orgs: [],
         religions: [],
         campaigns: [],
-        races: [],
+        races: [{ name: 'human', info: 'It you', skillBonus: [] }],
         species: [],
         settings: {
             skillSetFormat: skillset ? skillset : AddDefaultSkills()[0],

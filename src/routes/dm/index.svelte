@@ -31,7 +31,6 @@
     }
     function selectWorld() {
         $selectedWorld = selectedW;
-        // localStorage.setItem("selectedWorld", JSON.stringify($selectedWorld));
     }
 </script>
 

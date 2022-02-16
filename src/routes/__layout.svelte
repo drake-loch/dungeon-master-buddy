@@ -16,17 +16,11 @@
             $user = u;
             $isLoggedIn = true;
             worlds.set(await GetWorldsFromDB($user));
-
-            if (localStorage.getItem("selectedWorld")) {
-                $selectedWorld = JSON.parse(
-                    localStorage.getItem("selectedWorld")
-                );
-            }
         } else {
             //not logged in
             $user = null;
             $isLoggedIn = false;
-            $worlds = [];
+            // $worlds = [];
         }
     });
 </script>

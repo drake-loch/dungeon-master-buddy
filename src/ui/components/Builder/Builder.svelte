@@ -1,5 +1,8 @@
 <script>
-    import TextInput from "../TextInput/TextInput.svelte";
+    import { selectedWorld } from "/src/utilities/worldConfig";
+
+    import Info from "../Tabs/Info.svelte";
+    import { createNewChar } from "/src/utilities/charManager";
 
     export let tabs = [
         { name: "Info", isSelected: true },
@@ -16,6 +19,10 @@
     }
 
     $: currentSelectedTab = tabs.findIndex((tab) => tab.isSelected);
+
+    let newChar = createNewChar($selectedWorld.allNPCs.length);
+
+    $: console.log(newChar);
 </script>
 
 <section>
@@ -32,28 +39,7 @@
         </div>
         <div class="content">
             {#if currentSelectedTab === 0}
-                <div class="info">
-                    <div class="paper_head">
-                        <div class="stat">
-                            <p>HP</p>
-                            <p>20</p>
-                        </div>
-                        <div class="stat">
-                            <p>level</p>
-                            <p>1</p>
-                        </div>
-                        <div class="stat">
-                            <p>AC</p>
-                            <p>5</p>
-                        </div>
-                    </div>
-                    <div class="picture" />
-                    <div class="center">
-                        <TextInput style="paper" placeholder="Enter name..." />
-                    </div>
-                    <div class="line" />
-                    <div class="line" />
-                </div>
+                <Info bind:newChar />
             {/if}
         </div>
     </div>
@@ -76,10 +62,6 @@
         overflow: hidden;
         /* padding: 1rem; */
     }
-    .info {
-        box-sizing: border-box;
-        padding: 1rem;
-    }
     .tabs {
         width: 100%;
         height: 3.5rem;
@@ -96,22 +78,9 @@
         justify-content: center;
         align-items: center;
     }
-    .paper_head {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 1rem;
-    }
+
     .stat {
         text-align: center;
-    }
-    .picture {
-        background-color: antiquewhite;
-        width: 5rem;
-        height: 5rem;
-        border-radius: 100%;
-        margin: 0 auto;
     }
     .selected {
         background-color: var(--col-dark-lightest);
@@ -124,11 +93,9 @@
         width: 100%;
         height: 100%;
     }
-    .line {
-        width: 100%;
-        height: 1px;
-        background-color: var(--col-dark-main);
-        margin-bottom: 0.5rem;
+    .name {
+        width: fit-content;
+        margin: 0 auto;
     }
     .center {
         margin-bottom: 2rem;
@@ -144,10 +111,6 @@
         }
         .tabs {
             height: 4rem;
-        }
-        .picture {
-            width: 10rem;
-            height: 10rem;
         }
     }
 </style>

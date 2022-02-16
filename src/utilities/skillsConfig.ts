@@ -1,9 +1,9 @@
-interface Skill {
+export interface Skill {
     name: string,
     baseValue: number,
     mod: number,
 }
-interface SkillSet {
+export interface SkillSet {
     name: string,
     skills: Skill[],
 }
