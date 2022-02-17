@@ -1,28 +1,34 @@
-<script>
+<script lang="ts">
     import { selectedWorld } from "/src/utilities/worldConfig";
 
     import Info from "../Tabs/Info.svelte";
     import { createNewChar } from "/src/utilities/charManager";
+    import Skills from "../Tabs/Skills.svelte";
 
     export let tabs = [
-        { name: "Info", isSelected: true },
-        { name: "Skills", isSelected: false },
-        { name: "Gear", isSelected: false },
-        { name: "Spells", isSelected: false },
+        { name: "Info", isSelected: true, amountOfPages: 2 },
+        { name: "Skills", isSelected: false, amountOfPages: 2 },
+        { name: "Gear", isSelected: false, amountOfPages: 1 },
+        { name: "Spells", isSelected: false, amountOfPages: 1 },
     ];
+    $: currentSelectedTab = tabs.findIndex((tab) => tab.isSelected);
 
     function selectTab(tab) {
         if (currentSelectedTab !== tab) {
             tabs[currentSelectedTab].isSelected = false;
             tabs[tab].isSelected = true;
+            currentSubPageIndex = 0;
         }
     }
 
-    $: currentSelectedTab = tabs.findIndex((tab) => tab.isSelected);
+    let currentSubPageIndex = 0;
+    $: subPageMaxIndex = tabs[currentSelectedTab].amountOfPages - 1;
+
+    function selectSubPage(num: number) {
+        currentSubPageIndex += num;
+    }
 
     let newChar = createNewChar($selectedWorld.allNPCs.length);
-
-    $: console.log(newChar);
 </script>
 
 <section>
@@ -40,7 +46,20 @@
         <div class="content">
             {#if currentSelectedTab === 0}
                 <Info bind:newChar />
+            {:else if currentSelectedTab === 1}
+                <Skills bind:newChar />
             {/if}
+            <div class="nav2 {subPageMaxIndex === 0 ? 'hidden' : ''}">
+                <button
+                    hidden={currentSubPageIndex === 0}
+                    on:click={() => selectSubPage(-1)}>{"<"}</button
+                >
+                <p>Page Number: {currentSubPageIndex + 1}</p>
+                <button
+                    hidden={currentSubPageIndex === subPageMaxIndex}
+                    on:click={() => selectSubPage(1)}>{">"}</button
+                >
+            </div>
         </div>
     </div>
 </section>
@@ -53,6 +72,7 @@
         box-sizing: border-box;
     }
     .paper {
+        position: relative;
         width: 100%;
         height: 75vh;
         background-color: var(--col-dark-lightest);
@@ -60,7 +80,6 @@
         border-bottom: 2px solid rgba(0, 0, 0, 0.65);
         box-sizing: border-box;
         overflow: hidden;
-        /* padding: 1rem; */
     }
     .tabs {
         width: 100%;
@@ -99,6 +118,35 @@
     }
     .center {
         margin-bottom: 2rem;
+    }
+    .nav2 {
+        position: absolute;
+        bottom: 0;
+
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid var(--col-dark-light);
+    }
+    .nav2 p {
+        padding: 0 1rem;
+        cursor: default;
+    }
+    button {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 5px;
+        text-align: center;
+        background-color: var(--col-dark-light);
+        color: white;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+    .hidden {
+        display: none;
     }
     @media only screen and (min-width: 1030px) {
         section {

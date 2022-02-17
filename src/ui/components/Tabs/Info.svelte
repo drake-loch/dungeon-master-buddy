@@ -12,6 +12,7 @@
     } from "/src/utilities/charManager";
 
     export let newChar = null;
+    $: console.log(newChar);
 </script>
 
 <div class="info">
@@ -93,6 +94,13 @@
             options={eyeColours}
             list="eye"
         />
+        <BuilderInput
+            bind:val={newChar.desc}
+            label="Description:"
+            centerLabel={false}
+            placeholder="Description"
+            width="100%"
+        />
     </div>
 </div>
 
@@ -100,6 +108,8 @@
     .info {
         box-sizing: border-box;
         padding: 0.5rem 1rem;
+        height: 90%;
+        padding-bottom: 3rem;
     }
     .paper_head {
         display: flex;
@@ -120,6 +130,7 @@
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
+        gap: 0.5rem;
         width: 100%;
         margin: 1rem 0;
     }

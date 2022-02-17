@@ -42,7 +42,8 @@
         align-items: center;
     }
     label {
-        font-size: 1.2rem;
+        font-size: 1rem;
+        align-items: center;
         margin-bottom: 0.25rem;
         color: white;
         width: 100%;
@@ -54,7 +55,7 @@
         border: none;
         border-bottom: 1px solid var(--col-dark-light);
         border-radius: 5px;
-        text-align: center;
+        /* text-align: center; */
     }
     input:focus {
         outline: none;

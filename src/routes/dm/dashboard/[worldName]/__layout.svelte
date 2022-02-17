@@ -53,7 +53,7 @@
                 nav="/dm/dashboard/{$selectedWorld.name}"
             />
             <NavButton
-                text="Character Bulder"
+                text="Character Builder"
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
             />
             <NavButton nav="/dm" text="World List" />
@@ -70,7 +70,7 @@
             />
             <NavButton
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
-                text="Character Bulder"
+                text="Character Builder"
             />
             <NavButton nav="/dm" text="World List" />
             <NavButton func={LogOff} type="warning end" text="Logout" />
