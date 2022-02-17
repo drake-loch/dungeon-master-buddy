@@ -19,20 +19,13 @@
     {#if label !== ""}
         <label style="text-align:{labelStyle};" for="this">{label}</label>
     {/if}
-    <input
+    <textarea
         style="text-align: {labelStyle};"
         type="text"
         {placeholder}
         bind:value={val}
         {list}
     />
-    {#if options.length > 0}
-        <datalist id={list}>
-            {#each options as item}
-                <option value={item}>{item}</option>
-            {/each}
-        </datalist>
-    {/if}
 </div>
 
 <style>
@@ -48,7 +41,7 @@
         color: white;
         width: 100%;
     }
-    input {
+    textarea {
         width: 100%;
         font-size: 1rem;
         background-color: var(--col-dark-lightest);
@@ -57,7 +50,7 @@
         border-radius: 5px;
         /* text-align: center; */
     }
-    input:focus {
+    textarea:focus {
         outline: none;
         border: 2px solid rebeccapurple;
     }
@@ -65,13 +58,13 @@
     /* Desktop */
     @media only screen and (min-width: 1030px) {
         label {
-            margin: 0;
+            margin-bottom: 0.5rem;
         }
-        input {
+        textarea {
             width: 100%;
             display: flex;
             align-items: center;
-            font-size: 1.5rem;
+            font-size: 1rem;
         }
     }
 </style>

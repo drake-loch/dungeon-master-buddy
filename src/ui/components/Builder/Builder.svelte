@@ -45,7 +45,7 @@
         </div>
         <div class="content">
             {#if currentSelectedTab === 0}
-                <Info bind:newChar />
+                <Info {currentSubPageIndex} bind:newChar />
             {:else if currentSelectedTab === 1}
                 <Skills bind:newChar />
             {/if}
@@ -78,8 +78,9 @@
         background-color: var(--col-dark-lightest);
         border-radius: 15px;
         border-bottom: 2px solid rgba(0, 0, 0, 0.65);
-        box-sizing: border-box;
+        /* box-sizing: border-box; */
         overflow: hidden;
+        padding-bottom: 2rem;
     }
     .tabs {
         width: 100%;
@@ -122,7 +123,6 @@
     .nav2 {
         position: absolute;
         bottom: 0;
-
         width: 100%;
         height: 3rem;
         display: flex;
@@ -159,6 +159,9 @@
         }
         .tabs {
             height: 4rem;
+        }
+        .nav2 {
+            height: 3rem;
         }
     }
 </style>

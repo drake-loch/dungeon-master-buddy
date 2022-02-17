@@ -30,6 +30,7 @@ export interface Char {
     },
     questGiver: boolean,
     quests: [],
+    languages: string,
 }
 
 export function createNewChar(newID: number): Char {
@@ -50,27 +51,29 @@ export function createNewChar(newID: number): Char {
         gender: '',
         occupation: '',
         location: {
-            continent: null,
-            region: null,
-            settlement: null,
+            continent: '',
+            region: '',
+            settlement: '',
             wanderer: false,
         },
         questGiver: false,
         quests: [],
+        languages: '',
     }
 }
 
 export const hairColours = [
     "white",
+    "blonde",
     "silver",
     "gray",
     "brown",
-    "dark brown",
     "light brown",
+    "dark brown",
+    "black",
+    "red",
     "dark red",
     "light red",
-    "red",
-    "blonde",
     "bald",
 ];
 export const eyeColours = [
