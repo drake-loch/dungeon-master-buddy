@@ -134,10 +134,30 @@
         margin: 1rem 0;
     }
     @media only screen and (min-width: 1030px) {
+        .info {
+            padding: 1rem 2rem;
+        }
         .picture {
             width: 10rem;
             height: 10rem;
             margin: 2rem auto;
         }
+    }
+
+    /* Scroll Bar */
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: red;
+        border-radius: 10px;
     }
 </style>

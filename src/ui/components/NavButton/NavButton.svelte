@@ -8,11 +8,15 @@
     // export let collapseMenu = false;
     export let text = "";
     export let isEnd = false;
+    export let isMobile = false;
     let formattedText = "";
 
-    $: if ($navExpanded) {
+    $: if ($navExpanded && !isMobile) {
         formattedText = text[0];
     } else {
+        formattedText = text;
+    }
+    $: if ($navExpanded && isMobile) {
         formattedText = text;
     }
 

@@ -49,15 +49,22 @@
     {#if $navExpanded}
         <div transition:slide class="nav-menu">
             <NavButton
+                isMobile={true}
                 text="Dashboard"
                 nav="/dm/dashboard/{$selectedWorld.name}"
             />
             <NavButton
+                isMobile={true}
                 text="Character Builder"
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
             />
-            <NavButton nav="/dm" text="World List" />
-            <NavButton text="Logout" func={LogOff} type="warning end" />
+            <NavButton isMobile={true} nav="/dm" text="World List" />
+            <NavButton
+                isMobile={true}
+                text="Logout"
+                func={LogOff}
+                type="warning end"
+            />
         </div>
     {/if}
 
@@ -82,9 +89,9 @@
                 <div class="line" />
             </div>
         </nav>
-        <div class="content">
+        <main class="content">
             <slot />
-        </div>
+        </main>
     </section>
 {/if}
 
@@ -97,6 +104,7 @@
         display: flex;
         gap: 0.25rem;
         flex-direction: column;
+        z-index: 1;
     }
     .burg-icon {
         /* background-color: fuchsia; */
@@ -129,7 +137,7 @@
         }
         section {
             display: flex;
-            overflow-y: hidden;
+            overflow-y: auto;
         }
         .deskNav {
             display: flex;
