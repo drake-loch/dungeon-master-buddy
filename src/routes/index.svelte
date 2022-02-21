@@ -49,6 +49,11 @@
         <LittleButton func={logoff} type="warning">Logout</LittleButton>
     {:else}
         <h2 class="login">Login</h2>
+        <h3>
+            **WARNING: THIS APP IS STILL UNDER DEVELOPMENT. USE AT YOUR OWN
+            RISK. ACCOUNTS OR WORLDS MAY BE DELETED WITHOUT NOTICE. THIS WILL BE
+            DIFFERENT ONCE IT IS OFFICALLY RELEASED**
+        </h3>
         <form>
             <TextInput bind:val={email} fieldType="email" label="Email:" />
             <TextInput
@@ -76,6 +81,13 @@
         margin-bottom: 2rem;
         font-weight: 400;
         color: white;
+    }
+    h3 {
+        width: 100%;
+        text-align: center;
+        color: red;
+        font-size: 0.7rem;
+        margin-bottom: 2rem;
     }
     .login {
         font-weight: bold;
