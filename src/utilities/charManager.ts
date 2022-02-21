@@ -1,6 +1,8 @@
+import type { User } from 'firebase/auth';
 import { get, writable } from 'svelte/store';
 import type { Skill, SubSkill } from './skillsConfig';
-import { selectedWorld } from './worldConfig';
+import { selectedWorld, UpdateWorld } from './worldConfig';
+import type { World } from './worldConfig';
 
 export interface Race {
     name: string,
@@ -30,7 +32,9 @@ export interface Char {
         settlement: string | null,
         wanderer: boolean,
     },
-    questGiver: boolean,
+    languages: string,
+}
+export interface NPC extends Char {
     quests: [],
     languages: string,
 }
@@ -60,10 +64,14 @@ export function createNewChar(newID: number): Char {
             settlement: '',
             wanderer: false,
         },
-        questGiver: false,
-        quests: [],
         languages: '',
     }
+}
+
+export function addChartoWorld(user: User, world: World, newChar: Char): World {
+    world.allPCs.push(newChar);
+    UpdateWorld(user, world);
+    return world;
 }
 
 export const hairColours = [

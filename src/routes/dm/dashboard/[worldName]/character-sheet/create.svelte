@@ -9,6 +9,9 @@
     import { createNewChar } from "/src/utilities/charManager";
     import Info from "/src/ui/components/Tabs/Info.svelte";
     import Skills from "/src/ui/components/Tabs/Skills.svelte";
+    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
+    import { addChartoWorld } from "/src/utilities/charManager";
+    import { user } from "/src/stores";
 
     onMount(async () => {
         if ($selectedWorld) {
@@ -27,6 +30,11 @@
             ];
         }
     });
+    let newChar = createNewChar($selectedWorld.allNPCs.length);
+    function createChar() {
+        console.log("ping");
+        $selectedWorld = addChartoWorld($user, $selectedWorld, newChar);
+    }
 
     export let tabs = [
         { name: "Info", isSelected: true, amountOfPages: 2 },
@@ -36,12 +44,17 @@
     ];
     $: currentSelectedTab = tabs.findIndex((tab) => tab.isSelected);
     $: subPageMaxIndex = tabs[currentSelectedTab].amountOfPages - 1;
-    let newChar = createNewChar($selectedWorld.allNPCs.length);
     let editMode = true;
     let currentSubPageIndex = 0;
 </script>
 
 <Breadcrumb />
+
+<div class="button-holder">
+    <LittleButton type="good" func={createChar} nav={null}
+        >Create Character</LittleButton
+    >
+</div>
 
 <Builder
     bind:tabs
@@ -58,3 +71,10 @@
         <Skills bind:newChar />
     </span>
 </Builder>
+
+<style>
+    .button-holder {
+        display: flex;
+        margin-left: 1rem;
+    }
+</style>
