@@ -4,7 +4,7 @@
     import LittleButton from "../../LittleButton/LittleButton.svelte";
     import TextInput from "../../TextInput/TextInput.svelte";
     import { user } from "/src/stores";
-    import { selectedContinent } from "/src/utilities/continentsConfig";
+    import { selectedProvince } from "/src/utilities/provinceConfig";
 
     export let toggleMod;
 
@@ -12,7 +12,7 @@
 
     async function submitHandler(e) {
         e.preventDefault();
-        $selectedContinent = CreateNewSettlement($user, settlementName);
+        $selectedProvince = CreateNewSettlement($user, settlementName);
         toggleMod();
     }
 </script>

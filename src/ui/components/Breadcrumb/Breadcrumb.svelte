@@ -26,7 +26,7 @@
         align-items: center;
         flex-wrap: wrap;
         height: fit-content;
-        margin: 1.5rem 0 1.5rem 1rem;
+        margin: 1.5rem 0;
         box-sizing: border-box;
     }
     .breadcrumb {
@@ -70,7 +70,6 @@
     /* DESKTOP */
     @media only screen and (min-width: 1030px) {
         .holder {
-            margin-left: 2rem;
         }
         .breadcrumb {
             margin-left: 0.5rem;

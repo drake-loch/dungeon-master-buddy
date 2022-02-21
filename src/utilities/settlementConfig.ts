@@ -28,6 +28,7 @@ export function CreateNewSettlement(user: User, name: string) {
     let sp = get(selectedProvince);
     sp.settlements.push(newSettlement);
     UpdateProvinceInDB(user, sp);
+    return sp;
 }
 
 //function that

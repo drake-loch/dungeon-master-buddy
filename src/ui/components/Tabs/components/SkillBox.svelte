@@ -1,9 +1,8 @@
 <script>
     import { CheckForModChange } from "/src/utilities/skillsConfig";
 
-    import SubSkill from "./SubSkill.svelte";
-
     export let skill = null;
+    export let mode = "view";
 
     $: if (skill) {
         skill.mod = CheckForModChange(skill.baseValue);
@@ -25,11 +24,15 @@
         <p class="title" for="this">
             {skill.name.toUpperCase()}
         </p>
-        <input
-            type="text"
-            placeholder={skill.name}
-            bind:value={skill.baseValue}
-        />
+        {#if mode === "edit" || mode === "create"}
+            <input
+                type="text"
+                placeholder={skill.name}
+                bind:value={skill.baseValue}
+            />
+        {:else if mode === "view"}
+            <p class="view">{skill.baseValue}</p>
+        {/if}
         <p class="mod {modCol()}">
             {Math.sign(skill.mod) === 1 ? "+" : ""}{skill.mod}
         </p>
@@ -69,6 +72,15 @@
         border-radius: 5px;
         color: white;
         /* text-align: center; */
+    }
+    .view {
+        text-align: center;
+        width: 100%;
+        font-size: 1.2rem;
+        background-color: var(--col-light-darkgrey);
+        border: none;
+        border-top: 2px solid var(--col-dark-light);
+        color: white;
     }
     input:focus {
         outline: none;

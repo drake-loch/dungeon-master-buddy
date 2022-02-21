@@ -10,11 +10,8 @@
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
     import { page } from "$app/stores";
-    // import { selectedWorld, worlds } from "/src/utilities/worldConfig";
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
-
-    // export let wName = $page.params.worldName;
 
     onMount(async () => {
         if ($selectedWorld) {
@@ -49,7 +46,7 @@
                 ]}
             />
             <CoolPanel
-                title="Character Builder"
+                title="Builder"
                 options={[
                     {
                         name: "Build Character",
@@ -70,13 +67,8 @@
                 ]}
             />
             <CoolPanel title="Races" />
-
             <CoolPanel
-                title="Character Sheet"
-                nav="/dm/dashboard/{$selectedWorld.name}/builder"
-            />
-            <CoolPanel
-                title="NPC List"
+                title="NPCs"
                 options={[
                     {
                         name: "View List",
@@ -84,6 +76,19 @@
                     },
                     {
                         name: "Create NPC",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                    },
+                ]}
+            />
+            <CoolPanel
+                title="Player Characters"
+                options={[
+                    {
+                        name: "View List",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/characters`,
+                    },
+                    {
+                        name: "Create PC",
                         nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
                     },
                 ]}

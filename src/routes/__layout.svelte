@@ -20,7 +20,6 @@
             //not logged in
             $user = null;
             $isLoggedIn = false;
-            // $worlds = [];
         }
     });
 </script>

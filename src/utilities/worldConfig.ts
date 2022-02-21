@@ -6,7 +6,7 @@ import { get } from "svelte/store";
 import type { Continent } from "./continentsConfig";
 import type { Province } from "./provinceConfig";
 import type { Settlement } from "./settlementConfig";
-import type { Race } from './charManager';
+import type { Creature, NPC, PC, Race } from './charManager';
 
 export interface World {
     name: string,
@@ -14,10 +14,9 @@ export interface World {
     id: number,
     continents: Continent[],
     deities: [],
-    wandNPCs: [],
-    allNPCs: [],
-    allPCs: [],
-    allCreatures: [],
+    allNPCs: NPC[],
+    allPCs: PC[],
+    allCreatures: Creature[],
     orgs: [],
     religions: [],
     campaigns: [],

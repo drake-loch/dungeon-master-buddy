@@ -1,5 +1,4 @@
 <script lang="ts">
-    export let editMode = true;
     export let tabs = [];
     export let currentSelectedTab = 0;
 
@@ -31,6 +30,9 @@
                 </p>
             {/each}
         </div>
+        <div class="buttons">
+            <slot name="buttons" />
+        </div>
         <div class="content">
             {#if currentSelectedTab === 0}
                 <slot name="tab-1" />
@@ -41,7 +43,7 @@
             {:else if currentSelectedTab === 3}
                 <slot name="tab-4" />
             {/if}
-            <div class="nav2 {subPageMaxIndex === 0 ? 'hidden' : ''}">
+            <div class="nav2">
                 <button
                     hidden={currentSubPageIndex === 0}
                     on:click={() => selectSubPage(-1)}>{"<"}</button
@@ -122,11 +124,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 0 1rem;
+        box-sizing: border-box;
         border-top: 1px solid var(--col-dark-light);
         background-color: var(--col-dark-lightest);
     }
     .nav2 p {
         padding: 0 1rem;
+        font-size: 0.75rem;
         cursor: default;
     }
     button {
@@ -142,6 +147,16 @@
     }
     .hidden {
         display: none;
+    }
+    .buttons {
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        padding: 0 1rem;
+        align-items: center;
+        box-sizing: border-box;
+        border-bottom: 1px solid var(--col-dark-light);
+        background-color: var(--col-dark-lightest);
     }
     @media only screen and (min-width: 1030px) {
         section {

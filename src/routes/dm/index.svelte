@@ -28,6 +28,7 @@
     function deleteWorld() {
         DeleteWorld(selectedWorld, $user);
         $selectedWorld = null;
+        selectedW = null;
     }
     function selectWorld() {
         $selectedWorld = selectedW;

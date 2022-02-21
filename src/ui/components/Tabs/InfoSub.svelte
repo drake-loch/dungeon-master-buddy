@@ -7,6 +7,7 @@
     import BuilderTextArea from "./components/BuilderTextArea.svelte";
 
     export let newChar = null;
+    export let mode = "view";
     $: provinces = $selectedWorld.continents.find(
         (continent) => continent.name === newChar.location.continent
     )?.provinces;
@@ -26,6 +27,7 @@
         label="Continent:"
         placeholder="Continent"
         width="48%"
+        {mode}
     >
         {#each $selectedWorld.continents as continent}
             <option value={continent.name}>{continent.name}</option>
@@ -36,6 +38,7 @@
         label="Province:"
         placeholder="Province"
         width="48%"
+        {mode}
     >
         {#if provinces}
             {#each provinces as province}
@@ -48,6 +51,7 @@
         label="Settlement:"
         placeholder="Settlement"
         width="48%"
+        {mode}
     >
         {#if settlements}
             {#each settlements as settlement}
@@ -64,6 +68,7 @@
         label="Physical Appearence:"
         centerLabel={false}
         width="100%"
+        {mode}
     />
     <BuilderInput
         bind:val={newChar.languages}
@@ -71,6 +76,7 @@
         label="Languages:"
         centerLabel={false}
         width="48%"
+        {mode}
     />
 </div>
 

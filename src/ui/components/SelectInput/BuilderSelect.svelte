@@ -3,14 +3,25 @@
     export let val = "";
     export let placeholder = "";
     export let width = "100%";
+    export let mode = "view";
 </script>
 
 <div style="width: {width};">
     <label for="this">{label}</label>
-    <select {placeholder} name={val} bind:value={val}>
-        <option value="" disabled>{placeholder}</option>
-        <slot />
-    </select>
+    {#if mode == "view"}
+        <p>
+            {#if val.name}
+                {val.name}
+            {:else}
+                {val}
+            {/if}
+        </p>
+    {:else if mode === "create" || mode === "edit"}
+        <select {placeholder} name={val} bind:value={val}>
+            <option value="" disabled>{placeholder}</option>
+            <slot />
+        </select>
+    {/if}
 </div>
 
 <style>
@@ -20,7 +31,7 @@
         width: 100%;
     }
     label {
-        font-size: 1.2rem;
+        font-size: 0.8rem;
         margin-bottom: 0.25rem;
         color: white;
     }
@@ -38,10 +49,20 @@
         outline: none;
         border: 2px solid rebeccapurple;
     }
+    p {
+        width: 100%;
+        font-size: 1rem;
+    }
 
     /* Desktop */
     @media only screen and (min-width: 1030px) {
+        label {
+            font-size: 1.25rem;
+        }
         select {
+            font-size: 1.5rem;
+        }
+        p {
             font-size: 1.5rem;
         }
     }

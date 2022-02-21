@@ -38,16 +38,22 @@ export interface NPC extends Char {
     quests: [],
     languages: string,
 }
+export interface PC extends Char {
+    playerName: string,
+}
+export interface Creature extends Char {
+    type: string,
+}
 
-export function createNewChar(newID: number): Char {
+export function createNewChar(newID: number): PC {
     let settings = get(selectedWorld).settings;
     return {
         name: '',
         level: 1,
         id: newID,
         race: '',
-        skills: settings.skillSetFormat.skills,
-        subSkills: settings.skillSetFormat.subSkills,
+        skills: deepCopyFunction(settings.skillSetFormat.skills),
+        subSkills: deepCopyFunction(settings.skillSetFormat.subSkills),
         profs: [],
         maxHitPoints: 5,
         currentHitPoints: 5,
@@ -65,6 +71,8 @@ export function createNewChar(newID: number): Char {
             wanderer: false,
         },
         languages: '',
+        playerName: '',
+
     }
 }
 
@@ -73,6 +81,14 @@ export function addChartoWorld(user: User, world: World, newChar: Char): World {
     UpdateWorld(user, world);
     return world;
 }
+
+//update character in world and update world in db
+export function updatePCInDB(user: User, world: World, char: PC): World {
+    world.allPCs[char.id] = char;
+    UpdateWorld(user, world);
+    return world;
+}
+
 
 export const hairColours = [
     "white",
@@ -101,42 +117,67 @@ export const eyeColours = [
 //plz don't cancel me, just some predefined for randomization
 export const genders = ["male", "female", "non-binary"];
 
-export const occupations = [
-    "none",
-    "Fisher",
-    "Captain",
-    "Shopkeeper",
-    "Farmer",
-    "Butler",
-    "Squire",
-    "Knight",
-    "Guard",
-    "Royality",
-    "Nobleperson",
-    "Tax Collector",
-    "Sellsword",
-    "Smuggler",
-    "Thief",
-    "Bandit",
-    "Thug",
-    "Beggar",
-    "Musician",
-    "Bard",
-    "Cook",
-    "Adventurer",
-    "Druid",
-    "Priest",
-    "Labouror",
-    "Millworker",
-    "Merchant",
-    "Traveling Merchant",
-    "Swindler",
-    "Town Drunk",
-    "Bounty Hunter",
-    "Hunter",
-    "Trapper",
-    "Soldier",
-];
+export const occupations = getSortedOcc();
 
+function getSortedOcc(): string[] {
+    let arr = [
+        "Fisher",
+        "Captain",
+        "Shopkeeper",
+        "Farmer",
+        "Butler",
+        "Squire",
+        "Knight",
+        "Guard",
+        "Royality",
+        "Nobleperson",
+        "Tax Collector",
+        "Sellsword",
+        "Smuggler",
+        "Thief",
+        "Bandit",
+        "Thug",
+        "Beggar",
+        "Musician",
+        "Bard",
+        "Cook",
+        "Adventurer",
+        "Druid",
+        "Priest",
+        "Labouror",
+        "Millworker",
+        "Merchant",
+        "Traveling Merchant",
+        "Swindler",
+        "Town Drunk",
+        "Bounty Hunter",
+        "Hunter",
+        "Trapper",
+        "Soldier",
+    ].sort()
+    arr.unshift("None");
+    return arr;
+}
+
+
+const deepCopyFunction = (inObject) => {
+    let outObject, value, key
+
+    if (typeof inObject !== "object" || inObject === null) {
+        return inObject // Return the value if inObject is not an object
+    }
+
+    // Create an array or object to hold the values
+    outObject = Array.isArray(inObject) ? [] : {}
+
+    for (key in inObject) {
+        value = inObject[key]
+
+        // Recursively (deep) copy for nested objects, including arrays
+        outObject[key] = deepCopyFunction(value)
+    }
+
+    return outObject
+}
 
 

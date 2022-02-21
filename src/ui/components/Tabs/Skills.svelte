@@ -2,9 +2,9 @@
     import SkillBox from "./components/SkillBox.svelte";
     import SubSkill from "./components/SubSkill.svelte";
     import Title from "./components/Title.svelte";
-    import SkillsSub from "./SkillsSub.svelte";
 
     export let newChar = null;
+    export let mode = "view";
 
     $: if (newChar) {
         //update each subskill to match parentskill's value
@@ -19,7 +19,7 @@
 <div class="skills">
     <Title title="Primary Skills" />
     {#each newChar.skills as skill}
-        <SkillBox bind:skill>
+        <SkillBox {mode} bind:skill>
             {#each newChar.subSkills.filter((subSkill) => subSkill.parentSkill === skill.name) as subSkill}
                 <SubSkill bind:subSkill />
             {/each}

@@ -38,7 +38,6 @@
                 $selectedWorld = $worlds.find((w) => w.name === worldName);
             } else {
                 $worlds = await GetWorldsFromDB($user);
-                console.log($worlds);
                 $selectedWorld = $worlds.find((w) => w.name === worldName);
             }
         }
@@ -55,10 +54,10 @@
             />
             <NavButton
                 isMobile={true}
-                text="Character Builder"
+                text="Builder"
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
             />
-            <NavButton isMobile={true} nav="/dm" text="World List" />
+            <NavButton isMobile={true} nav="/dm" text="Worlds" />
             <NavButton
                 isMobile={true}
                 text="Logout"
@@ -77,9 +76,9 @@
             />
             <NavButton
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
-                text="Character Builder"
+                text="Builder"
             />
-            <NavButton nav="/dm" text="World List" />
+            <NavButton nav="/dm" text="Worlds" />
             <NavButton func={LogOff} type="warning end" text="Logout" />
         </nav>
         <nav class="navMob">
@@ -130,6 +129,9 @@
     .deskNav {
         display: none;
     }
+    .content {
+        padding: 0 0.75rem;
+    }
 
     @media only screen and (min-width: 1030px) {
         .nav-menu {
@@ -155,6 +157,7 @@
         }
         .content {
             width: 100%;
+            padding: 1rem;
         }
     }
 </style>

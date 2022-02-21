@@ -4,13 +4,20 @@
         showMod = !showMod;
     };
     export let size = "small";
+    export let customWindow = false;
 </script>
 
 {#if showMod}
     <section>
-        <div class={size}>
-            <slot />
-        </div>
+        {#if !customWindow}
+            <div class="default {size}">
+                <slot />
+            </div>
+        {:else}
+            <div class="custom">
+                <slot name="custom" />
+            </div>
+        {/if}
     </section>
 {/if}
 
@@ -23,12 +30,12 @@
         top: 0;
         left: 0;
         box-sizing: border-box;
-        padding: 2rem;
+        padding: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    div {
+    .default {
         position: relative;
         height: fit-content;
         max-height: 100%;
@@ -42,7 +49,7 @@
     }
 
     @media only screen and (min-width: 1030px) {
-        div {
+        .default {
             padding: 1rem 1rem 16rem 1rem;
         }
         .small {
@@ -51,6 +58,9 @@
         }
         .large {
             min-width: 50%;
+        }
+        .custom {
+            width: 70%;
         }
     }
 </style>

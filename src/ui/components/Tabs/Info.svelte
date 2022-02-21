@@ -14,40 +14,62 @@
     import Title from "./components/Title.svelte";
 
     export let newChar = null;
+    export let mode = "view";
     export let currentSubPageIndex = 0;
 </script>
 
 <div class="info">
     {#if currentSubPageIndex === 0}
+        <Title title="Overview" />
         <div class="paper_head">
             <BuilderInput
                 bind:val={newChar.maxHitPoints}
                 label="HP"
                 placeholder="hp"
                 width="20%"
+                {mode}
             />
             <BuilderInput
                 bind:val={newChar.level}
                 label="Level"
                 placeholder="level"
                 width="20%"
+                {mode}
             />
             <BuilderInput
                 bind:val={newChar.defence}
                 label="AC"
                 placeholder="armour class"
                 width="20%"
+                {mode}
             />
         </div>
-        <div class="picture" />
-        <BuilderInput bind:val={newChar.name} placeholder="Name" width="100%" />
+        <!-- <div class="picture" /> -->
         <div class="add-info">
+            <BuilderInput
+                label="Character Name:"
+                bind:val={newChar.name}
+                placeholder="Name"
+                width="48%"
+                centerLabel={false}
+                {mode}
+            />
+            <BuilderInput
+                label="Player Name:"
+                bind:val={newChar.playerName}
+                placeholder="Name"
+                width="48%"
+                centerLabel={false}
+                {mode}
+            />
             <Title title="Details" />
+
             <BuilderSelect
                 bind:val={newChar.race}
                 label="Race:"
                 placeholder="Race"
                 width="48%"
+                {mode}
             >
                 {#each $selectedWorld.races as race}
                     <option value={race}>{race.name}</option>
@@ -59,6 +81,7 @@
                 label="Gender:"
                 placeholder="Gender"
                 width="48%"
+                {mode}
             >
                 {#each genders as gender}
                     <option value={gender}>{gender}</option>
@@ -70,6 +93,7 @@
                 label="Age:"
                 centerLabel={false}
                 width="48%"
+                {mode}
             />
             <BuilderInput
                 bind:val={newChar.occupation}
@@ -79,6 +103,7 @@
                 width="48%"
                 options={occupations}
                 list="occ"
+                {mode}
             />
             <BuilderInput
                 bind:val={newChar.hairColour}
@@ -88,6 +113,7 @@
                 width="48%"
                 options={hairColours}
                 list="hair"
+                {mode}
             />
             <BuilderInput
                 bind:val={newChar.eyeColour}
@@ -97,10 +123,11 @@
                 width="48%"
                 options={eyeColours}
                 list="eye"
+                {mode}
             />
         </div>
     {:else if currentSubPageIndex === 1}
-        <InfoSub bind:newChar />
+        <InfoSub {mode} bind:newChar />
     {/if}
 </div>
 

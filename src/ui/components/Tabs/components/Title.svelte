@@ -7,7 +7,7 @@
 <style>
     h3 {
         width: 100%;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 500;
         letter-spacing: 4px;
         font-style: italic;
@@ -21,6 +21,7 @@
     @media only screen and (min-width: 1030px) {
         h3 {
             padding: 0.25rem 0;
+            font-size: 1.5rem;
         }
     }
 </style>
