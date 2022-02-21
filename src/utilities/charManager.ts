@@ -1,4 +1,5 @@
 import { get, writable } from 'svelte/store';
+import type { Skill, SubSkill } from './skillsConfig';
 import { selectedWorld } from './worldConfig';
 
 export interface Race {
@@ -12,6 +13,7 @@ export interface Char {
     id: number,
     race: Race | string,
     skills: Skill[],
+    subSkills: SubSkill[] | [],
     profs: string[],
     maxHitPoints: number,
     currentHitPoints: number,
@@ -34,12 +36,14 @@ export interface Char {
 }
 
 export function createNewChar(newID: number): Char {
+    let settings = get(selectedWorld).settings;
     return {
         name: '',
         level: 1,
         id: newID,
         race: '',
-        skills: get(selectedWorld).settings.skillSetFormat.skills,
+        skills: settings.skillSetFormat.skills,
+        subSkills: settings.skillSetFormat.subSkills,
         profs: [],
         maxHitPoints: 5,
         currentHitPoints: 5,

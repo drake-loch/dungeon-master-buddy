@@ -7,6 +7,13 @@
     --col-dark-lighter: hsl(0, 0%, 45%);
     --col-dark-lightest: hsl(0, 0%, 55%);
 
+    --col-light-darkgrey: hsl(0, 0%, 60%);
+    --col-light-grey: hsl(0, 0%, 90%);
+    --col-light-base: hsl(0, 0%, 100%);
+
+    /* Labels */
+    --col-label-red: rgb(255, 208, 208);
+    --col-label-green: rgb(217, 255, 208);
     /* inputs */
     --col-input: hsl(0, 0%, 90%);
     --col-highlight: hsl(229, 100%, 78%);

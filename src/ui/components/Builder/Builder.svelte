@@ -1,17 +1,7 @@
 <script lang="ts">
-    import { selectedWorld } from "/src/utilities/worldConfig";
-
-    import Info from "../Tabs/Info.svelte";
-    import { createNewChar } from "/src/utilities/charManager";
-    import Skills from "../Tabs/Skills.svelte";
-
-    export let tabs = [
-        { name: "Info", isSelected: true, amountOfPages: 2 },
-        { name: "Skills", isSelected: false, amountOfPages: 2 },
-        { name: "Gear", isSelected: false, amountOfPages: 1 },
-        { name: "Spells", isSelected: false, amountOfPages: 1 },
-    ];
-    $: currentSelectedTab = tabs.findIndex((tab) => tab.isSelected);
+    export let editMode = true;
+    export let tabs = [];
+    export let currentSelectedTab = 0;
 
     function selectTab(tab) {
         if (currentSelectedTab !== tab) {
@@ -21,14 +11,12 @@
         }
     }
 
-    let currentSubPageIndex = 0;
-    $: subPageMaxIndex = tabs[currentSelectedTab].amountOfPages - 1;
+    export let currentSubPageIndex = 0;
+    export let subPageMaxIndex = 0;
 
     function selectSubPage(num: number) {
         currentSubPageIndex += num;
     }
-
-    let newChar = createNewChar($selectedWorld.allNPCs.length);
 </script>
 
 <section>
@@ -45,9 +33,13 @@
         </div>
         <div class="content">
             {#if currentSelectedTab === 0}
-                <Info {currentSubPageIndex} bind:newChar />
+                <slot name="tab-1" />
             {:else if currentSelectedTab === 1}
-                <Skills bind:newChar />
+                <slot name="tab-2" />
+            {:else if currentSelectedTab === 2}
+                <slot name="tab-3" />
+            {:else if currentSelectedTab === 3}
+                <slot name="tab-4" />
             {/if}
             <div class="nav2 {subPageMaxIndex === 0 ? 'hidden' : ''}">
                 <button
@@ -80,7 +72,7 @@
         border-bottom: 2px solid rgba(0, 0, 0, 0.65);
         /* box-sizing: border-box; */
         overflow: hidden;
-        padding-bottom: 2rem;
+        /* padding-bottom: 2rem; */
     }
     .tabs {
         width: 100%;
@@ -97,6 +89,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
     }
 
     .stat {
@@ -112,6 +105,7 @@
         /* background-color: var(--col-dark-dark); */
         width: 100%;
         height: 100%;
+        overflow-y: auto;
     }
     .name {
         width: fit-content;
@@ -129,6 +123,7 @@
         justify-content: center;
         align-items: center;
         border-top: 1px solid var(--col-dark-light);
+        background-color: var(--col-dark-lightest);
     }
     .nav2 p {
         padding: 0 1rem;
@@ -163,5 +158,22 @@
         .nav2 {
             height: 3rem;
         }
+    }
+
+    /* Scroll Bar */
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: red;
+        border-radius: 10px;
     }
 </style>

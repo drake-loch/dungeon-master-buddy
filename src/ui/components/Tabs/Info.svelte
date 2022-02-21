@@ -143,7 +143,6 @@
             margin: 2rem auto;
         }
     }
-
     /* Scroll Bar */
     ::-webkit-scrollbar {
         width: 2px;

@@ -6,6 +6,9 @@
 
     import { onMount } from "svelte";
     import Builder from "/src/ui/components/Builder/Builder.svelte";
+    import { createNewChar } from "/src/utilities/charManager";
+    import Info from "/src/ui/components/Tabs/Info.svelte";
+    import Skills from "/src/ui/components/Tabs/Skills.svelte";
 
     onMount(async () => {
         if ($selectedWorld) {
@@ -24,8 +27,34 @@
             ];
         }
     });
+
+    export let tabs = [
+        { name: "Info", isSelected: true, amountOfPages: 2 },
+        { name: "Skills", isSelected: false, amountOfPages: 1 },
+        { name: "Gear", isSelected: false, amountOfPages: 1 },
+        { name: "Spells", isSelected: false, amountOfPages: 1 },
+    ];
+    $: currentSelectedTab = tabs.findIndex((tab) => tab.isSelected);
+    $: subPageMaxIndex = tabs[currentSelectedTab].amountOfPages - 1;
+    let newChar = createNewChar($selectedWorld.allNPCs.length);
+    let editMode = true;
+    let currentSubPageIndex = 0;
 </script>
 
 <Breadcrumb />
 
-<Builder />
+<Builder
+    bind:tabs
+    {newChar}
+    {editMode}
+    bind:subPageMaxIndex
+    bind:currentSelectedTab
+    bind:currentSubPageIndex
+>
+    <span slot="tab-1">
+        <Info {currentSubPageIndex} bind:currentSelectedTab bind:newChar />
+    </span>
+    <span slot="tab-2">
+        <Skills bind:newChar />
+    </span>
+</Builder>
