@@ -35,8 +35,8 @@ export interface Char {
     languages: string,
 }
 export interface NPC extends Char {
+    isSimple: boolean,
     quests: [],
-    languages: string,
 }
 export interface PC extends Char {
     playerName: string,
@@ -72,6 +72,38 @@ export function createNewChar(newID: number): PC {
         },
         languages: '',
         playerName: '',
+
+    }
+}
+export function createNewNPC(newID: number): NPC {
+    let settings = get(selectedWorld).settings;
+    return {
+        name: '',
+        level: 1,
+        id: newID,
+        race: '',
+        skills: deepCopyFunction(settings.skillSetFormat.skills),
+        subSkills: deepCopyFunction(settings.skillSetFormat.subSkills),
+        profs: [],
+        maxHitPoints: 5,
+        currentHitPoints: 5,
+        defence: 0,
+        desc: '',
+        age: '',
+        hairColour: '',
+        eyeColour: '',
+        gender: '',
+        occupation: '',
+        location: {
+            continent: '',
+            region: '',
+            settlement: '',
+            wanderer: false,
+        },
+        languages: '',
+        isSimple: false,
+        quests: [],
+
 
     }
 }

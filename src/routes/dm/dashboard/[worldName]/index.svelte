@@ -72,7 +72,7 @@
                 options={[
                     {
                         name: "View List",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/npc-list`,
+                        nav: `/dm/dashboard/${$selectedWorld.name}/npcs`,
                     },
                     {
                         name: "Create NPC",

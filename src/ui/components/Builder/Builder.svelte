@@ -16,6 +16,9 @@
     function selectSubPage(num: number) {
         currentSubPageIndex += num;
     }
+    $: if (tabs.length < 4) {
+        tabs.push({ name: "", isSelected: false, amountOfPages: 0 });
+    }
 </script>
 
 <section>
