@@ -157,7 +157,25 @@
         }
         .content {
             width: 100%;
-            padding: 1rem;
+            padding: 0.5rem;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
+    }
+    /* Scroll Bar */
+    ::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: red;
+        border-radius: 10px;
     }
 </style>

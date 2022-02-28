@@ -16,23 +16,20 @@
     function selectSubPage(num: number) {
         currentSubPageIndex += num;
     }
-    $: if (tabs.length < 4) {
-        tabs.push({ name: "", isSelected: false, amountOfPages: 0 });
-    }
 </script>
 
 <section>
+    <div class="tabs">
+        {#each tabs as tab, index}
+            <p
+                class={`tab ${tab.isSelected ? "selected" : ""}`}
+                on:click={() => selectTab(index)}
+            >
+                {tab.name}
+            </p>
+        {/each}
+    </div>
     <div class="paper">
-        <div class="tabs">
-            {#each tabs as tab, index}
-                <p
-                    class={`tab ${tab.isSelected ? "selected" : ""}`}
-                    on:click={() => selectTab(index)}
-                >
-                    {tab.name}
-                </p>
-            {/each}
-        </div>
         <div class="buttons">
             <slot name="buttons" />
         </div>
@@ -73,7 +70,7 @@
         width: 100%;
         height: 75vh;
         background-color: var(--col-dark-lightest);
-        border-radius: 15px;
+        /* border-radius: 15px; */
         border-bottom: 2px solid rgba(0, 0, 0, 0.65);
         /* box-sizing: border-box; */
         overflow: hidden;
@@ -84,6 +81,7 @@
         height: 3.5rem;
         display: flex;
         color: white;
+        background-color: #2f2f2f;
     }
     .tab:hover {
         background-color: var(--shade-light-min);
@@ -95,6 +93,8 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        border-right: 1px solid var(--col-dark-light);
+        box-sizing: border-box;
     }
 
     .stat {
@@ -158,21 +158,29 @@
         padding: 0 1rem;
         align-items: center;
         box-sizing: border-box;
-        border-bottom: 1px solid var(--col-dark-light);
+        /* border-bottom: 1px solid var(--col-dark-light); */
+
         background-color: var(--col-dark-lightest);
     }
     @media only screen and (min-width: 1030px) {
         section {
-            display: flex;
-            justify-content: center;
-            padding: 2rem 0 0 0;
+            padding: 0;
         }
         .paper {
-            width: 50%;
+            width: 100%;
+            height: 80vh;
+            border-radius: 0;
+            border: none;
         }
         .tabs {
-            height: 4rem;
+            height: 3rem;
+            background-color: none;
+            font-size: 1.5rem;
         }
+        .tab:last-child {
+            border-right: 1px solid var(--col-dark-light);
+        }
+
         .nav2 {
             height: 3rem;
         }

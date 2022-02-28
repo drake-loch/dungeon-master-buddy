@@ -97,7 +97,7 @@
             />
             <BuilderInput
                 bind:val={newChar.occupation}
-                label="Occupation:"
+                label="Class:"
                 centerLabel={false}
                 placeholder="Class"
                 width="48%"
@@ -144,13 +144,16 @@
         width: 100%;
         margin-bottom: 1rem;
     }
+    /* 
+    later feature
     .picture {
         background-color: var(--col-dark-lighter);
         width: 5rem;
         height: 5rem;
         border-radius: 100%;
         margin: 0.5rem auto;
-    }
+    } 
+    */
     .add-info {
         display: flex;
         justify-content: space-between;
@@ -162,13 +165,18 @@
     }
     @media only screen and (min-width: 1030px) {
         .info {
-            padding: 1rem 2rem;
+            padding: 0;
+            width: 50%;
+            margin: 0 auto;
         }
+        /* 
+        later feature
         .picture {
             width: 10rem;
             height: 10rem;
             margin: 2rem auto;
-        }
+        } 
+        */
     }
     /* Scroll Bar */
     ::-webkit-scrollbar {

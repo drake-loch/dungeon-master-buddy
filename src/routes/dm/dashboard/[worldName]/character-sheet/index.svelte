@@ -15,7 +15,7 @@
             $breadcrumb.currentType = "Create & Edit";
             $breadcrumb.path = [
                 {
-                    url: `/dm/dashboard/builder`,
+                    url: `/dm/dashboard/${$selectedWorld.name}/builder`,
                     name: "Builder",
                 },
                 {

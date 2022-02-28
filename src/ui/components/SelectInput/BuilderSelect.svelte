@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
     export let label = "";
     export let val = "";
     export let placeholder = "";
-    export let width = "100%";
+    export let width: string = "100%";
     export let mode = "view";
 </script>
 

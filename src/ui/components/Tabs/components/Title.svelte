@@ -13,8 +13,8 @@
         font-style: italic;
         color: hsl(0, 0%, 30%);
         background-image: linear-gradient(
-            rgba(0, 0, 0, 0.01),
-            rgba(0, 0, 0, 0.02)
+            var(--col-dark-lightest),
+            rgba(0, 0, 0, 0.04)
         );
         /* border-radius: 10px; */
     }

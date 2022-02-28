@@ -224,7 +224,9 @@
     }
     @media only screen and (min-width: 1030px) {
         .info {
-            padding: 1rem 2rem;
+            padding: 1rem 1rem;
+            width: 50%;
+            margin: 0 auto;
         }
         .picture {
             width: 10rem;

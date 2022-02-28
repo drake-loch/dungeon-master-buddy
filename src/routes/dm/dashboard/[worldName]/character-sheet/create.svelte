@@ -17,11 +17,11 @@
             $breadcrumb.currentType = "Create";
             $breadcrumb.path = [
                 {
-                    url: `/dm/dashboard/builder`,
-                    name: "Builder",
+                    url: `/dm/dashboard/${$selectedWorld.name}/character-sheet`,
+                    name: "Character Sheet",
                 },
                 {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
+                    url: `/dm/dashboard/${$selectedWorld.name}/builder`,
                     name: $selectedWorld.name,
                 },
             ];

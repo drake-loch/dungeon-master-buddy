@@ -27,15 +27,15 @@
 
 <style>
     button {
-        border: 1px solid rgba(0, 0, 0, 1);
-        padding: 0.25rem 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        padding: 0.35rem 0.5rem;
         font-size: 0.75rem;
         background-color: var(--col-dark-lighter);
         border-radius: 0.15rem;
     }
     @media only screen and (min-width: 1030px) {
         button {
-            padding: 0.25rem 0.5rem;
+            padding: 0.5rem 1rem;
             font-size: 1rem;
             width: fit-content;
         }
