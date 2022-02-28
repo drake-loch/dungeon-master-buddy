@@ -8,6 +8,10 @@
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
+    import { user } from "/src/stores";
+    import { DeleteRaceFromWorld } from "/src/utilities/charManager";
+    import type { Race } from "/src/utilities/charManager";
+    // import { DeleteRaceFromWorld } from "/src/utilities/charManager";
 
     onMount(async () => {
         if ($selectedWorld) {
@@ -23,7 +27,7 @@
         }
     });
 
-    let selectedRace: undefined | string = undefined;
+    let selectedRace: undefined | Race = undefined;
     let toggleMod;
 </script>
 
@@ -33,8 +37,21 @@
 
 <VerticleList>
     {#if selectedRace}
-        <BigButton type="good" func={null}>Select Race</BigButton>
-        <BigButton type="warning" func={null}>Delete Race</BigButton>
+        <BigButton
+            type="good"
+            func={() => toggleMod.toggleMod()}
+            nav={`/dm/dashboard/${$selectedWorld.name}/races/${selectedRace.name}`}
+            >Select Race</BigButton
+        >
+        <BigButton
+            type="warning"
+            func={() => {
+                $selectedWorld = DeleteRaceFromWorld($user, selectedRace);
+                selectedRace = undefined;
+            }}>Delete Race</BigButton
+        >
     {/if}
-    <BigButton func={() => toggleMod.toggleMod()}>Create Race</BigButton>
+    <BigButton nav={`/dm/dashboard/${$selectedWorld.name}/races/New Race`}
+        >Create Race</BigButton
+    >
 </VerticleList>

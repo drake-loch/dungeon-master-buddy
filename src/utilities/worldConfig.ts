@@ -4,9 +4,8 @@ import { getMyWorlds, setWorld, UpdateWorldsInDB } from "./firebase";
 import { AddDefaultSkills } from "./skillsConfig";
 import { get } from "svelte/store";
 import type { Continent } from "./continentsConfig";
-import type { Province } from "./provinceConfig";
-import type { Settlement } from "./settlementConfig";
 import type { Creature, NPC, PC, Race } from './charManager';
+import { createNewRace } from './charManager';
 
 export interface World {
     name: string,
@@ -34,6 +33,12 @@ export const selectedWorld = writable<World>()
 
 
 export function CreateNewWorld(name: string, user: User, skillset?) {
+    const human = createNewRace();
+    human.name = 'Human';
+    human.info = 'It you.';
+    human.skillBonus = [];
+
+
     const newWorld: World = {
         name: name,
         creatorID: user.uid,
@@ -47,7 +52,7 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
         orgs: [],
         religions: [],
         campaigns: [],
-        races: [{ name: 'human', info: 'It you', skillBonus: [] }],
+        races: [human],
         species: [],
         settings: {
             skillSetFormat: skillset ? skillset : AddDefaultSkills()[0],

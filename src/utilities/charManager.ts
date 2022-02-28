@@ -1,13 +1,24 @@
 import type { User } from 'firebase/auth';
 import { get, writable } from 'svelte/store';
 import type { Skill, SubSkill } from './skillsConfig';
-import { selectedWorld, UpdateWorld } from './worldConfig';
+import { selectedWorld, UpdateWorld, worlds } from './worldConfig';
 import type { World } from './worldConfig';
+import { UpdateWorldsInDB } from './firebase';
 
 export interface Race {
     name: string,
+    id: number,
     skillBonus: [],
     info: string,
+    age: string,
+    alignment: string,
+    size: string,
+    speed: string,
+    extras: [],
+    maleNames: string[],
+    femaleNames: string[],
+    neutralNames: string[],
+    familyNames: string[],
 }
 export interface Char {
     name: string,
@@ -121,7 +132,6 @@ export function updatePCInDB(user: User, world: World, char: PC): World {
     return world;
 }
 
-
 export const hairColours = [
     "white",
     "blonde",
@@ -145,7 +155,6 @@ export const eyeColours = [
     "gold",
     "green",
 ];
-
 //plz don't cancel me, just some predefined for randomization
 export const genders = ["male", "female", "non-binary"];
 
@@ -191,7 +200,6 @@ function getSortedOcc(): string[] {
     return arr;
 }
 
-
 const deepCopyFunction = (inObject) => {
     let outObject, value, key
 
@@ -212,4 +220,39 @@ const deepCopyFunction = (inObject) => {
     return outObject
 }
 
+
+
+export function createNewRace(): Race {
+    const world = get(selectedWorld);
+    return {
+        name: '',
+        id: world?.races.length | 0,
+        skillBonus: [],
+        info: '',
+        age: '',
+        alignment: '',
+        size: '',
+        speed: '',
+        extras: [],
+        maleNames: [],
+        femaleNames: [],
+        neutralNames: [],
+        familyNames: [],
+    }
+}
+
+export function addRaceToWorld(user, race: Race) {
+    const world = get(selectedWorld);
+    world.races.push(race);
+    UpdateWorld(user, world);
+    return world
+}
+export function DeleteRaceFromWorld(user, race: Race) {
+    const world = get(selectedWorld);
+    //find race in world and remove it and update db
+    world.races.splice(race.id, 1);
+    UpdateWorld(user, world);
+
+    return world
+}
 

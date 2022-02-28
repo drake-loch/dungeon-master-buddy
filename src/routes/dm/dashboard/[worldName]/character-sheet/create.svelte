@@ -1,5 +1,4 @@
 <script>
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
 
     import { selectedWorld } from "/src/utilities/worldConfig";
@@ -12,7 +11,6 @@
 
     onMount(async () => {
         if ($selectedWorld) {
-            //do stuff
             $breadcrumb.current = "Character";
             $breadcrumb.currentType = "Create";
             $breadcrumb.path = [
