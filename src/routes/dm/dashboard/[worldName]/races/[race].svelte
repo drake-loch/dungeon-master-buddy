@@ -56,7 +56,7 @@
     });
 
     function createRace() {
-        if (newRace.name !== "") {
+        if (newRace.name !== "" && newRace.name !== "New Race") {
             $selectedWorld = addRaceToWorld($user, newRace);
             goto(`/dm/dashboard/${$selectedWorld.name}/races`);
         }
