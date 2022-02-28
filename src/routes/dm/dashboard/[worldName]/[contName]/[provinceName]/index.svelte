@@ -1,17 +1,11 @@
 <script>
     // @ts-ignore
     import { selectedWorld } from "/src/utilities/worldConfig";
-    import { onMount } from "svelte";
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
-    import { page } from "$app/stores";
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
     import { selectedProvince } from "/src/utilities/provinceConfig";
-
-    export let wName = $page.params.worldName;
-    export let cName = $page.params.contName;
 
     $: if ($selectedWorld && $selectedContinent && $selectedProvince) {
         $breadcrumb.current = $selectedProvince.name;
@@ -31,7 +25,6 @@
 
 {#if $selectedWorld && $selectedContinent && $selectedProvince}
     <section>
-        <Breadcrumb />
         <PanelHolder>
             <CoolPanel
                 title="Settlements"

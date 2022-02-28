@@ -1,16 +1,12 @@
 <script>
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
-
     import { selectedWorld } from "/src/utilities/worldConfig";
-
     import { onMount } from "svelte";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
 
     onMount(async () => {
         if ($selectedWorld) {
-            //do stuff
             $breadcrumb.current = "Character Sheet";
             $breadcrumb.currentType = "Create & Edit";
             $breadcrumb.path = [
@@ -26,8 +22,6 @@
         }
     });
 </script>
-
-<Breadcrumb />
 
 {#if $selectedWorld}
     <div>

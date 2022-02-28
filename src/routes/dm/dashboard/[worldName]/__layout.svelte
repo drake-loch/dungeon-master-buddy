@@ -17,12 +17,10 @@
     import { onMount } from "svelte";
     import { user } from "/src/stores";
     import { GetWorldsFromDB } from "/src/utilities/worldConfig";
-    import { FindItemByName } from "/src/utilities/worldConfig";
     import { worlds } from "/src/utilities/worldConfig";
+    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
 
     export let worldName;
-
-    // let collapseMenu = false;
     let size = "";
     function toggleCollapse() {
         navExpanded.set(!$navExpanded);
@@ -89,6 +87,8 @@
             </div>
         </nav>
         <main class="content">
+            <Breadcrumb />
+
             <slot />
         </main>
     </section>

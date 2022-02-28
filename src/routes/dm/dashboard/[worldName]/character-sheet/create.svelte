@@ -22,6 +22,10 @@
                 },
                 {
                     url: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                    name: "Builder",
+                },
+                {
+                    url: `/dm/dashboard/${$selectedWorld.name}/builder`,
                     name: $selectedWorld.name,
                 },
             ];
@@ -30,5 +34,4 @@
     });
 </script>
 
-<Breadcrumb />
 <CharBuilder mode="create" bind:newChar />

@@ -1,22 +1,16 @@
 <script>
     import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
-
     import { onMount } from "svelte";
-
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
-
     import { selectedWorld } from "/src/utilities/worldConfig";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
     import CharBuilder from "/src/ui/components/Builder/CharBuilder.svelte";
-    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
     import BuilderButton from "/src/ui/components/Tabs/components/BuilderButton.svelte";
 
     onMount(async () => {
         if ($selectedWorld) {
-            //do stuff
             $breadcrumb.current = "Characters";
             $breadcrumb.currentType = "View";
             $breadcrumb.path = [
@@ -32,7 +26,6 @@
     let toggleMod;
 </script>
 
-<Breadcrumb />
 <ModWindow customWindow={true} bind:this={toggleMod}>
     <span slot="custom">
         <CharBuilder mode="view" bind:newChar={selectedChar}>

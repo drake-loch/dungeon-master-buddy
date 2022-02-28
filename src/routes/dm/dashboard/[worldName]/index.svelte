@@ -6,16 +6,12 @@
         worlds,
     } from "/src/utilities/worldConfig";
     import { onMount } from "svelte";
-    import { goto } from "$app/navigation";
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
-    import { page } from "$app/stores";
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
 
     onMount(async () => {
         if ($selectedWorld) {
-            //do stuff
             $breadcrumb.current = $selectedWorld.name;
             $breadcrumb.currentType = "world";
             $breadcrumb.path = [];
@@ -25,7 +21,6 @@
 
 {#if $selectedWorld}
     <section>
-        <Breadcrumb />
         <PanelHolder>
             <CoolPanel
                 title="Continents"
@@ -50,28 +45,32 @@
                 options={[
                     {
                         name: "Build Character",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                        nav: `/dm/dashboard/${$selectedWorld.name}/character-sheet`,
                     },
                     {
-                        name: "Create NPC",
+                        name: "Build NPC",
                         nav: `/dm/dashboard/${$selectedWorld.name}/builder/npc`,
                     },
                     {
-                        name: "Create PC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/pc`,
-                    },
-                    {
-                        name: "Create Creature",
+                        name: "Build Creature",
                         nav: `/dm/dashboard/${$selectedWorld.name}/builder/creature`,
                     },
                 ]}
             />
-            <CoolPanel title="Races" />
+            <CoolPanel
+                title="Races"
+                options={[
+                    {
+                        name: "View Races",
+                        nav: `/dm/dashboard/${$selectedWorld.name}/races`,
+                    },
+                ]}
+            />
             <CoolPanel
                 title="NPCs"
                 options={[
                     {
-                        name: "View List",
+                        name: "All NPCs",
                         nav: `/dm/dashboard/${$selectedWorld.name}/npcs`,
                     },
                     {

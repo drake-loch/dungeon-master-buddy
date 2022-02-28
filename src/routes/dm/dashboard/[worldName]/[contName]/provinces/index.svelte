@@ -3,8 +3,6 @@
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
-    import { onMount } from "svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
     import { selectedProvince } from "/src/utilities/provinceConfig";
@@ -36,7 +34,6 @@
 
 {#if $selectedContinent && selectedProvince}
     <section>
-        <Breadcrumb />
         <h3>Provinces</h3>
         <div>
             <ListSelector

@@ -1,5 +1,4 @@
 <script>
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedWorld } from "/src/utilities/worldConfig";
     import { onMount } from "svelte";
@@ -27,5 +26,4 @@
     let newChar = null;
 </script>
 
-<Breadcrumb />
 <NpcBuilder mode="create" bind:newChar />
