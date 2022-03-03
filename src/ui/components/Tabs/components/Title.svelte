@@ -8,6 +8,7 @@
     h3 {
         width: 100%;
         font-size: 1.25rem;
+        margin: 0.5rem 0;
         font-weight: 500;
         letter-spacing: 4px;
         font-style: italic;

@@ -40,13 +40,6 @@
                 {mode}
             />
             <BuilderInput
-                bind:val={newChar.level}
-                label="Level"
-                placeholder="level"
-                width="20%"
-                {mode}
-            />
-            <BuilderInput
                 bind:val={newChar.defence}
                 label="AC"
                 placeholder="armour class"
@@ -60,7 +53,7 @@
                 label="Character Name:"
                 bind:val={newChar.name}
                 placeholder="Name"
-                width="48%"
+                width="100%"
                 centerLabel={false}
                 {mode}
             />
@@ -187,6 +180,14 @@
                 label="Languages:"
                 centerLabel={false}
                 width="48%"
+                {mode}
+            />
+            <BuilderTextArea
+                bind:val={newChar.extraNotes}
+                placeholder=" 6'5 tall, 5'10 wide, and a little short."
+                label="Extra Notes:"
+                centerLabel={false}
+                width="100%"
                 {mode}
             />
         </div>

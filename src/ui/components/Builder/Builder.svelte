@@ -62,7 +62,7 @@
     section {
         width: 100%;
         box-sizing: border-box;
-        padding: 0 1rem 5rem 1rem;
+        /* padding: 0 1rem 5rem 1rem; */
         box-sizing: border-box;
     }
     .paper {

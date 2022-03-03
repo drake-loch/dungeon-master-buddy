@@ -48,6 +48,7 @@ export interface Char {
 export interface NPC extends Char {
     isSimple: boolean,
     quests: [],
+    extraNotes: string,
 }
 export interface PC extends Char {
     playerName: string,
@@ -114,13 +115,14 @@ export function createNewNPC(newID: number): NPC {
         languages: '',
         isSimple: false,
         quests: [],
+        extraNotes: '',
 
 
     }
 }
 
 export function addChartoWorld(user: User, world: World, newChar: Char): World {
-    world.allPCs.push(newChar);
+    world.allPCs.push(newChar as PC);
     UpdateWorld(user, world);
     return world;
 }
@@ -128,6 +130,20 @@ export function addChartoWorld(user: User, world: World, newChar: Char): World {
 //update character in world and update world in db
 export function updatePCInDB(user: User, world: World, char: PC): World {
     world.allPCs[char.id] = char;
+    UpdateWorld(user, world);
+    return world;
+}
+
+
+export function addNPCtoWorld(user: User, world: World, newChar: Char): World {
+    world.allNPCs.push(newChar as NPC);
+    UpdateWorld(user, world);
+    return world;
+}
+
+//update NPC in world and update world in db
+export function updateNPCInDB(user: User, world: World, char: NPC): World {
+    world.allNPCs[char.id] = char;
     UpdateWorld(user, world);
     return world;
 }
@@ -170,7 +186,7 @@ function getSortedOcc(): string[] {
         "Squire",
         "Knight",
         "Guard",
-        "Royality",
+        "Royalty",
         "Nobleperson",
         "Tax Collector",
         "Sellsword",
