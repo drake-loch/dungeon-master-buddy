@@ -17,7 +17,7 @@
             $breadcrumb.currentType = "View & Create";
             $breadcrumb.path = [
                 {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
+                    url: `/dm/worlds/${$selectedWorld.name}`,
                     name: $selectedWorld.name,
                 },
             ];
@@ -42,7 +42,7 @@
                 <BigButton
                     type="good"
                     func={null}
-                    nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}"
+                    nav="/dm/worlds/{$selectedWorld.name}/{$selectedContinent.name}"
                 >
                     Select Continent</BigButton
                 >

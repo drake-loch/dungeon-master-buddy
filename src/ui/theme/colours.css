@@ -23,6 +23,8 @@
     --button-warning-highlight:hsl(0, 100%, 60%);
     --button-good:rgb(0, 189, 25);
     --button-good-disabled:hsl(128, 30%, 20%);
+    --button-tool:hsl(212, 100%, 47%);
+    --button-tool-disabled:hsl(212, 30%, 20%);
 
     /* font */
     --col-brand:rgb(255, 51, 51);

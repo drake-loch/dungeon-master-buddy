@@ -26,25 +26,11 @@
         navExpanded.set(!$navExpanded);
     }
     $: size = $navExpanded ? "col" : "";
-
-    onMount(async () => {
-        if (!$selectedWorld && $user) {
-            console.log("No world selected");
-            if (JSON.parse(sessionStorage.getItem("worlds")).length > 0) {
-                console.log("Worlds in session store");
-                $worlds = JSON.parse(sessionStorage.getItem("worlds"));
-                $selectedWorld = $worlds.find((w) => w.name === worldName);
-            } else {
-                $worlds = await GetWorldsFromDB($user);
-                $selectedWorld = $worlds.find((w) => w.name === worldName);
-            }
-        }
-    });
 </script>
 
-{#if $selectedWorld}
-    {#if $navExpanded}
-        <div transition:slide class="nav-menu">
+{#if $navExpanded}
+    <div transition:slide class="nav-menu">
+        {#if $selectedWorld}
             <NavButton
                 isMobile={true}
                 text="Dashboard"
@@ -55,19 +41,22 @@
                 text="Builder"
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
             />
-            <NavButton isMobile={true} nav="/dm" text="Worlds" />
-            <NavButton
-                isMobile={true}
-                text="Logout"
-                func={LogOff}
-                type="warning end"
-            />
-        </div>
-    {/if}
+        {/if}
+        <NavButton isMobile={true} nav="/dm" text="Worlds" />
+        <NavButton
+            isMobile={true}
+            text="Logout"
+            func={LogOff}
+            type="warning end"
+        />
+    </div>
+{/if}
 
-    <section>
-        <nav class={size + " deskNav"}>
-            <NavButton func={toggleCollapse} text="> Collapse <" />
+<section>
+    <nav class={size + " deskNav"}>
+        <NavButton func={toggleCollapse} text="> Collapse <" />
+        <NavButton nav="/dm" text="Home" />
+        {#if $selectedWorld}
             <NavButton
                 nav="/dm/dashboard/{$selectedWorld.name}"
                 text="Dashboard"
@@ -77,22 +66,22 @@
                 text="Builder"
             />
             <NavButton nav="/dm" text="Worlds" />
-            <NavButton func={LogOff} type="warning end" text="Logout" />
-        </nav>
-        <nav class="navMob">
-            <div class="burg-icon" on:click={() => toggleCollapse()}>
-                <div class="line" />
-                <div class="line" />
-                <div class="line" />
-            </div>
-        </nav>
-        <main class="content">
-            <Breadcrumb />
+        {/if}
+        <NavButton func={LogOff} type="warning end" text="Logout" />
+    </nav>
+    <nav class="navMob">
+        <div class="burg-icon" on:click={() => toggleCollapse()}>
+            <div class="line" />
+            <div class="line" />
+            <div class="line" />
+        </div>
+    </nav>
+    <main class="content">
+        <Breadcrumb />
 
-            <slot />
-        </main>
-    </section>
-{/if}
+        <slot />
+    </main>
+</section>
 
 <style>
     .nav-menu {
@@ -131,6 +120,7 @@
     }
     .content {
         padding: 0 0.75rem;
+        padding-bottom: 1rem;
     }
 
     @media only screen and (min-width: 1030px) {

@@ -20,7 +20,8 @@
                 on:click={() => selectItem(item)}
                 class={selectedItem === item ? "selected" : ""}
             >
-                {item.name}
+                {item.name ? item.name : ""}
+                {item.title ? item.title : ""}
             </p>
         {/each}
     {:else}
@@ -40,6 +41,7 @@
         box-sizing: border-box;
         flex-direction: column;
         align-items: center;
+        color: black;
     }
     p {
         width: 100%;

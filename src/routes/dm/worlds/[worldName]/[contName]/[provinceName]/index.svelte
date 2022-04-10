@@ -3,38 +3,40 @@
     import { selectedWorld } from "/src/utilities/worldConfig";
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
-    import { page } from "$app/stores";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
+    import { selectedProvince } from "/src/utilities/provinceConfig";
 
-    export let contName = $page.params.contName;
-
-    $: if ($selectedWorld && $selectedContinent) {
-        $breadcrumb.current = $selectedContinent.name;
-        $breadcrumb.currentType = "continent";
+    $: if ($selectedWorld && $selectedContinent && $selectedProvince) {
+        $breadcrumb.current = $selectedProvince.name;
+        $breadcrumb.currentType = "Province";
         $breadcrumb.path = [
             {
-                url: `/dm/dashboard/${$selectedWorld.name}`,
+                url: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}`,
+                name: $selectedContinent.name,
+            },
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
                 name: $selectedWorld.name,
             },
         ];
     }
 </script>
 
-{#if $selectedWorld && $selectedContinent}
+{#if $selectedWorld && $selectedContinent && $selectedProvince}
     <section>
         <PanelHolder>
             <CoolPanel
-                title="Provinces"
-                nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}/provinces"
+                title="Settlements"
+                nav="/dm/worlds/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince}/settlements"
                 options={[
                     {
-                        name: "Manage Provinces",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/provinces`,
+                        name: "Manage Settlements",
+                        nav: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/settlements`,
                     },
                     {
                         name: "Manage continents",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/continents`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/continents`,
                     },
                 ]}
             />
@@ -43,11 +45,11 @@
                 options={[
                     {
                         name: "View List",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/npc-list`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/npc-list`,
                     },
                     {
                         name: "Create NPC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/builder`,
                     },
                 ]}
             />

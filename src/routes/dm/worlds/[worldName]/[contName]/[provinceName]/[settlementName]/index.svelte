@@ -18,15 +18,15 @@
         $breadcrumb.currentType = "Settlement";
         $breadcrumb.path = [
             {
-                url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}`,
+                url: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}`,
                 name: $selectedProvince.name,
             },
             {
-                url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
+                url: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}`,
                 name: $selectedContinent.name,
             },
             {
-                url: `/dm/dashboard/${$selectedWorld.name}`,
+                url: `/dm/worlds/${$selectedWorld.name}`,
                 name: $selectedWorld.name,
             },
         ];
@@ -38,15 +38,15 @@
         <PanelHolder>
             <CoolPanel
                 title="Shops"
-                nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince}/{$selectedSettlement.name}/shops"
+                nav="/dm/worlds/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince}/{$selectedSettlement.name}/shops"
                 options={[
                     {
                         name: "Manage Shops",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/${$selectedSettlement.name}/shops`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/${$selectedSettlement.name}/shops`,
                     },
                     {
                         name: "Create Shop",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/${$selectedSettlement.name}/shops/create`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/${$selectedSettlement.name}/shops/create`,
                     },
                 ]}
             />
@@ -55,11 +55,11 @@
                 options={[
                     {
                         name: "View List",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/npc-list`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/npc-list`,
                     },
                     {
                         name: "Create NPC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/builder`,
                     },
                 ]}
             />

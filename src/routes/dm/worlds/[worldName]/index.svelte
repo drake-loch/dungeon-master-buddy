@@ -23,20 +23,29 @@
     <section>
         <PanelHolder>
             <CoolPanel
+                title="Campaigns"
+                options={[
+                    {
+                        name: "Manage Campaigns",
+                        nav: `/dm/campaigns`,
+                    },
+                ]}
+            />
+            <CoolPanel
                 title="Continents"
-                nav="/dm/dashboard/{$selectedWorld.name}/continents"
+                nav="/dm/worlds/{$selectedWorld.name}/continents"
                 options={[
                     {
                         name: "Manage continents",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/continents`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/continents`,
                     },
                     {
                         name: "View Provinces",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/provinces-list`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/provinces-list`,
                     },
                     {
                         name: "View Settlements",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/settlements-list`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/settlements-list`,
                     },
                 ]}
             />
@@ -45,15 +54,15 @@
                 options={[
                     {
                         name: "Build Character",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/character-sheet`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/character-sheet`,
                     },
                     {
                         name: "Build NPC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/npc`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/builder/npc`,
                     },
                     {
                         name: "Build Creature",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder/creature`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/builder/creature`,
                     },
                 ]}
             />
@@ -62,7 +71,7 @@
                 options={[
                     {
                         name: "View Races",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/races`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/races`,
                     },
                 ]}
             />
@@ -71,11 +80,11 @@
                 options={[
                     {
                         name: "All NPCs",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/npcs`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/npcs`,
                     },
                     {
                         name: "Create NPC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/builder`,
                     },
                 ]}
             />
@@ -84,11 +93,11 @@
                 options={[
                     {
                         name: "View List",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/characters`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/characters`,
                     },
                     {
                         name: "Create PC",
-                        nav: `/dm/dashboard/${$selectedWorld.name}/builder`,
+                        nav: `/dm/worlds/${$selectedWorld.name}/builder`,
                     },
                 ]}
             />
@@ -96,7 +105,6 @@
             <CoolPanel title="Religions" />
             <CoolPanel title="Organizations" />
             <CoolPanel title="Factions" />
-            <CoolPanel title="Campaigns" />
             <CoolPanel title="Lore" />
             <CoolPanel title="Items" />
             <CoolPanel title="Settings" />

@@ -10,22 +10,55 @@
         worlds,
         selectedWorld,
     } from "/src/utilities/worldConfig";
-    import { user, isLoggedIn } from "../../stores/index";
-    import { goto } from "$app/navigation";
+    import CreateWorld from "/src/ui/components/ModWindow/ModWindows/CreateWorld.svelte";
+    import { user } from "/src/stores";
 
-    onMount(async () => {});
+    let selectedW = null;
+    let toggleMod;
+
+    onMount(async () => {
+        updateWorlds();
+        sessionStorage.setItem("worlds", JSON.stringify($worlds));
+    });
+    async function updateWorlds() {
+        $worlds = await GetWorldsFromDB($user);
+    }
+    function deleteWorld() {
+        DeleteWorld(selectedWorld, $user);
+        $selectedWorld = null;
+        selectedW = null;
+    }
+    function selectWorld() {
+        $selectedWorld = selectedW;
+    }
 </script>
+
+<ModWindow bind:this={toggleMod}>
+    <CreateWorld {updateWorlds} toggleMod={toggleMod.toggleMod} />
+</ModWindow>
 
 <div class="page">
     <h1>Welcome, <br /><span>Dungeon Master!</span></h1>
-    <h2>Pleasae Select a Service</h2>
+    <h2>Please select a world</h2>
     <div class="content">
+        <ListSelector bind:selectedItem={selectedW} items={$worlds} />
         <div class="margin">
             <VerticleList>
-                <BigButton func={() => goto(`/dm/worlds`)}>Worlds</BigButton>
-                <BigButton func={() => goto(`/dm/campaigns`)}
-                    >Campaigns</BigButton
+                {#if selectedW}
+                    <BigButton
+                        type="good"
+                        func={selectWorld}
+                        nav="/dm/worlds/{selectedW.name}"
+                        >Select World</BigButton
+                    >
+                    <BigButton type="warning" func={deleteWorld}
+                        >Delete World</BigButton
+                    >
+                {/if}
+                <BigButton func={() => toggleMod.toggleMod()}
+                    >Create World</BigButton
                 >
+                <BigButton nav="/">Back</BigButton>
             </VerticleList>
         </div>
     </div>

@@ -6,26 +6,22 @@
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { selectedContinent } from "/src/utilities/continentsConfig";
     import { selectedProvince } from "/src/utilities/provinceConfig";
-    import CreateSettlement from "/src/ui/components/ModWindow/ModWindows/CreateSettlement.svelte";
+    import CreateProvince from "/src/ui/components/ModWindow/ModWindows/CreateProvince.svelte";
     import { selectedWorld } from "/src/utilities/worldConfig";
-    import { selectedSettlement } from "/src/utilities/settlementConfig";
 
     let toggleMod;
 
-    $: if ($selectedWorld && $selectedContinent && $selectedProvince) {
-        $breadcrumb.current = "Settlements";
+    $: if ($selectedWorld && $selectedContinent) {
+        //do stuff
+        $breadcrumb.current = "Provinces";
         $breadcrumb.currentType = "View & Create";
         $breadcrumb.path = [
             {
-                url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}`,
-                name: $selectedProvince.name,
-            },
-            {
-                url: `/dm/dashboard/${$selectedWorld.name}/${$selectedContinent.name}`,
+                url: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}`,
                 name: $selectedContinent.name,
             },
             {
-                url: `/dm/dashboard/${$selectedWorld.name}`,
+                url: `/dm/worlds/${$selectedWorld.name}`,
                 name: $selectedWorld.name,
             },
         ];
@@ -33,32 +29,32 @@
 </script>
 
 <ModWindow bind:this={toggleMod}>
-    <CreateSettlement toggleMod={toggleMod.toggleMod} />
+    <CreateProvince toggleMod={toggleMod.toggleMod} />
 </ModWindow>
 
-{#if $selectedProvince && $selectedContinent && $selectedWorld}
+{#if $selectedContinent && selectedProvince}
     <section>
-        <h3>Settlements</h3>
+        <h3>Provinces</h3>
         <div>
             <ListSelector
-                items={$selectedProvince.settlements}
-                bind:selectedItem={$selectedSettlement}
+                items={$selectedContinent.provinces}
+                bind:selectedItem={$selectedProvince}
             />
             <VerticleList>
-                {#if $selectedSettlement}
+                {#if $selectedProvince}
                     <BigButton
                         type="good"
                         func={null}
-                        nav="/dm/dashboard/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince.name}/{$selectedSettlement.name}"
+                        nav="/dm/worlds/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince.name}"
                     >
-                        Select Settlements</BigButton
+                        Select Province</BigButton
                     >
                     <BigButton type="warning" func={null}
-                        >Delete Settlements</BigButton
+                        >Delete Province</BigButton
                     >
                 {/if}
                 <BigButton func={() => toggleMod.toggleMod()}
-                    >Create Settlements</BigButton
+                    >Create Province</BigButton
                 >
             </VerticleList>
         </div>

@@ -52,6 +52,10 @@
         background-color: var(--button-good);
         color: white;
     }
+    .tool {
+        background-color: var(--button-tool);
+        color: white;
+    }
 
     button:hover {
         background-color: var(--col-dark-lightest);
