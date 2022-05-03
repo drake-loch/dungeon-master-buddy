@@ -33,6 +33,11 @@ These promts would be avalible for a dm to see in a timeline
 import type { User } from "firebase/auth";
 import { UpdateWorld } from "./worldConfig";
 import type { World } from "./worldConfig";
+import { setCampaigns } from "./firebase";
+import { writable } from "svelte/store";
+
+export const campaigns = writable<Campaign[]>([]);
+export const selectedCampaign = writable<Campaign>()
 
 export interface Lore {
     id: number;
@@ -40,12 +45,18 @@ export interface Lore {
     desc: string;
 }
 
+
+//these are used for timelines
 export interface Prompt {
+    title: string
     id: number;
+    type: string;
     desc: string;
     hasRead: boolean;
     questID: number;
 }
+
+export const PROMPT_TYPES = ['lore', 'prompt', 'npc', 'encounter', 'quest']
 
 export interface Quest {
     id: number;
@@ -55,25 +66,22 @@ export interface Quest {
 }
 
 export interface Campaign {
-    id: number;
     title: string;
+    id: number;
     desc: string;
-    quests: Quest[];
+    timeline: any[];
 }
 
-export function CreateNewCampaign(user: User, world: World, name: string): { world: World, campaign: Campaign } {
+export function CreateNewCampaign(user: User, campaigns: Campaign[], name: string): Campaign {
     const newCampaign = {
-        id: world.campaigns.length,
         title: name,
+        id: campaigns.length,
         desc: '',
-        quests: [],
+        timeline: [],
     }
+    setCampaigns(newCampaign, user);
 
-    world.campaigns.push(newCampaign as Campaign);
-    UpdateWorld(user, world);
-    console.log('updated world', world);
-
-    return { world, campaign: newCampaign };
+    return newCampaign;
 }
 
 

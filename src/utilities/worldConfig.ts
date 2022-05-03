@@ -80,7 +80,7 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
 export async function GetWorldsFromDB(user) {
     let w = await getMyWorlds(user)
     let world = w.find((u) => u?.projectID === user.uid)
-    // console.log(world);
+
 
 
     return world?.worlds ? world.worlds : []

@@ -15,6 +15,7 @@
     import { user } from "/src/stores";
     import { GetWorldsFromDB } from "/src/utilities/worldConfig";
     import { worlds } from "/src/utilities/worldConfig";
+    import { showBreadcrumb } from "/src/utilities/breadCrumbStore";
 
     export let worldName;
     let size = "";
@@ -24,6 +25,7 @@
     $: size = $navExpanded ? "col" : "";
 
     onMount(async () => {
+        $showBreadcrumb = true;
         if (!$selectedWorld && $user) {
             console.log("No world selected");
             if (JSON.parse(sessionStorage.getItem("worlds")).length > 0) {

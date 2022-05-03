@@ -15,10 +15,8 @@
     import { selectedWorld } from "/src/utilities/worldConfig";
     import { navExpanded } from "/src/stores/navbarStore";
     import { onMount } from "svelte";
-    import { user } from "/src/stores";
-    import { GetWorldsFromDB } from "/src/utilities/worldConfig";
-    import { worlds } from "/src/utilities/worldConfig";
     import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
+    import { showBreadcrumb } from "/src/utilities/breadCrumbStore";
 
     export let worldName;
     let size = "";
@@ -26,6 +24,10 @@
         navExpanded.set(!$navExpanded);
     }
     $: size = $navExpanded ? "col" : "";
+
+    onMount(() => {
+        $selectedWorld = null;
+    });
 </script>
 
 {#if $navExpanded}
@@ -65,7 +67,11 @@
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
                 text="Builder"
             />
-            <NavButton nav="/dm" text="Worlds" />
+            <NavButton
+                func={() => ($selectedWorld = null)}
+                nav="/dm/worlds"
+                text="Worlds"
+            />
         {/if}
         <NavButton func={LogOff} type="warning end" text="Logout" />
     </nav>
@@ -77,7 +83,9 @@
         </div>
     </nav>
     <main class="content">
-        <Breadcrumb />
+        {#if $showBreadcrumb}
+            <Breadcrumb />
+        {/if}
 
         <slot />
     </main>
@@ -106,7 +114,7 @@
     .line {
         width: 55%;
         height: 8px;
-        background-color: white;
+        background-color: rgb(210, 210, 210);
     }
     .navMob {
         display: flex;

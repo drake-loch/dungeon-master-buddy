@@ -11,3 +11,4 @@ export const breadcrumb = writable({
     current: "",
     currentType: "",
 });
+export const showBreadcrumb = writable(false);

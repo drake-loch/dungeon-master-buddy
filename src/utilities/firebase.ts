@@ -32,6 +32,7 @@ export async function setWorld(world, user) {
 export async function getMyWorlds(user) {
     return (await getDocs(collection(db, `users`))).docs.map(doc => {
         if (doc.data().projectID === user.uid) {
+
             return doc.data()
         }
     })
@@ -52,6 +53,33 @@ export async function LogOff() {
 export async function UpdateWorldsInDB(user, w) {
     console.log("updating world in db");
     await updateDoc(doc(db, "users", user.uid), { worlds: w })
+}
+
+//campaigns------------------------
+
+export async function setCampaigns(camp, user) {
+    await updateDoc(doc(db, "users", user.uid), { campaign: arrayUnion(camp) })
+
+}
+
+export async function getMyCampaigns(user) {
+
+    return (await getDocs(collection(db, `users`))).docs.map(doc => {
+        const data = doc.data();
+
+
+        if (data.projectID === user.uid) {
+            if (data.campaign) {
+                const camp = doc.data().campaign.filter(c => c !== undefined);
+                // console.log(camp);
+
+                return camp;
+            }
+        } else {
+            // console.log('invalid user');
+
+        }
+    })
 }
 
 

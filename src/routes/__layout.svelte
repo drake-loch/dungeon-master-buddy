@@ -1,14 +1,13 @@
 <script>
-    import { auth } from "../utilities/firebase";
+    import { auth, getMyCampaigns } from "../utilities/firebase";
 
     import "../global.css";
     import { user, isLoggedIn } from "../stores/index";
-    import { goto } from "$app/navigation";
     import { GetWorldsFromDB } from "/src/utilities/worldConfig";
     // import { worlds } from "/src/stores/worldsStore";
     // import { selectedWorld } from "/src/stores/worldsStore";
     import { worlds } from "/src/utilities/worldConfig";
-    import { selectedWorld } from "/src/utilities/worldConfig";
+    import { campaigns } from "/src/utilities/campaignManager";
 
     auth.onAuthStateChanged(async (u) => {
         if (u) {
@@ -16,6 +15,8 @@
             $user = u;
             $isLoggedIn = true;
             worlds.set(await GetWorldsFromDB($user));
+            campaigns.set([...(await getMyCampaigns($user))[0]]);
+            console.log("campaigns", $campaigns);
         } else {
             //not logged in
             $user = null;

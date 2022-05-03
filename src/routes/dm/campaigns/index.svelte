@@ -2,18 +2,19 @@
     import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
     import { onMount } from "svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
-    import { selectedWorld } from "/src/utilities/worldConfig";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
-    import BuilderInput from "/src/ui/components/TextInput/BuilderInput.svelte";
     import { CreateNewCampaign } from "/src/utilities/campaignManager";
     import { user } from "/src/stores";
     import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
     import TextInput from "/src/ui/components/TextInput/TextInput.svelte";
     import { goto } from "$app/navigation";
+    import { selectedCampaign } from "/src/utilities/campaignManager";
+    import { campaigns } from "/src/utilities/campaignManager";
+    import { getMyCampaigns } from "/src/utilities/firebase";
 
-    onMount(async () => {
+    onMount(() => {
         $breadcrumb.current = "Campaigns";
         $breadcrumb.currentType = "View";
         $breadcrumb.path = [
@@ -27,13 +28,13 @@
 
     let name = "";
 
-    let selectedCampaign = null;
-    function createNewCampaign() {
-        // const data = CreateNewCampaign($user, $selectedWorld, name);
-        // $selectedWorld = data.world;
-        // selectedCampaign = data.campaign;
+    // let selectedCampaign = null;
+    async function createNewCampaign() {
+        $selectedCampaign = await CreateNewCampaign($user, $campaigns, name);
         toggleMod.toggleMod();
     }
+
+    let camps = [];
 </script>
 
 <ModWindow bind:this={toggleMod}>
@@ -49,16 +50,16 @@
     </div>
 </ModWindow>
 
-<ListSelector items={null} bind:selectedItem={selectedCampaign} />
+<ListSelector items={$campaigns} bind:selectedItem={$selectedCampaign} />
 
 <VerticleList>
     <BigButton type="good" func={() => toggleMod.toggleMod()}
         >New Campaign</BigButton
     >
-    {#if selectedCampaign}
+    {#if $selectedCampaign}
         <BigButton
             type="tool"
-            func={() => goto(`/dm/campaigns/${selectedCampaign.title}`)}
+            func={() => goto(`/dm/campaigns/${$selectedCampaign.title}`)}
             >Select Campaign</BigButton
         >
         <BigButton type="warning" func={null}>Delete Campaign</BigButton>

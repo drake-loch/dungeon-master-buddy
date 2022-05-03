@@ -21,6 +21,8 @@
         sessionStorage.setItem("worlds", JSON.stringify($worlds));
     });
     async function updateWorlds() {
+        console.log($user);
+
         $worlds = await GetWorldsFromDB($user);
     }
     function deleteWorld() {
