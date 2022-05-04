@@ -11,9 +11,9 @@
     let formattedText = "";
 
     $: if ($navExpanded && !isMobile) {
-        formattedText = text[0];
-    } else {
         formattedText = text;
+    } else {
+        formattedText = text[0];
     }
     $: if ($navExpanded && isMobile) {
         formattedText = text;
@@ -36,28 +36,28 @@
         }}
     >
         {formattedText}
-        {#if $navExpanded && !isMobile}
+        {#if !$navExpanded && !isMobile}
             <p class="sub-text">{text}</p>
         {/if}
     </button>
 {:else if func}
     <button class={type} on:click={func}>
         {formattedText}
-        {#if $navExpanded && !isMobile}
+        {#if !$navExpanded && !isMobile}
             <p class="sub-text">{text}</p>
         {/if}
     </button>
 {:else if nav}
     <button class={type} on:click={navHandler}>
         {formattedText}
-        {#if $navExpanded && !isMobile}
+        {#if !$navExpanded && !isMobile}
             <p class="sub-text">{text}</p>
         {/if}
     </button>
 {:else}
     <button class={type}>
         {formattedText}
-        {#if $navExpanded && !isMobile}
+        {#if !$navExpanded && !isMobile}
             <p class="sub-text">{text}</p>
         {/if}
     </button>

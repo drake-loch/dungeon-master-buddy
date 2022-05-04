@@ -10,18 +10,17 @@
     import BuilderButton from "/src/ui/components/Tabs/components/BuilderButton.svelte";
     import NpcBuilder from "/src/ui/components/Builder/NpcBuilder.svelte";
 
-    onMount(async () => {
-        if ($selectedWorld) {
-            $breadcrumb.current = "NPCs";
-            $breadcrumb.currentType = "View";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
-    });
+    $: if ($selectedWorld) {
+        $breadcrumb.current = "NPCs";
+        $breadcrumb.currentType = "View";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
+    onMount(async () => {});
 
     let selectedChar = null;
     let toggleMod;
@@ -39,13 +38,18 @@
     </span>
 </ModWindow>
 
-<ListSelector items={$selectedWorld.allNPCs} bind:selectedItem={selectedChar} />
+{#if $selectedWorld}
+    <ListSelector
+        items={$selectedWorld.allNPCs}
+        bind:selectedItem={selectedChar}
+    />
 
-<VerticleList>
-    {#if selectedChar}
-        <BigButton type="good" func={toggleMod.toggleMod}
-            >Select Character</BigButton
-        >
-        <BigButton type="warning" func={null}>Delete NPC</BigButton>
-    {/if}
-</VerticleList>
+    <VerticleList>
+        {#if selectedChar}
+            <BigButton type="good" func={toggleMod.toggleMod}
+                >Select Character</BigButton
+            >
+            <BigButton type="warning" func={null}>Delete NPC</BigButton>
+        {/if}
+    </VerticleList>
+{/if}

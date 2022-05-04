@@ -20,7 +20,7 @@ export const auth = getAuth();
 
 export async function initUserDataInDB(user) {
     // await setDoc(doc(db, "users"), user.uid)
-    await setDoc(doc(db, "users", user.uid), { worlds: [], projectID: user.uid })
+    await setDoc(doc(db, "users", user.uid), { worlds: [], campaigns: [], projectID: user.uid })
 }
 
 
@@ -58,7 +58,7 @@ export async function UpdateWorldsInDB(user, w) {
 //campaigns------------------------
 
 export async function setCampaigns(camp, user) {
-    await updateDoc(doc(db, "users", user.uid), { campaign: arrayUnion(camp) })
+    await updateDoc(doc(db, "users", user.uid), { campaigns: arrayUnion(camp) })
 
 }
 
@@ -69,8 +69,8 @@ export async function getMyCampaigns(user) {
 
 
         if (data.projectID === user.uid) {
-            if (data.campaign) {
-                const camp = doc.data().campaign.filter(c => c !== undefined);
+            if (data.campaigns) {
+                const camp = doc.data().campaigns.filter(c => c !== undefined);
                 // console.log(camp);
 
                 return camp;
@@ -78,6 +78,15 @@ export async function getMyCampaigns(user) {
         } else {
             // console.log('invalid user');
 
+        }
+    })
+}
+
+export async function getUserData(user) {
+    return (await getDocs(collection(db, `users`))).docs.map(doc => {
+        if (doc.data().projectID === user.uid) {
+
+            return doc.data()
         }
     })
 }

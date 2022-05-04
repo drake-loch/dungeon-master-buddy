@@ -4,7 +4,7 @@
     export let title = "";
 </script>
 
-<h3 class="title {$navExpanded ? 'col' : ''}">{title}</h3>
+<h3 class="title {$navExpanded ? '' : 'col'}">{title}</h3>
 
 <style>
     .title {

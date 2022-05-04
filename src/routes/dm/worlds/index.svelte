@@ -12,18 +12,23 @@
     } from "/src/utilities/worldConfig";
     import CreateWorld from "/src/ui/components/ModWindow/ModWindows/CreateWorld.svelte";
     import { user } from "/src/stores";
+    import { userData } from "/src/utilities/userData";
+    import { getUserData } from "/src/utilities/firebase";
+    import { clearBreadcrumb } from "/src/utilities/breadCrumbStore";
 
     let selectedW = null;
     let toggleMod;
 
     onMount(async () => {
-        updateWorlds();
-        sessionStorage.setItem("worlds", JSON.stringify($worlds));
+        clearBreadcrumb();
+        // updateWorlds();
+        // sessionStorage.setItem("worlds", JSON.stringify($worlds));
     });
     async function updateWorlds() {
-        console.log($user);
-
-        $worlds = await GetWorldsFromDB($user);
+        console.log($userData);
+        let data = await getUserData($user);
+        $userData = { ...data[0] };
+        $worlds = data[0].worlds;
     }
     function deleteWorld() {
         DeleteWorld(selectedWorld, $user);

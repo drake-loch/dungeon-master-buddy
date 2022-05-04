@@ -1,19 +1,15 @@
 <script lang="ts">
-    import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
-    import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
     import { onMount } from "svelte";
-    import {
-        DeleteWorld,
-        GetWorldsFromDB,
-        worlds,
-        selectedWorld,
-    } from "/src/utilities/worldConfig";
-    import { user, isLoggedIn } from "../../stores/index";
     import { goto } from "$app/navigation";
+    import { clearBreadcrumb } from "/src/utilities/breadCrumbStore";
+    import { selectedWorld } from "/src/utilities/worldConfig";
 
-    onMount(async () => {});
+    onMount(async () => {
+        clearBreadcrumb();
+        $selectedWorld = undefined;
+    });
 </script>
 
 <div class="page">

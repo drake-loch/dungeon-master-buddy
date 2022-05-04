@@ -9,18 +9,17 @@
     import CharBuilder from "/src/ui/components/Builder/CharBuilder.svelte";
     import BuilderButton from "/src/ui/components/Tabs/components/BuilderButton.svelte";
 
-    onMount(async () => {
-        if ($selectedWorld) {
-            $breadcrumb.current = "Characters";
-            $breadcrumb.currentType = "View";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
-    });
+    $: if ($selectedWorld) {
+        $breadcrumb.current = "Characters";
+        $breadcrumb.currentType = "View";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
+    onMount(async () => {});
 
     let selectedChar = null;
     let toggleMod;
@@ -38,13 +37,18 @@
     </span>
 </ModWindow>
 
-<ListSelector items={$selectedWorld.allPCs} bind:selectedItem={selectedChar} />
+{#if $selectedWorld}
+    <ListSelector
+        items={$selectedWorld.allPCs}
+        bind:selectedItem={selectedChar}
+    />
 
-<VerticleList>
-    {#if selectedChar}
-        <BigButton type="good" func={toggleMod.toggleMod}
-            >Select Character</BigButton
-        >
-        <BigButton type="warning" func={null}>Delete Character</BigButton>
-    {/if}
-</VerticleList>
+    <VerticleList>
+        {#if selectedChar}
+            <BigButton type="good" func={toggleMod.toggleMod}
+                >Select Character</BigButton
+            >
+            <BigButton type="warning" func={null}>Delete Character</BigButton>
+        {/if}
+    </VerticleList>
+{/if}

@@ -5,22 +5,21 @@
     import VerticleList from "/src/ui/components/VerticleList/VerticleList.svelte";
     import BigButton from "/src/ui/components/BigButton/BigButton.svelte";
 
-    onMount(async () => {
-        if ($selectedWorld) {
-            $breadcrumb.current = "Character Sheet";
-            $breadcrumb.currentType = "Create & Edit";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/builder`,
-                    name: "Builder",
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
-    });
+    $: if ($selectedWorld) {
+        $breadcrumb.current = "Character Sheet";
+        $breadcrumb.currentType = "Create & Edit";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}/builder`,
+                name: "Builder",
+            },
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
+    onMount(async () => {});
 </script>
 
 {#if $selectedWorld}
@@ -29,13 +28,13 @@
             <BigButton
                 type=""
                 func={null}
-                nav="/dm/dashboard/{$selectedWorld.name}/character-sheet/create"
+                nav="/dm/worlds/{$selectedWorld.name}/character-sheet/create"
                 >Create Character</BigButton
             >
             <BigButton
                 type=""
                 func={null}
-                nav="/dm/dashboard/{$selectedWorld.name}/builder/npc/edit"
+                nav="/dm/worlds/{$selectedWorld.name}/builder/npc/edit"
                 >Edit Sheet Format</BigButton
             >
         </VerticleList>

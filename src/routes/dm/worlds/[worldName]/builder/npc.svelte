@@ -5,25 +5,22 @@
     import NpcBuilder from "/src/ui/components/Builder/NpcBuilder.svelte";
     import { createNewNPC } from "/src/utilities/charManager";
 
-    onMount(async () => {
-        if ($selectedWorld) {
-            $breadcrumb.current = "NPC Creation";
-            $breadcrumb.currentType = "Create & Edit";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/builder`,
-                    name: "Builder",
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-            newChar = createNewNPC($selectedWorld.allPCs.length);
-        }
-    });
-
-    let newChar = null;
+    let newChar = undefined;
+    $: if ($selectedWorld) {
+        $breadcrumb.current = "NPC Creation";
+        $breadcrumb.currentType = "Create & Edit";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}/builder`,
+                name: "Builder",
+            },
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+        newChar = createNewNPC($selectedWorld.allPCs.length);
+    }
 </script>
 
 <NpcBuilder mode="create" bind:newChar />

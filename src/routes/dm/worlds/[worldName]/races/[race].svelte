@@ -34,31 +34,28 @@
         mode = "view";
     }
 
-    onMount(async () => {
-        if ($selectedWorld) {
-            //do stuff
-            $breadcrumb.current = raceName;
-            $breadcrumb.currentType = "Race";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/races`,
-                    name: "Races",
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-            selectedRace = $selectedWorld.races.find(
-                (r) => r.name === raceName
-            );
-        }
-    });
+    $: if ($selectedWorld) {
+        //do stuff
+        $breadcrumb.current = raceName;
+        $breadcrumb.currentType = "Race";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}/races`,
+                name: "Races",
+            },
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+        selectedRace = $selectedWorld.races.find((r) => r.name === raceName);
+    }
+    onMount(async () => {});
 
     function createRace() {
         if (newRace.name !== "" && newRace.name !== "New Race") {
             $selectedWorld = addRaceToWorld($user, newRace);
-            goto(`/dm/dashboard/${$selectedWorld.name}/races`);
+            goto(`/dm/worlds/${$selectedWorld.name}/races`);
         }
     }
 </script>

@@ -13,19 +13,17 @@
     import type { Race } from "/src/utilities/charManager";
     // import { DeleteRaceFromWorld } from "/src/utilities/charManager";
 
-    onMount(async () => {
-        if ($selectedWorld) {
-            //do stuff
-            $breadcrumb.current = "Races";
-            $breadcrumb.currentType = "world";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
-    });
+    $: if ($selectedWorld) {
+        $breadcrumb.current = "Races";
+        $breadcrumb.currentType = "world";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
+    onMount(async () => {});
 
     let selectedRace: undefined | Race = undefined;
     let toggleMod;
@@ -33,29 +31,33 @@
 
 <ModWindow bind:this={toggleMod} />
 
-<ListSelector items={$selectedWorld.races} bind:selectedItem={selectedRace} />
+{#if $selectedWorld}
+    <ListSelector
+        items={$selectedWorld.races}
+        bind:selectedItem={selectedRace}
+    />
 
-<VerticleList>
-    {#if selectedRace}
-        <BigButton
-            type="good"
-            func={() => toggleMod.toggleMod()}
-            nav={`/dm/dashboard/${$selectedWorld.name}/races/${selectedRace.name}`}
-            >Select Race</BigButton
+    <VerticleList>
+        {#if selectedRace}
+            <BigButton
+                type="good"
+                func={() => toggleMod.toggleMod()}
+                nav={`/dm/worlds/${$selectedWorld.name}/races/${selectedRace.name}`}
+                >Select Race</BigButton
+            >
+            <BigButton
+                type="warning"
+                func={() => {
+                    $selectedWorld = DeleteRaceFromWorld($user, selectedRace);
+                    selectedRace = undefined;
+                }}>Delete Race</BigButton
+            >
+        {/if}
+        <BigButton nav={`/dm/worlds/${$selectedWorld.name}/races/New Race`}
+            >Create Race</BigButton
         >
-        <BigButton
-            type="warning"
-            func={() => {
-                $selectedWorld = DeleteRaceFromWorld($user, selectedRace);
-                selectedRace = undefined;
-            }}>Delete Race</BigButton
-        >
-    {/if}
-    <BigButton nav={`/dm/dashboard/${$selectedWorld.name}/races/New Race`}
-        >Create Race</BigButton
-    >
-</VerticleList>
-
+    </VerticleList>
+{/if}
 <!-- 
 
     DM PROMPTS:

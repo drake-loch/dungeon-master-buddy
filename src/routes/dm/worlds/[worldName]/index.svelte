@@ -9,14 +9,13 @@
     import CoolPanel from "/src/ui/components/CoolPanel/CoolPanel.svelte";
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
+    import { user } from "/src/stores";
 
-    onMount(async () => {
-        if ($selectedWorld) {
-            $breadcrumb.current = $selectedWorld.name;
-            $breadcrumb.currentType = "world";
-            $breadcrumb.path = [];
-        }
-    });
+    $: if ($selectedWorld) {
+        $breadcrumb.current = $selectedWorld.name;
+        $breadcrumb.currentType = "world";
+        $breadcrumb.path = [];
+    }
 </script>
 
 {#if $selectedWorld}

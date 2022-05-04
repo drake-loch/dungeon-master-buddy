@@ -57,12 +57,12 @@ export interface Creature extends Char {
     type: string,
 }
 
-export function createNewChar(newID: number): PC {
+export function createNewChar(newID?: number): PC {
     let settings = get(selectedWorld).settings;
     return {
         name: '',
         level: 1,
-        id: newID,
+        id: newID || -1,
         race: '',
         skills: deepCopyFunction(settings.skillSetFormat.skills),
         subSkills: deepCopyFunction(settings.skillSetFormat.subSkills),

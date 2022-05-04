@@ -16,15 +16,14 @@
 
     export let contName;
 
-    onMount(() => {
-        if (!$selectedContinent && $user) {
-            console.log("No Continent selected");
-            //find the continent in the world using the url slug
-            $selectedContinent = $selectedWorld.continents.find(
-                (cont) => cont.name === contName
-            );
-        }
-    });
+    $: if (!$selectedContinent && $selectedWorld?.continents && $user) {
+        // console.log("No Continent selected");
+        //find the continent in the world using the url slug
+        $selectedContinent = $selectedWorld.continents.find(
+            (cont) => cont.name === contName
+        );
+    }
+    onMount(() => {});
 </script>
 
 <slot />

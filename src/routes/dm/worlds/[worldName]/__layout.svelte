@@ -16,6 +16,7 @@
     import { GetWorldsFromDB } from "/src/utilities/worldConfig";
     import { worlds } from "/src/utilities/worldConfig";
     import { showBreadcrumb } from "/src/utilities/breadCrumbStore";
+    import { userData } from "/src/utilities/userData";
 
     export let worldName;
     let size = "";
@@ -24,19 +25,13 @@
     }
     $: size = $navExpanded ? "col" : "";
 
+    $: if ($user?.uid && $userData?.worlds.length > 0 && !$selectedWorld) {
+        console.log("No world selected");
+        // $worlds = await GetWorldsFromDB($user);
+        $selectedWorld = $userData.worlds.find((w) => w.name === worldName);
+    }
     onMount(async () => {
         $showBreadcrumb = true;
-        if (!$selectedWorld && $user) {
-            console.log("No world selected");
-            if (JSON.parse(sessionStorage.getItem("worlds")).length > 0) {
-                console.log("Worlds in session store");
-                $worlds = JSON.parse(sessionStorage.getItem("worlds"));
-                $selectedWorld = $worlds.find((w) => w.name === worldName);
-            } else {
-                $worlds = await GetWorldsFromDB($user);
-                $selectedWorld = $worlds.find((w) => w.name === worldName);
-            }
-        }
     });
 </script>
 

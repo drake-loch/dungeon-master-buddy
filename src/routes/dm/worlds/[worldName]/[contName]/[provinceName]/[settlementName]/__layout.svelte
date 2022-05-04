@@ -9,9 +9,6 @@
 </script>
 
 <script>
-    import { selectedProvince } from "/src/utilities/provinceConfig";
-
-    import { user } from "/src/stores";
     import { selectedSettlement } from "/src/utilities/settlementConfig";
     import { onMount } from "svelte";
     import { selectedWorld } from "/src/utilities/worldConfig";
@@ -21,18 +18,18 @@
     export let province = $page.params.provinceName;
     export let settlement;
 
+    $: if (!$selectedSettlement && $selectedWorld) {
+        const cont = $selectedWorld.continents.find(
+            (cont) => cont.name === contName
+        );
+        const prov = cont.provinces.find((prov) => prov.name === province);
+        // console.log(prov);
+        $selectedSettlement = prov.settlements.find(
+            (sett) => sett.name === settlement
+        );
+    }
     onMount(() => {
-        console.log($selectedWorld);
-        if (!$selectedSettlement) {
-            const cont = $selectedWorld.continents.find(
-                (cont) => cont.name === contName
-            );
-            const prov = cont.provinces.find((prov) => prov.name === province);
-            console.log(prov);
-            $selectedSettlement = prov.settlements.find(
-                (sett) => sett.name === settlement
-            );
-        }
+        // console.log($selectedWorld);
     });
 </script>
 

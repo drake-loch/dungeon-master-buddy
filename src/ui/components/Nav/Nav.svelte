@@ -23,18 +23,16 @@
     function toggleCollapse(type: string) {
         navExpanded.set(!$navExpanded);
         if (type === "mobile") {
-            console.log("mobile", $navExpanded);
             if ($navExpanded) {
-                console.log("nav is open");
+                //nav is open
             }
         } else if (type === "desktop") {
-            console.log("desktop", $navExpanded);
             if ($navExpanded) {
-                console.log("nav is collapsed");
+                //nav is collapsed
             }
         }
     }
-    $: size = $navExpanded ? "col" : "";
+    $: size = $navExpanded ? "" : "col";
 
     onMount(() => {
         $selectedWorld = null;
@@ -53,12 +51,12 @@
             <NavButton
                 isMobile={true}
                 text="Dashboard"
-                nav="/dm/dashboard/{$selectedWorld.name}"
+                nav="/dm/worlds/{$selectedWorld.name}"
             />
             <NavButton
                 isMobile={true}
                 text="Builder"
-                nav="/dm/dashboard/{$selectedWorld.name}/builder"
+                nav="/dm/worlds/{$selectedWorld.name}/builder"
             />
         {/if}
         <NavButton
@@ -92,9 +90,9 @@
     {#if $selectedWorld}
         <NavTitle title="Worlds" />
 
-        <NavButton nav="/dm/dashboard/{$selectedWorld.name}" text="Dashboard" />
+        <NavButton nav="/dm/worlds/{$selectedWorld.name}" text="Dashboard" />
         <NavButton
-            nav="/dm/dashboard/{$selectedWorld.name}/builder"
+            nav="/dm/worlds/{$selectedWorld.name}/builder"
             text="Builder"
         />
     {/if}

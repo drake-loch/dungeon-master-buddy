@@ -7,29 +7,30 @@
     import CharBuilder from "/src/ui/components/Builder/CharBuilder.svelte";
     import { createNewChar } from "/src/utilities/charManager";
 
-    let newChar = null;
-
-    onMount(async () => {
-        if ($selectedWorld) {
-            $breadcrumb.current = "Character";
-            $breadcrumb.currentType = "Create";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/character-sheet`,
-                    name: "Character Sheet",
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/builder`,
-                    name: "Builder",
-                },
-                {
-                    url: `/dm/dashboard/${$selectedWorld.name}/builder`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
+    let newChar = undefined;
+    $: if ($selectedWorld && !newChar) {
         newChar = createNewChar($selectedWorld.allPCs.length);
-    });
+    }
+
+    $: if ($selectedWorld) {
+        $breadcrumb.current = "Character";
+        $breadcrumb.currentType = "Create";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}/character-sheet`,
+                name: "Character Sheet",
+            },
+            {
+                url: `/dm/worlds/${$selectedWorld.name}/builder`,
+                name: "Builder",
+            },
+            {
+                url: `/dm/worlds/${$selectedWorld.name}/builder`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
+    onMount(async () => {});
 </script>
 
 <CharBuilder mode="create" bind:newChar />

@@ -11,17 +11,17 @@
     import { selectedWorld } from "/src/utilities/worldConfig";
 
     let toggleMod;
+    $: if ($selectedWorld) {
+        $breadcrumb.current = "Continents";
+        $breadcrumb.currentType = "View & Create";
+        $breadcrumb.path = [
+            {
+                url: `/dm/worlds/${$selectedWorld.name}`,
+                name: $selectedWorld.name,
+            },
+        ];
+    }
     onMount(async () => {
-        if ($selectedWorld) {
-            $breadcrumb.current = "Continents";
-            $breadcrumb.currentType = "View & Create";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/worlds/${$selectedWorld.name}`,
-                    name: $selectedWorld.name,
-                },
-            ];
-        }
         $selectedContinent = null;
     });
 </script>
@@ -30,32 +30,34 @@
     <CreateContinent toggleMod={toggleMod.toggleMod} />
 </ModWindow>
 
-<section>
-    <h3>Continents</h3>
-    <div>
-        <ListSelector
-            items={$selectedWorld.continents}
-            bind:selectedItem={$selectedContinent}
-        />
-        <VerticleList>
-            {#if $selectedContinent}
-                <BigButton
-                    type="good"
-                    func={null}
-                    nav="/dm/worlds/{$selectedWorld.name}/{$selectedContinent.name}"
+{#if $selectedWorld}
+    <section>
+        <h3>Continents</h3>
+        <div>
+            <ListSelector
+                items={$selectedWorld.continents}
+                bind:selectedItem={$selectedContinent}
+            />
+            <VerticleList>
+                {#if $selectedContinent}
+                    <BigButton
+                        type="good"
+                        func={null}
+                        nav="/dm/worlds/{$selectedWorld.name}/{$selectedContinent.name}"
+                    >
+                        Select Continent</BigButton
+                    >
+                    <BigButton type="warning" func={null}
+                        >Delete Continents</BigButton
+                    >
+                {/if}
+                <BigButton func={() => toggleMod.toggleMod()}
+                    >Create Continent</BigButton
                 >
-                    Select Continent</BigButton
-                >
-                <BigButton type="warning" func={null}
-                    >Delete Continents</BigButton
-                >
-            {/if}
-            <BigButton func={() => toggleMod.toggleMod()}
-                >Create Continent</BigButton
-            >
-        </VerticleList>
-    </div>
-</section>
+            </VerticleList>
+        </div>
+    </section>
+{/if}
 
 <style>
     section {

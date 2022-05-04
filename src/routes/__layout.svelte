@@ -1,5 +1,5 @@
 <script>
-    import { auth, getMyCampaigns } from "../utilities/firebase";
+    import { auth, getMyCampaigns, getUserData } from "../utilities/firebase";
 
     import "../global.css";
     import { user, isLoggedIn } from "../stores/index";
@@ -8,15 +8,19 @@
     // import { selectedWorld } from "/src/stores/worldsStore";
     import { worlds } from "/src/utilities/worldConfig";
     import { campaigns } from "/src/utilities/campaignManager";
+    import { userData } from "/src/utilities/userData";
 
     auth.onAuthStateChanged(async (u) => {
         if (u) {
             //logged in
             $user = u;
             $isLoggedIn = true;
-            worlds.set(await GetWorldsFromDB($user));
-            campaigns.set([...(await getMyCampaigns($user))[0]]);
-            console.log("campaigns", $campaigns);
+            let data = await getUserData($user);
+            $userData = { ...data[0] };
+
+            $worlds = $userData.worlds;
+            $campaigns = $userData.campaigns;
+            console.log("data", $userData);
         } else {
             //not logged in
             $user = null;

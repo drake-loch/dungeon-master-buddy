@@ -10,16 +10,13 @@
 
 <script>
     import { selectedProvince } from "/src/utilities/provinceConfig";
-
-    import { onMount } from "svelte";
     import { user } from "/src/stores";
     import { selectedContinent } from "/src/utilities/continentsConfig";
-    import { selectedWorld } from "/src/utilities/worldConfig";
 
     export let province;
 
     $: if (!$selectedProvince && $selectedContinent && $user) {
-        console.log("No province selected");
+        // console.log("No province selected");
         // console.log($selectedContinent);
 
         $selectedProvince = $selectedContinent.provinces.find(

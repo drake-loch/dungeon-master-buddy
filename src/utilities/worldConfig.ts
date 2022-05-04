@@ -32,7 +32,7 @@ export const worlds = writable<World[]>([]);
 export const selectedWorld = writable<World>()
 
 
-export function CreateNewWorld(name: string, user: User, skillset?) {
+export function CreateNewWorld(name: string, user, skillset?) {
     const human = createNewRace();
     human.name = 'Human';
     human.info = 'It you.';
@@ -80,9 +80,6 @@ export function CreateNewWorld(name: string, user: User, skillset?) {
 export async function GetWorldsFromDB(user) {
     let w = await getMyWorlds(user)
     let world = w.find((u) => u?.projectID === user.uid)
-
-
-
     return world?.worlds ? world.worlds : []
 }
 
@@ -116,11 +113,11 @@ export function GetSelectedWorld() {
     }
 }
 
-export function UpdateWorld(user, newWorld) {
-    //takes a world and updates it in localStorage
+export function UpdateWorld(user, worldToUpdate) {
+    //takes a world and updates it in the worlds array
     console.log("updating world");
     let w = get(worlds);
-    w.splice(newWorld.id, 1, newWorld);
+    w.splice(worldToUpdate.id, 1, worldToUpdate);
     sessionStorage.setItem("worlds", JSON.stringify(w));
     UpdateWorldsInDB(user, w);
 }

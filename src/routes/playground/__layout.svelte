@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <div class="layout">
     <nav>
         <h4>Nav Header</h4>

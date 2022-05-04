@@ -11,18 +11,17 @@
     import { getMyCampaigns } from "/src/utilities/firebase";
     import { campaigns } from "/src/utilities/campaignManager";
 
-    onMount(async () => {
-        if ($selectedCampaign) {
-            $breadcrumb.current = "Campaign Builder";
-            $breadcrumb.currentType = "Create";
-            $breadcrumb.path = [
-                {
-                    url: `/dm/campaign/`,
-                    name: "Campaigns",
-                },
-            ];
-        }
-    });
+    $: if ($selectedCampaign) {
+        $breadcrumb.current = "Campaign Builder";
+        $breadcrumb.currentType = "Create";
+        $breadcrumb.path = [
+            {
+                url: `/dm/campaign/`,
+                name: "Campaigns",
+            },
+        ];
+    }
+    onMount(async () => {});
 
     let campaign: Campaign | null = null;
     let selectedQuest: string | null = null;
