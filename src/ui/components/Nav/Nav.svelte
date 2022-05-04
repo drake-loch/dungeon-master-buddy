@@ -8,20 +8,31 @@
     }
 </script>
 
-<script>
+<script lang="ts">
     import NavButton from "/src/ui/components/NavButton/NavButton.svelte";
     import { slide } from "svelte/transition";
     import { LogOff } from "/src/utilities/firebase";
     import { selectedWorld } from "/src/utilities/worldConfig";
     import { navExpanded } from "/src/stores/navbarStore";
     import { onMount } from "svelte";
-    import Breadcrumb from "/src/ui/components/Breadcrumb/Breadcrumb.svelte";
-    import { showBreadcrumb } from "/src/utilities/breadCrumbStore";
+    import NavTitle from "./NavTitle.svelte";
+    import { breadcrumb } from "/src/utilities/breadCrumbStore";
 
     export let worldName;
     let size = "";
-    function toggleCollapse() {
+    function toggleCollapse(type: string) {
         navExpanded.set(!$navExpanded);
+        if (type === "mobile") {
+            console.log("mobile", $navExpanded);
+            if ($navExpanded) {
+                console.log("nav is open");
+            }
+        } else if (type === "desktop") {
+            console.log("desktop", $navExpanded);
+            if ($navExpanded) {
+                console.log("nav is collapsed");
+            }
+        }
     }
     $: size = $navExpanded ? "col" : "";
 
@@ -32,7 +43,13 @@
 
 {#if $navExpanded}
     <div transition:slide class="nav-menu">
+        <NavTitle title="Navigation" />
+        <NavButton isMobile={true} nav="/dm" text="Home" />
+        <NavButton isMobile={true} nav="/dm/worlds" text="Worlds" />
+        <NavButton isMobile={true} nav="/dm/campaigns" text="Campaigns" />
         {#if $selectedWorld}
+            <NavTitle title="Worlds" />
+
             <NavButton
                 isMobile={true}
                 text="Dashboard"
@@ -44,7 +61,6 @@
                 nav="/dm/dashboard/{$selectedWorld.name}/builder"
             />
         {/if}
-        <NavButton isMobile={true} nav="/dm" text="Worlds" />
         <NavButton
             isMobile={true}
             text="Logout"
@@ -54,53 +70,56 @@
     </div>
 {/if}
 
-<section>
-    <nav class={size + " deskNav"}>
-        <NavButton func={toggleCollapse} text="> Collapse <" />
-        <NavButton nav="/dm" text="Home" />
-        {#if $selectedWorld}
-            <NavButton
-                nav="/dm/dashboard/{$selectedWorld.name}"
-                text="Dashboard"
-            />
-            <NavButton
-                nav="/dm/dashboard/{$selectedWorld.name}/builder"
-                text="Builder"
-            />
-            <NavButton
-                func={() => ($selectedWorld = null)}
-                nav="/dm/worlds"
-                text="Worlds"
-            />
-        {/if}
-        <NavButton func={LogOff} type="warning end" text="Logout" />
-    </nav>
-    <nav class="navMob">
-        <div class="burg-icon" on:click={() => toggleCollapse()}>
-            <div class="line" />
-            <div class="line" />
-            <div class="line" />
-        </div>
-    </nav>
-    <main class="content">
-        {#if $showBreadcrumb}
-            <Breadcrumb />
-        {/if}
+<nav class={size + " deskNav"}>
+    <NavButton
+        type={"small"}
+        func={() => toggleCollapse("desktop")}
+        text="> Collapse <"
+    />
+    <NavTitle title="Navigation" />
 
-        <slot />
-    </main>
-</section>
+    <NavButton nav="/dm" text="Home" />
+    <NavButton
+        func={() => ($selectedWorld = null)}
+        nav="/dm/worlds"
+        text="Worlds"
+    />
+    <NavButton
+        func={() => ($selectedWorld = null)}
+        nav="/dm/campaigns"
+        text="Campaigns"
+    />
+    {#if $selectedWorld}
+        <NavTitle title="Worlds" />
+
+        <NavButton nav="/dm/dashboard/{$selectedWorld.name}" text="Dashboard" />
+        <NavButton
+            nav="/dm/dashboard/{$selectedWorld.name}/builder"
+            text="Builder"
+        />
+    {/if}
+    <NavButton func={LogOff} type="warning end" text="Logout" />
+</nav>
+<nav class="navMob">
+    <div class="burg-icon" on:click={() => toggleCollapse("mobile")}>
+        <div class="line" />
+        <div class="line" />
+        <div class="line" />
+    </div>
+</nav>
+<slot />
 
 <style>
     .nav-menu {
         position: fixed;
         width: 75vw;
-        height: 100vh;
+        min-height: 100vh;
         background-color: rgb(24, 24, 24);
         display: flex;
         gap: 0.25rem;
         flex-direction: column;
         z-index: 1;
+        border-right: 2px solid black;
     }
     .burg-icon {
         /* background-color: fuchsia; */
@@ -119,33 +138,26 @@
     .navMob {
         display: flex;
         justify-content: flex-end;
-        width: 100%;
+        width: 100vw;
         height: 4rem;
         background-color: var(--col-dark-dark);
     }
     .deskNav {
         display: none;
     }
-    .content {
-        padding: 0 0.75rem;
-        padding-bottom: 1rem;
-    }
 
     @media only screen and (min-width: 1030px) {
         .nav-menu {
             display: none;
         }
-        section {
-            display: flex;
-            overflow-y: auto;
-        }
         .deskNav {
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
-            width: 20%;
+            width: 15%;
             height: 100vh;
             background-color: var(--col-dark-dark);
+            border-right: 2px solid black;
         }
         .navMob {
             display: none;

@@ -11,4 +11,12 @@ export const breadcrumb = writable({
     current: "",
     currentType: "",
 });
+
+export function clearBreadcrumb() {
+    breadcrumb.set({
+        path: [],
+        current: "",
+        currentType: "",
+    });
+}
 export const showBreadcrumb = writable(false);

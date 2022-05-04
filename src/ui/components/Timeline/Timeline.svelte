@@ -72,7 +72,7 @@
 <style>
     .box {
         border: 2px solid black;
-        min-height: 50vh;
+        min-height: 100vh;
         margin: 1rem 0;
     }
     .flip {
