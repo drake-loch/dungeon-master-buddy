@@ -55,6 +55,7 @@
 </ModWindow>
 
 <div class="box">
+    <h3>Campaign Event Timeline</h3>
     <div class="flip">
         {#each timeline as item}
             <TimelineItem bind:item />
@@ -72,7 +73,7 @@
 <style>
     .box {
         border: 2px solid black;
-        min-height: 100vh;
+        min-height: 50vh;
         margin: 1rem 0;
     }
     .flip {
@@ -96,6 +97,13 @@
         color: black;
         font-size: 1.75rem;
         font-weight: bold;
+    }
+
+    h3 {
+        text-align: center;
+        margin: 0 0 0.5rem 0;
+        padding: 0.25rem 0;
+        background-color: rgba(0, 0, 0, 0.5);
     }
 
     @media only screen and (min-width: 1030px) {

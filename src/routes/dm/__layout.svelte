@@ -34,6 +34,8 @@
     .content {
         padding: 0 0.75rem;
         padding-bottom: 1rem;
+        /* box-sizing: border-box; */
+        overflow-x: hidden;
     }
     @media only screen and (min-width: 1030px) {
         .layout {

@@ -10,10 +10,11 @@
     import { user } from "/src/stores";
     import { getMyCampaigns } from "/src/utilities/firebase";
     import { campaigns } from "/src/utilities/campaignManager";
+    import DashModule from "/src/ui/components/DashModule/DashModule.svelte";
 
     $: if ($selectedCampaign) {
-        $breadcrumb.current = "Campaign Builder";
-        $breadcrumb.currentType = "Create";
+        $breadcrumb.current = $selectedCampaign.title;
+        $breadcrumb.currentType = "Campaign Builder";
         $breadcrumb.path = [
             {
                 url: `/dm/campaign/`,
@@ -29,31 +30,46 @@
 </script>
 
 <div class="page">
-    <h1>{campaignTitle}</h1>
-    <p>
-        Welcome to the Campaign Builder. This is where you can create campaigns
-        for your world.
-    </p>
-    <p>
-        Quests are the main way to progress through your campaign. Some
-        Campaigns have only one quest, while others have multiple quests.
-    </p>
-    {#if $selectedCampaign && $selectedCampaign.timeline.length > 1}
-        <ListSelector items={null} bind:selectedItem={selectedQuest} />
-    {:else}
-        <Timeline />
-    {/if}
+    <!-- <Timeline /> -->
+    <DashModule
+        canEditTitle={true}
+        canEditDesc={true}
+        title="Description"
+        desc="Welcome to the Campaign Builder. This is where you can create campaigns for your world. Quests are the main way to progress through your campaign. Some Campaigns have only one quest, while others have multiple quests."
+    />
+    <div class="mod-holder">
+        <DashModule
+            title="Quests"
+            desc="View and edit quests for your campaign."
+            buttons={[
+                { title: "View Quests", func: () => {} },
+                { title: "Create Quest", func: () => {} },
+            ]}
+        />
+        <DashModule
+            title="Timeline"
+            desc="Timeline is a tool that allows you to easily manage your campaign's progression through the creation of prompts."
+            buttons={[{ title: "Edit Timeline", func: () => {} }]}
+        />
+    </div>
 </div>
 
 <style>
     .page {
-        padding: 1rem;
+        /* padding: 1rem; */
         /* background-color: var(--col-dark-dark); */
+        box-sizing: border-box;
         color: white;
-        min-height: 60vh;
     }
 
-    h1 {
+    .mod-holder {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    p {
         margin: 0 0 1rem 0;
     }
 </style>
