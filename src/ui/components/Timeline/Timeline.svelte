@@ -51,11 +51,14 @@
             func={() => addPrompt(newPrompt.name, newPrompt.type)}
             type="good">Create Prompt</LittleButton
         >
+        <LittleButton func={() => toggleMod.toggleMod()} type="bad"
+            >Cancel</LittleButton
+        >
     </div>
 </ModWindow>
 
 <div class="box">
-    <h3>Campaign Event Timeline</h3>
+    <!-- <h3>Campaign Event Timeline</h3> -->
     <div class="flip">
         {#each timeline as item}
             <TimelineItem bind:item />
@@ -72,7 +75,7 @@
 
 <style>
     .box {
-        border: 2px solid black;
+        border: 0px solid black;
         min-height: 50vh;
         margin: 1rem 0;
     }

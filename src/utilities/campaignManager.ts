@@ -33,8 +33,8 @@ These promts would be avalible for a dm to see in a timeline
 import type { User } from "firebase/auth";
 import { UpdateWorld } from "./worldConfig";
 import type { World } from "./worldConfig";
-import { setCampaigns } from "./firebase";
-import { writable } from "svelte/store";
+import { setCampaigns, UpdateCampaignsInDB } from "./firebase";
+import { get, writable } from "svelte/store";
 
 export const campaigns = writable<Campaign[]>([]);
 export const selectedCampaign = writable<Campaign>()
@@ -76,12 +76,21 @@ export function CreateNewCampaign(user: User, campaigns: Campaign[], name: strin
     const newCampaign = {
         title: name,
         id: campaigns.length,
-        desc: '',
+        desc: "Welcome to the Campaign Builder. This is where you can create campaigns for your world. Quests are the main way to progress through your campaign. Some Campaigns have only one quest, while others have multiple quests.",
         timeline: [],
     }
     setCampaigns(newCampaign, user);
 
     return newCampaign;
+}
+
+export function UpdateCampaign(user, campaignToUpdate) {
+    //takes a campaign and updates it in the campaigns array
+    console.log("updating campaign");
+    let c = get(campaigns);
+    c.splice(campaignToUpdate.id, 1, campaignToUpdate);
+    console.log("updated campaigns", c);
+    UpdateCampaignsInDB(user, c);
 }
 
 

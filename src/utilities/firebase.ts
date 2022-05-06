@@ -62,6 +62,11 @@ export async function setCampaigns(camp, user) {
 
 }
 
+export async function UpdateCampaignsInDB(user, c) {
+    console.log("updating campaigns in db");
+    await updateDoc(doc(db, "users", user.uid), { campaigns: c })
+}
+
 export async function getMyCampaigns(user) {
 
     return (await getDocs(collection(db, `users`))).docs.map(doc => {

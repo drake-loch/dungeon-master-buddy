@@ -1,10 +1,12 @@
 <script lang="ts">
-    export let title = "";
+    export let title: string | undefined = undefined;
+    let tempTitle = "";
     export let desc = "";
     export let buttons: { title: string; func(): any }[] | [] = [];
 
     export let canEditTitle = false;
     export let canEditDesc = false;
+    export let showExtra = false;
     export let save = () => {};
 
     let editMode = false;
@@ -17,7 +19,7 @@
 
 <div class="module">
     <div class="header">
-        {#if title !== ""}
+        {#if title !== undefined}
             {#if canEditTitle && editMode}
                 <input class="input" bind:value={title} type="text" />
             {:else}
@@ -36,13 +38,22 @@
                 {desc}
             </p>
         {/if}
+        <div class="extra">
+            <!--  -->
+            <slot name="extra" />
+        </div>
         <div class="buttons">
             {#if editMode}
-                <button class="button save">Save changes</button>
-                <button class="button discard">Cancel Changes</button>
+                <button on:click={save} class="button save">Save changes</button
+                >
+                <button on:click={toggleEditMode} class="button discard"
+                    >Cancel Changes</button
+                >
             {:else}
                 {#each buttons as butt}
-                    <button class="button">{butt.title}</button>
+                    <button on:click={butt.func} class="button"
+                        >{butt.title}</button
+                    >
                 {/each}
             {/if}
         </div>
@@ -98,6 +109,9 @@
         border: 1px solid rgba(255, 255, 255, 0.5);
         padding: 0.25rem;
         box-sizing: border-box;
+    }
+    .input:focus {
+        outline: none;
     }
 
     @media only screen and (min-width: 1030px) {

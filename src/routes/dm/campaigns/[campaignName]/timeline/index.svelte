@@ -15,9 +15,13 @@
     import { goto } from "$app/navigation";
 
     $: if ($selectedCampaign) {
-        $breadcrumb.current = $selectedCampaign.title;
+        $breadcrumb.current = "Timeline";
         $breadcrumb.currentType = "Campaign Builder";
         $breadcrumb.path = [
+            {
+                url: `/dm/campaigns/${$selectedCampaign.title}`,
+                name: $selectedCampaign.title,
+            },
             {
                 url: `/dm/campaigns/`,
                 name: "Campaigns",
@@ -25,10 +29,6 @@
         ];
     }
     onMount(async () => {});
-
-    let campaign: Campaign | null = null;
-    let selectedQuest: string | null = null;
-    const campaignTitle = $page.params.campaignName;
 
     function saveCampaign() {
         console.log("saving campaign", $selectedCampaign);
@@ -43,36 +43,19 @@
         <DashModule
             save={saveCampaign}
             canEditTitle={false}
-            canEditDesc={true}
-            title={"Description"}
-            bind:desc={$selectedCampaign.desc}
+            canEditDesc={false}
+            desc={"The timeline is used to keep track of your campaign's progress."}
         />
-        <div class="mod-holder">
-            <DashModule
-                title="Quests"
-                desc="View and edit quests for your campaign."
-                buttons={[
-                    {
-                        title: "View Quests",
-                        func: () => {
-                            goto(`${$page.url}/quests`);
-                        },
-                    },
-                ]}
-            />
-            <DashModule
-                title="Timeline"
-                desc="Timeline is a tool that allows you to easily manage your campaign's progression through the creation of prompts."
-                buttons={[
-                    {
-                        title: "Edit Timeline",
-                        func: () => {
-                            goto(`${$page.url}/timeline`);
-                        },
-                    },
-                ]}
-            />
-        </div>
+        <div class="mod-holder" />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title={"Event Timeline"}
+        >
+            <span slot="extra">
+                <Timeline />
+            </span>
+        </DashModule>
     </div>
 {/if}
 
