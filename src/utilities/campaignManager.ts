@@ -39,6 +39,8 @@ import { get, writable } from "svelte/store";
 export const campaigns = writable<Campaign[]>([]);
 export const selectedCampaign = writable<Campaign>()
 
+export const selectedQuest = writable<Quest>()
+
 export interface Lore {
     id: number;
     title: string;
@@ -70,6 +72,7 @@ export interface Campaign {
     id: number;
     desc: string;
     timeline: any[];
+    quests: Quest[];
 }
 
 export function CreateNewCampaign(user: User, campaigns: Campaign[], name: string): Campaign {
@@ -78,6 +81,7 @@ export function CreateNewCampaign(user: User, campaigns: Campaign[], name: strin
         id: campaigns.length,
         desc: "Welcome to the Campaign Builder. This is where you can create campaigns for your world. Quests are the main way to progress through your campaign. Some Campaigns have only one quest, while others have multiple quests.",
         timeline: [],
+        quests: [],
     }
     setCampaigns(newCampaign, user);
 
@@ -90,6 +94,18 @@ export function UpdateCampaign(user, campaignToUpdate) {
     let c = get(campaigns);
     c.splice(campaignToUpdate.id, 1, campaignToUpdate);
     console.log("updated campaigns", c);
+    UpdateCampaignsInDB(user, c);
+}
+
+export function DeleteCampaign(campaignToDelete, user: User) {
+    let c = get(campaigns);
+    c.splice(campaignToDelete.id, 1);
+    c.forEach((c, i) => {
+        c.id = i;
+    });
+    campaigns.set(c);
+    console.log(c);
+
     UpdateCampaignsInDB(user, c);
 }
 

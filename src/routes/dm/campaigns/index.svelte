@@ -13,28 +13,34 @@
     import { selectedCampaign } from "/src/utilities/campaignManager";
     import { campaigns } from "/src/utilities/campaignManager";
     import { getMyCampaigns } from "/src/utilities/firebase";
+    import { DeleteCampaign } from "/src/utilities/campaignManager";
 
-    onMount(() => {
-        $breadcrumb.current = "Campaigns";
-        $breadcrumb.currentType = "View";
-        $breadcrumb.path = [
-            {
-                url: `/dm/campaigns`,
-                name: "Campaigns",
-            },
-        ];
-    });
+    $breadcrumb.current = "Campaigns";
+    $breadcrumb.currentType = "View";
+    $breadcrumb.path = [
+        {
+            url: `/dm/campaigns`,
+            name: "Campaigns",
+        },
+    ];
+    onMount(() => {});
     let toggleMod;
 
     let name = "";
+    $: camps = $campaigns;
 
     // let selectedCampaign = null;
     async function createNewCampaign() {
         $selectedCampaign = await CreateNewCampaign($user, $campaigns, name);
+        camps = $campaigns;
         toggleMod.toggleMod();
     }
-
-    let camps = [];
+    async function deleteCampaign() {
+        if ($selectedCampaign) {
+            await DeleteCampaign($selectedCampaign, $user);
+            camps = $campaigns;
+        }
+    }
 </script>
 
 <ModWindow bind:this={toggleMod}>
@@ -50,7 +56,7 @@
     </div>
 </ModWindow>
 
-<ListSelector items={$campaigns} bind:selectedItem={$selectedCampaign} />
+<ListSelector items={camps} bind:selectedItem={$selectedCampaign} />
 
 <VerticleList>
     <BigButton type="good" func={() => toggleMod.toggleMod()}
@@ -62,7 +68,9 @@
             func={() => goto(`/dm/campaigns/${$selectedCampaign.title}`)}
             >Select Campaign</BigButton
         >
-        <BigButton type="warning" func={null}>Delete Campaign</BigButton>
+        <BigButton type="warning" func={deleteCampaign}
+            >Delete Campaign</BigButton
+        >
     {/if}
 </VerticleList>
 

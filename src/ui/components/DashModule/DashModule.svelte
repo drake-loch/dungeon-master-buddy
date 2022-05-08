@@ -1,6 +1,5 @@
 <script lang="ts">
     export let title: string | undefined = undefined;
-    let tempTitle = "";
     export let desc = "";
     export let buttons: { title: string; func(): any }[] | [] = [];
 
@@ -44,7 +43,12 @@
         </div>
         <div class="buttons">
             {#if editMode}
-                <button on:click={save} class="button save">Save changes</button
+                <button
+                    on:click={() => {
+                        save();
+                        toggleEditMode();
+                    }}
+                    class="button save">Save changes</button
                 >
                 <button on:click={toggleEditMode} class="button discard"
                     >Cancel Changes</button

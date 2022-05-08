@@ -12,17 +12,21 @@
     $: timeline = [];
 
     function addPrompt(promptTitle: string, promptType: string) {
-        let newPrompt = {
-            title: promptTitle,
-            id: timeline.length,
-            type: promptType,
-            desc: "",
-            hasRead: false,
-            questID: undefined,
-        };
-        timeline.push(newPrompt);
-        timeline = timeline;
-        toggleMod.toggleMod();
+        if (promptTitle !== "") {
+            //prevent adding empty prompts
+            let prompt = {
+                title: promptTitle,
+                id: timeline.length,
+                type: promptType,
+                desc: "",
+                hasRead: false,
+                questID: undefined,
+            };
+            timeline.push(prompt);
+            timeline = timeline;
+            toggleMod.toggleMod();
+            newPrompt = { name: "", type: "" };
+        }
     }
     let toggleMod;
     let newPrompt = { name: "", type: "" };
@@ -48,6 +52,7 @@
             {/each}
         </SelectInput>
         <LittleButton
+            disabled={newPrompt.name === "" || newPrompt.type === ""}
             func={() => addPrompt(newPrompt.name, newPrompt.type)}
             type="good">Create Prompt</LittleButton
         >
