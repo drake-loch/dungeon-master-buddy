@@ -5,17 +5,17 @@
     import { user } from "/src/stores";
     import DashModule from "/src/ui/components/DashModule/DashModule.svelte";
     import { UpdateCampaign } from "/src/utilities/campaignManager";
-    import { goto } from "$app/navigation";
-    import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
     import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
     import { selectedQuest } from "/src/utilities/campaignManager";
-    import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
-    import TextInput from "/src/ui/components/TextInput/TextInput.svelte";
     import { page } from "$app/stores";
+    import Dropdown from "/src/ui/components/Dropdown/Dropdown.svelte";
+    import { worlds } from "/src/utilities/worldConfig";
+    import type { World } from "/src/utilities/worldConfig";
+    import type { Continent } from "/src/utilities/continentsConfig";
+    import type { Province } from "/src/utilities/provinceConfig";
+    import type { Settlement } from "/src/utilities/settlementConfig";
 
-    let toggleMod;
-
-    let name = "";
+    let showSettings = false;
 
     $: if ($selectedCampaign) {
         $breadcrumb.current = $page.params.questName;
@@ -41,23 +41,117 @@
             );
     }
     onMount(async () => {});
-    function saveCampaign() {
-        console.log("saving campaign", $selectedCampaign);
 
+    function saveCampaign() {
         UpdateCampaign($user, $selectedCampaign);
     }
 
-    // $: $quests = $selectedCampaign.quests;
-
     function updateSelectedQuest() {
         $selectedCampaign.quests[$selectedQuest.id] = $selectedQuest;
+        saveCampaign();
+    }
+    function addLoreToQuest() {
+        const lore = {
+            id: $selectedQuest.lore.length,
+            title: "Title",
+            desc: "description....",
+        };
+        $selectedQuest.lore.push(lore);
+        $selectedCampaign.quests[$selectedQuest.id] = $selectedQuest;
+        $selectedQuest.lore = $selectedQuest.lore;
+        console.log("added lore", $selectedQuest);
 
         saveCampaign();
+    }
+
+    let editLocationMode = false;
+    let world: World;
+    let continents = [];
+    let continent: Continent;
+    let provinces = [];
+    let province: Province;
+    let settlements = [];
+    let settlement: Settlement;
+
+    function updateContinents() {
+        world = $worlds.find((w) => {
+            if (w.id === $selectedQuest.location.world) {
+                return w;
+            }
+        });
+        if (world === undefined) world = [];
+        continents = world.continents;
+    }
+    $: if ($worlds.length > 0 && $selectedQuest.location.world !== -1) {
+        updateContinents();
+    }
+
+    function updateProvinces() {
+        continent = continents.find(
+            (c) => c.id === $selectedQuest.location.continent
+        );
+        provinces = continent.provinces;
+    }
+
+    $: if (
+        $worlds.length > 0 &&
+        $selectedQuest.location.world !== -1 &&
+        $selectedQuest.location.continent !== -1
+    ) {
+        updateProvinces();
+    }
+
+    function updateSettlements() {
+        province = provinces.find((p) => p.id === $selectedQuest.location.prov);
+        settlements = province.settlements;
+    }
+    $: if (
+        $worlds.length > 0 &&
+        $selectedQuest.location.world !== -1 &&
+        $selectedQuest.location.continent !== -1 &&
+        $selectedQuest.location.prov !== -1
+    ) {
+        updateSettlements();
+    }
+    // set settlement
+    $: if (
+        $worlds.length > 0 &&
+        $selectedQuest.location.world !== -1 &&
+        $selectedQuest.location.continent !== -1 &&
+        $selectedQuest.location.prov !== -1 &&
+        $selectedQuest.location.settlement !== -1
+    ) {
+        settlement = province.settlements.find(
+            (s) => s.id === $selectedQuest.location.settlement
+        );
     }
 </script>
 
 {#if $selectedCampaign}
     <div class="page">
+        <DashModule canEditTitle={false} canEditDesc={false}>
+            <div slot="extra" class="buttons">
+                <LittleButton func={addLoreToQuest}>Add Lore</LittleButton>
+                <LittleButton
+                    type="tool"
+                    func={() => (showSettings = !showSettings)}
+                >
+                    ⚙</LittleButton
+                >
+            </div>
+        </DashModule>
+        {#if showSettings}
+            <DashModule
+                canEditTitle={false}
+                canEditDesc={false}
+                title="Settings"
+                desc="Edit Quest Settings"
+            >
+                <div slot="extra" class="">
+                    <LittleButton func={saveCampaign}>Save</LittleButton>
+                </div>
+            </DashModule>
+        {/if}
         <DashModule
             save={updateSelectedQuest}
             canEditTitle={false}
@@ -65,6 +159,69 @@
             title="Description"
             bind:desc={$selectedQuest.desc}
         />
+        <DashModule
+            save={saveCampaign}
+            canEditOther={true}
+            title="Location"
+            desc="Quest Location"
+            bind:editMode={editLocationMode}
+        >
+            <div slot="extra" class="">
+                <h5>Assign a location for this quest</h5>
+                <div class="dropdowns">
+                    <Dropdown
+                        label="World:"
+                        bind:value={$selectedQuest.location.world}
+                        list={$worlds}
+                        displayValue={world.name}
+                        editMode={editLocationMode}
+                        nav={`/dm/worlds/${world.name}`}
+                    />
+                    <Dropdown
+                        label="Continent:"
+                        disabled={$selectedQuest.location.world === -1}
+                        bind:value={$selectedQuest.location.continent}
+                        list={continents}
+                        displayValue={continent.name}
+                        editMode={editLocationMode}
+                        nav={`/dm/worlds/${world.name}/${continent.name}`}
+                    />
+                    <Dropdown
+                        label="Province:"
+                        disabled={$selectedQuest.location.continent === -1}
+                        bind:value={$selectedQuest.location.prov}
+                        list={provinces}
+                        displayValue={province.name}
+                        editMode={editLocationMode}
+                        nav={`/dm/worlds/${world.name}/${continent.name}/${province.name}`}
+                    />
+                    <Dropdown
+                        label="Settlement:"
+                        disabled={$selectedQuest.location.prov === -1}
+                        bind:value={$selectedQuest.location.settlement}
+                        list={settlements}
+                        displayValue={$selectedQuest.location.settlement === -1
+                            ? ""
+                            : settlement.name}
+                        editMode={editLocationMode}
+                        nav={`/dm/worlds/${world.name}/${continent.name}/${province.name}/${settlement.name}`}
+                    />
+                </div>
+                <!-- <LittleButton func={saveCampaign}>Save</LittleButton> -->
+            </div>
+        </DashModule>
+
+        {#if $selectedQuest?.lore}
+            {#each $selectedQuest.lore as lore}
+                <DashModule
+                    save={updateSelectedQuest}
+                    canEditTitle={true}
+                    canEditDesc={true}
+                    bind:title={lore.title}
+                    bind:desc={lore.desc}
+                />
+            {/each}
+        {/if}
     </div>
 {/if}
 
@@ -79,14 +236,17 @@
         gap: 2rem;
     }
 
-    .mod-holder {
-        margin-top: 2rem;
+    .dropdowns {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        margin: 1rem 0;
+        width: 50%;
+        gap: 0.5rem;
     }
-
-    p {
-        margin: 0 0 1rem 0;
+    @media only screen and (min-width: 1030px) {
+        .dropdowns {
+            margin: 1rem 0;
+            width: 25%;
+        }
     }
 </style>

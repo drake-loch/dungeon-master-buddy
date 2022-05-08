@@ -28,7 +28,7 @@
 <style>
     button {
         border: 1px solid rgba(0, 0, 0, 1);
-        padding: 0.5rem 0.85rem;
+        padding: 0.5rem 2rem;
         font-size: 1rem;
         background-color: var(--col-dark-lighter);
         border-radius: 0.15rem;
@@ -37,7 +37,11 @@
         button {
             padding: 0.25rem 0.5rem;
             font-size: 1rem;
-            width: fit-content;
+            /* width: fit-content; */
+        }
+        .pc {
+            padding: 0.6rem 1rem;
+            width: 12rem;
         }
     }
     button:hover {
@@ -54,6 +58,14 @@
     }
     .good:disabled {
         background-color: var(--button-good-disabled);
+        color: var(--col-dark-light);
+    }
+    .tool {
+        background-color: var(--button-tool);
+        color: white;
+    }
+    .tool:disabled {
+        background-color: var(--button-tool-disabled);
         color: var(--col-dark-light);
     }
 </style>

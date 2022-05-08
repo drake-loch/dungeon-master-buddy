@@ -1,14 +1,16 @@
 <script lang="ts">
     export let title: string | undefined = undefined;
-    export let desc = "";
+    export let desc: string | undefined = undefined;
     export let buttons: { title: string; func(): any }[] | [] = [];
 
     export let canEditTitle = false;
     export let canEditDesc = false;
+    export let canEditOther = false;
     export let showExtra = false;
     export let save = () => {};
 
-    let editMode = false;
+    export let editMode = false;
+
     function toggleEditMode() {
         console.log("toggle edit mode");
 
@@ -17,22 +19,24 @@
 </script>
 
 <div class="module">
-    <div class="header">
-        {#if title !== undefined}
-            {#if canEditTitle && editMode}
-                <input class="input" bind:value={title} type="text" />
-            {:else}
-                <h2 class="title">{title}</h2>
+    {#if title !== undefined || canEditTitle || canEditDesc || canEditOther}
+        <div class="header">
+            {#if title !== undefined}
+                {#if canEditTitle && editMode}
+                    <input class="input" bind:value={title} type="text" />
+                {:else}
+                    <h2 class="title">{title}</h2>
+                {/if}
             {/if}
-        {/if}
-        {#if canEditTitle || canEditDesc}
-            <button on:click={toggleEditMode} class="edit-icon">✏</button>
-        {/if}
-    </div>
+            {#if canEditTitle || canEditDesc || canEditOther}
+                <button on:click={toggleEditMode} class="edit-icon">✏</button>
+            {/if}
+        </div>
+    {/if}
     <div class="content">
         {#if canEditDesc && editMode}
             <textarea rows="5" class="input" bind:value={desc} />
-        {:else}
+        {:else if desc !== undefined}
             <p class="desc">
                 {desc}
             </p>
@@ -80,10 +84,12 @@
     }
     .title {
         margin-right: 1rem;
+        color: white;
     }
     .desc {
         margin-bottom: 0.8rem;
         line-height: 1.45rem;
+        color: white;
     }
 
     .buttons {

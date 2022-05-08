@@ -38,14 +38,14 @@
         UpdateCampaign($user, $selectedCampaign);
     }
 
-    // $: $quests = $selectedCampaign.quests;
-
     function createNewQuest() {
         const newQuest = {
             id: $selectedCampaign.quests.length,
             title: name,
             desc: "",
             prompts: [],
+            lore: [],
+            location: { world: -1, continent: -1, prov: -1, settlement: -1 },
         };
         $selectedCampaign.quests.push(newQuest);
         saveCampaign();

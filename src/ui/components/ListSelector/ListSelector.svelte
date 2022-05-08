@@ -13,16 +13,16 @@
     }
 </script>
 
-<div>
+<div on:click={() => {}}>
     {#if items}
         {#each items as item}
-            <p
+            <button
                 on:click={() => selectItem(item)}
                 class={selectedItem === item ? "selected" : ""}
             >
                 {item.name ? item.name : ""}
                 {item.title ? item.title : ""}
-            </p>
+            </button>
         {/each}
     {:else}
         <p>No Items</p>
@@ -34,7 +34,7 @@
         width: 100%;
         height: 30vh;
         display: flex;
-        background-color: var(--col-input);
+        background-color: rgba(255, 255, 255, 0.35);
         border: 2px solid rgb(37, 37, 37);
         margin-bottom: 1rem;
         padding: 0.5rem 0;
@@ -42,17 +42,20 @@
         flex-direction: column;
         align-items: center;
         color: black;
+        overflow-y: auto;
     }
-    p {
+    button {
         width: 100%;
-        height: 2rem;
+        min-height: 2rem;
         padding: 0 1rem;
-        font-size: 1.5rem;
+        font-size: 1.35rem;
         box-sizing: border-box;
         display: flex;
         align-items: center;
+        border: none;
+        background: none;
     }
-    p:hover {
+    button:hover {
         cursor: pointer;
     }
     .selected {
@@ -61,7 +64,11 @@
 
     @media only screen and (min-width: 1030px) {
         div {
-            width: 30%;
+            width: 40%;
+            height: 20vh;
+        }
+        button {
+            font-size: 1.25rem;
         }
     }
 </style>

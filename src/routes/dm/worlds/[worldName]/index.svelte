@@ -10,6 +10,12 @@
     import PanelHolder from "/src/ui/components/PanelHolder/PanelHolder.svelte";
     import { breadcrumb } from "/src/utilities/breadCrumbStore";
     import { user } from "/src/stores";
+    import DashModule from "/src/ui/components/DashModule/DashModule.svelte";
+    import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
+    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
+    import { selectedContinent } from "/src/utilities/continentsConfig";
+    import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
 
     $: if ($selectedWorld) {
         $breadcrumb.current = $selectedWorld.name;
@@ -20,102 +26,149 @@
 
 {#if $selectedWorld}
     <section>
-        <PanelHolder>
-            <CoolPanel
-                title="Campaigns"
-                options={[
-                    {
-                        name: "Manage Campaigns",
-                        nav: `/dm/campaigns`,
-                    },
-                ]}
-            />
-            <CoolPanel
-                title="Continents"
-                nav="/dm/worlds/{$selectedWorld.name}/continents"
-                options={[
-                    {
-                        name: "Manage continents",
-                        nav: `/dm/worlds/${$selectedWorld.name}/continents`,
-                    },
-                    {
-                        name: "View Provinces",
-                        nav: `/dm/worlds/${$selectedWorld.name}/provinces-list`,
-                    },
-                    {
-                        name: "View Settlements",
-                        nav: `/dm/worlds/${$selectedWorld.name}/settlements-list`,
-                    },
-                ]}
-            />
-            <CoolPanel
-                title="Builder"
-                options={[
-                    {
-                        name: "Build Character",
-                        nav: `/dm/worlds/${$selectedWorld.name}/character-sheet`,
-                    },
-                    {
-                        name: "Build NPC",
-                        nav: `/dm/worlds/${$selectedWorld.name}/builder/npc`,
-                    },
-                    {
-                        name: "Build Creature",
-                        nav: `/dm/worlds/${$selectedWorld.name}/builder/creature`,
-                    },
-                ]}
-            />
-            <CoolPanel
-                title="Races"
-                options={[
-                    {
-                        name: "View Races",
-                        nav: `/dm/worlds/${$selectedWorld.name}/races`,
-                    },
-                ]}
-            />
-            <CoolPanel
-                title="NPCs"
-                options={[
-                    {
-                        name: "All NPCs",
-                        nav: `/dm/worlds/${$selectedWorld.name}/npcs`,
-                    },
-                    {
-                        name: "Create NPC",
-                        nav: `/dm/worlds/${$selectedWorld.name}/builder`,
-                    },
-                ]}
-            />
-            <CoolPanel
-                title="Player Characters"
-                options={[
-                    {
-                        name: "View List",
-                        nav: `/dm/worlds/${$selectedWorld.name}/characters`,
-                    },
-                    {
-                        name: "Create PC",
-                        nav: `/dm/worlds/${$selectedWorld.name}/builder`,
-                    },
-                ]}
-            />
+        <DashModule
+            canEditTitle={true}
+            canEditDesc={true}
+            title="Description"
+            desc="World Description"
+        />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Continents"
+            desc="View and edit continents."
+        >
+            <div class="select-list" slot="extra">
+                <ListSelector
+                    bind:selectedItem={$selectedContinent}
+                    items={$selectedWorld.continents}
+                />
+                <div class="button-list">
+                    <LittleButton type="good pc" func={() => {}}
+                        >New</LittleButton
+                    >
+                    {#if $selectedContinent}
+                        <LittleButton
+                            type="tool pc"
+                            func={() =>
+                                goto(`${$page.url}/${$selectedContinent.name}`)}
+                            >View</LittleButton
+                        >
+                        <LittleButton type="warning pc" func={() => {}}
+                            >Delete</LittleButton
+                        >
+                    {/if}
+                </div>
+            </div>
+        </DashModule>
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Character Builder"
+            desc="View, Create amd edit characters, NPCs and Creatures here."
+            buttons={[
+                { title: "View NPCS", func: () => goto(`${$page.url}/npcs`) },
+                {
+                    title: "View Character",
+                    func: () => goto(`${$page.url}/characters`),
+                },
+                {
+                    title: "View Creatures",
+                    func: () => goto(`${$page.url}/creatures`),
+                },
+            ]}
+        />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Campaigns"
+            desc="View, Create amd edit Campaigns."
+            buttons={[
+                {
+                    title: "View Campaigns",
+                    func: () => goto(`${$page.url}/campaigns`),
+                },
+            ]}
+        />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Quests"
+            desc="View, Create amd edit Quests."
+            buttons={[
+                {
+                    title: "View Quests",
+                    func: () => goto(`${$page.url}/quests`),
+                },
+            ]}
+        />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Races"
+            desc="View, Create amd edit races."
+            buttons={[
+                { title: "View Races", func: () => goto(`${$page.url}/races`) },
+            ]}
+        />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Factions"
+            desc="View, Create amd edit factions."
+            buttons={[
+                {
+                    title: "View factions",
+                    func: () => goto(`${$page.url}/factions`),
+                },
+            ]}
+        />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Organizations"
+            desc="View, Create amd edit Organizations."
+            buttons={[
+                {
+                    title: "View Organizations",
+                    func: () => goto(`${$page.url}/organizations`),
+                },
+            ]}
+        />
+        <!-- <PanelHolder>
             <CoolPanel title="Spellbook" />
             <CoolPanel title="Religions" />
-            <CoolPanel title="Organizations" />
-            <CoolPanel title="Factions" />
             <CoolPanel title="Lore" />
             <CoolPanel title="Items" />
             <CoolPanel title="Settings" />
             <CoolPanel />
-        </PanelHolder>
+        </PanelHolder> -->
     </section>
 {/if}
 
 <style>
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
     @media only screen and (min-width: 1030px) {
         :global(body) {
             overflow: hidden;
+        }
+        section {
+            padding-bottom: 5rem;
+        }
+        .select-list {
+            display: flex;
+            /* background-color: red; */
+        }
+        .button-list {
+            margin-left: 1rem;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            gap: 0.5rem;
         }
     }
 </style>
