@@ -8,8 +8,13 @@
     import { PROMPT_TYPES as promptTypes } from "/src/utilities/campaignManager";
 
     let testColor = "green";
+    export let isQuest = false;
 
     $: timeline = [];
+
+    const noQuestPromptList = promptTypes.filter((p) => p !== "quest");
+
+    $: console.log("noQuestPromptList", noQuestPromptList);
 
     function addPrompt(promptTitle: string, promptType: string) {
         if (promptTitle !== "") {
@@ -47,7 +52,7 @@
             placeholder="Select type"
         >
             <!--  -->
-            {#each promptTypes as pt}
+            {#each isQuest ? noQuestPromptList : promptTypes as pt}
                 <option value={pt}>{pt}</option>
             {/each}
         </SelectInput>

@@ -14,6 +14,7 @@
     import type { Continent } from "/src/utilities/continentsConfig";
     import type { Province } from "/src/utilities/provinceConfig";
     import type { Settlement } from "/src/utilities/settlementConfig";
+    import Timeline from "/src/ui/components/Timeline/Timeline.svelte";
 
     let showSettings = false;
 
@@ -210,6 +211,15 @@
                 <!-- <LittleButton func={saveCampaign}>Save</LittleButton> -->
             </div>
         </DashModule>
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title={"Event Timeline"}
+        >
+            <span slot="extra">
+                <Timeline isQuest={true} />
+            </span>
+        </DashModule>
 
         {#if $selectedQuest?.lore}
             {#each $selectedQuest.lore as lore}
@@ -227,7 +237,6 @@
 
 <style>
     .page {
-        /* padding: 1rem; */
         /* background-color: var(--col-dark-dark); */
         box-sizing: border-box;
         color: white;
@@ -244,6 +253,9 @@
         gap: 0.5rem;
     }
     @media only screen and (min-width: 1030px) {
+        .page {
+            padding-bottom: 4rem;
+        }
         .dropdowns {
             margin: 1rem 0;
             width: 25%;

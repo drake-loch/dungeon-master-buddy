@@ -16,11 +16,11 @@
             $user = u;
             $isLoggedIn = true;
             let data = await getUserData($user);
-            $userData = { ...data[0] };
+            $userData = { ...data };
 
             $worlds = $userData.worlds;
             $campaigns = $userData.campaigns;
-            console.log("data", $userData);
+            // console.log("data", $userData);
         } else {
             //not logged in
             $user = null;

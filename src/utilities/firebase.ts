@@ -1,7 +1,7 @@
 import { goto } from '$app/navigation';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { getFirestore, doc, collection, getDocs, setDoc, updateDoc, arrayUnion } from 'firebase/firestore/lite';
+import { getFirestore, doc, collection, getDocs, setDoc, updateDoc, arrayUnion, query, where } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_API_KEY,
@@ -21,6 +21,10 @@ export const auth = getAuth();
 export async function initUserDataInDB(user) {
     // await setDoc(doc(db, "users"), user.uid)
     await setDoc(doc(db, "users", user.uid), { worlds: [], campaigns: [], projectID: user.uid })
+}
+
+export async function getDataFromDB(user) {
+
 }
 
 
@@ -88,12 +92,9 @@ export async function getMyCampaigns(user) {
 }
 
 export async function getUserData(user) {
-    return (await getDocs(collection(db, `users`))).docs.map(doc => {
-        if (doc.data().projectID === user.uid) {
-
-            return doc.data()
-        }
-    })
+    return (await getDocs(collection(db, `users`))).docs.map((doc) => {
+        if (doc.data().projectID === user.uid) return doc.data();
+    }).filter(doc => doc !== undefined)[0];
 }
 
 
