@@ -16,13 +16,22 @@
     import { selectedContinent } from "/src/utilities/continentsConfig";
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
+    import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
+    import CreateContinent from "/src/ui/components/ModWindow/ModWindows/CreateContinent.svelte";
 
     $: if ($selectedWorld) {
         $breadcrumb.current = $selectedWorld.name;
         $breadcrumb.currentType = "world";
         $breadcrumb.path = [];
     }
+    $selectedContinent = undefined;
+
+    let toggleMod;
 </script>
+
+<ModWindow bind:this={toggleMod}>
+    <CreateContinent toggleMod={toggleMod.toggleMod} />
+</ModWindow>
 
 {#if $selectedWorld}
     <section>
@@ -44,9 +53,6 @@
                     items={$selectedWorld.continents}
                 />
                 <div class="button-list">
-                    <LittleButton type="good pc" func={() => {}}
-                        >New</LittleButton
-                    >
                     {#if $selectedContinent}
                         <LittleButton
                             type="tool pc"
@@ -54,6 +60,12 @@
                                 goto(`${$page.url}/${$selectedContinent.name}`)}
                             >View</LittleButton
                         >
+                    {/if}
+                    <LittleButton
+                        type="good pc"
+                        func={() => toggleMod.toggleMod()}>New</LittleButton
+                    >
+                    {#if $selectedContinent}
                         <LittleButton type="warning pc" func={() => {}}
                             >Delete</LittleButton
                         >

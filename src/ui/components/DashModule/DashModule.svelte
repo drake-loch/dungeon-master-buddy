@@ -2,6 +2,7 @@
     export let title: string | undefined = undefined;
     export let desc: string | undefined = undefined;
     export let buttons: { title: string; func(): any }[] | [] = [];
+    export let style = "";
 
     export let canEditTitle = false;
     export let canEditDesc = false;
@@ -18,7 +19,7 @@
     }
 </script>
 
-<div class="module">
+<div class="module {style}">
     {#if title !== undefined || canEditTitle || canEditDesc || canEditOther}
         <div class="header">
             {#if title !== undefined}

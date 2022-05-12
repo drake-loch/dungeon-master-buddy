@@ -26,7 +26,7 @@
         position: absolute;
         width: 100vw;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.65);
+        background-color: rgba(0, 0, 0, 0.45);
         top: 0;
         left: 0;
         box-sizing: border-box;
@@ -39,18 +39,19 @@
         position: relative;
         height: fit-content;
         max-height: 100%;
-        background-color: rgb(148, 148, 148);
-        border-top: 1px solid var(--col-dark-main);
+        background-color: rgb(88, 88, 88);
+        /* border-top: 1px solid var(--col-dark-main);
         border-left: 1px solid var(--col-dark-main);
         border-bottom: 2px solid var(--col-dark-lightest);
-        border-right: 2px solid var(--col-dark-lightest);
+        border-right: 2px solid var(--col-dark-lightest); */
+        border: 2px solid black;
         box-sizing: border-box;
-        padding: 1rem 1rem 6rem 1rem;
+        padding: 1rem;
     }
 
     @media only screen and (min-width: 1030px) {
         .default {
-            padding: 1rem 1rem 16rem 1rem;
+            padding: 1rem 1rem 1rem 1rem;
         }
         .small {
             min-width: 30%;

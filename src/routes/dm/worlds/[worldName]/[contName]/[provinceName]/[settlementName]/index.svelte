@@ -7,7 +7,11 @@
     import { selectedContinent } from "/src/utilities/continentsConfig";
     import { selectedProvince } from "/src/utilities/provinceConfig";
     import { selectedSettlement } from "/src/utilities/settlementConfig";
-
+    import DashModule from "/src/ui/components/DashModule/DashModule.svelte";
+    import ListSelector from "/src/ui/components/ListSelector/ListSelector.svelte";
+    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
+    import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
     $: if (
         $selectedWorld &&
         $selectedContinent &&
@@ -35,46 +39,40 @@
 
 {#if $selectedWorld && $selectedContinent && $selectedProvince && $selectedSettlement}
     <section>
-        <PanelHolder>
-            <CoolPanel
-                title="Shops"
-                nav="/dm/worlds/{$selectedWorld.name}/{$selectedContinent.name}/{$selectedProvince}/{$selectedSettlement.name}/shops"
-                options={[
-                    {
-                        name: "Manage Shops",
-                        nav: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/${$selectedSettlement.name}/shops`,
-                    },
-                    {
-                        name: "Create Shop",
-                        nav: `/dm/worlds/${$selectedWorld.name}/${$selectedContinent.name}/${$selectedProvince.name}/${$selectedSettlement.name}/shops/create`,
-                    },
-                ]}
-            />
-            <CoolPanel
-                title="NPC List"
-                options={[
-                    {
-                        name: "View List",
-                        nav: `/dm/worlds/${$selectedWorld.name}/npc-list`,
-                    },
-                    {
-                        name: "Create NPC",
-                        nav: `/dm/worlds/${$selectedWorld.name}/builder`,
-                    },
-                ]}
-            />
-            <!-- <CoolPanel /> -->
-        </PanelHolder>
+        <DashModule
+            canEditTitle={true}
+            canEditDesc={true}
+            title="Description"
+            desc="Province Description"
+        />
+        <DashModule title="Shops" desc="View Shops in this settlement." />
+        <DashModule title="NPCs" desc="View NPCs in this settlement." />
     </section>
 {/if}
 
 <style>
     section {
-        min-width: 75%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
     }
     @media only screen and (min-width: 1030px) {
         :global(body) {
             overflow: hidden;
+        }
+        section {
+            padding-bottom: 5rem;
+        }
+        .select-list {
+            display: flex;
+            /* background-color: red; */
+        }
+        .button-list {
+            margin-left: 1rem;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            gap: 0.5rem;
         }
     }
 </style>

@@ -174,39 +174,42 @@
                         label="World:"
                         bind:value={$selectedQuest.location.world}
                         list={$worlds}
-                        displayValue={world.name}
+                        displayValue={world ? world.name : ""}
                         editMode={editLocationMode}
-                        nav={`/dm/worlds/${world.name}`}
+                        nav={`/dm/worlds/${world?.name}`}
                     />
-                    <Dropdown
-                        label="Continent:"
-                        disabled={$selectedQuest.location.world === -1}
-                        bind:value={$selectedQuest.location.continent}
-                        list={continents}
-                        displayValue={continent.name}
-                        editMode={editLocationMode}
-                        nav={`/dm/worlds/${world.name}/${continent.name}`}
-                    />
-                    <Dropdown
-                        label="Province:"
-                        disabled={$selectedQuest.location.continent === -1}
-                        bind:value={$selectedQuest.location.prov}
-                        list={provinces}
-                        displayValue={province.name}
-                        editMode={editLocationMode}
-                        nav={`/dm/worlds/${world.name}/${continent.name}/${province.name}`}
-                    />
-                    <Dropdown
-                        label="Settlement:"
-                        disabled={$selectedQuest.location.prov === -1}
-                        bind:value={$selectedQuest.location.settlement}
-                        list={settlements}
-                        displayValue={$selectedQuest.location.settlement === -1
-                            ? ""
-                            : settlement.name}
-                        editMode={editLocationMode}
-                        nav={`/dm/worlds/${world.name}/${continent.name}/${province.name}/${settlement.name}`}
-                    />
+                    {#if world}
+                        <Dropdown
+                            label="Continent:"
+                            disabled={$selectedQuest.location.world === -1}
+                            bind:value={$selectedQuest.location.continent}
+                            list={continents}
+                            displayValue={continent.name}
+                            editMode={editLocationMode}
+                            nav={`/dm/worlds/${world.name}/${continent.name}`}
+                        />
+                        <Dropdown
+                            label="Province:"
+                            disabled={$selectedQuest.location.continent === -1}
+                            bind:value={$selectedQuest.location.prov}
+                            list={provinces}
+                            displayValue={province.name}
+                            editMode={editLocationMode}
+                            nav={`/dm/worlds/${world.name}/${continent.name}/${province.name}`}
+                        />
+                        <Dropdown
+                            label="Settlement:"
+                            disabled={$selectedQuest.location.prov === -1}
+                            bind:value={$selectedQuest.location.settlement}
+                            list={settlements}
+                            displayValue={$selectedQuest.location.settlement ===
+                            -1
+                                ? ""
+                                : settlement.name}
+                            editMode={editLocationMode}
+                            nav={`/dm/worlds/${world.name}/${continent.name}/${province.name}/${settlement.name}`}
+                        />
+                    {/if}
                 </div>
                 <!-- <LittleButton func={saveCampaign}>Save</LittleButton> -->
             </div>
