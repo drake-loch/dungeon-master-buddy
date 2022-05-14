@@ -9,6 +9,7 @@ import { createNewRace } from './charManager';
 
 export interface World {
     name: string,
+    desc: string,
     creatorID: string,
     id: number,
     continents: Continent[],
@@ -41,6 +42,7 @@ export function CreateNewWorld(name: string, user, skillset?) {
 
     const newWorld: World = {
         name: name,
+        desc: '',
         creatorID: user.uid,
         id: get(worlds)?.length > 0 ? get(worlds).length : 0,
         continents: [],

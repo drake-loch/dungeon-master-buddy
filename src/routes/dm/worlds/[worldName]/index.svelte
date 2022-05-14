@@ -36,7 +36,7 @@
 {#if $selectedWorld}
     <section>
         <DashModule
-            canEditTitle={true}
+            canEditTitle={false}
             canEditDesc={true}
             title="Description"
             desc="World Description"

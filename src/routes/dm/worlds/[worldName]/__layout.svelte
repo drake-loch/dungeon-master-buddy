@@ -26,9 +26,8 @@
     $: size = $navExpanded ? "col" : "";
 
     $: if ($user?.uid && $userData?.worlds.length > 0 && !$selectedWorld) {
-        console.log("No world selected");
-        // $worlds = await GetWorldsFromDB($user);
         $selectedWorld = $userData.worlds.find((w) => w.name === worldName);
+        console.log($selectedWorld);
     }
     onMount(async () => {
         $showBreadcrumb = true;

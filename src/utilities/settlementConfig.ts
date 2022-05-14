@@ -1,16 +1,11 @@
 import { get, writable } from "svelte/store";
-
-//stores
-//import selectedworld, selectedcontinent, selectedprovince from their configs
-// import { selectedWorld } from "/src/stores/worldsStore";
-import { selectedContinent } from "./continentsConfig";
 import { selectedProvince, UpdateProvinceInDB } from "./provinceConfig";
-import { user } from "../stores/index";
 import type { User } from "firebase/auth";
 //=========================================================
 
 export interface Settlement {
     name: string,
+    desc: string,
     id: number,
     settlements: Settlement[],
 }
@@ -18,10 +13,10 @@ export interface Settlement {
 export const selectedSettlement = writable<Settlement | null>(null)
 
 
-//function that creates a new settlement and adds it to the world
 export function CreateNewSettlement(user: User, name: string) {
     const newSettlement: Settlement = {
         name: name,
+        desc: "",
         id: get(selectedProvince)?.settlements.length > 0 ? get(selectedProvince).settlements.length : 0,
         settlements: [],
     };
@@ -30,5 +25,3 @@ export function CreateNewSettlement(user: User, name: string) {
     UpdateProvinceInDB(user, sp);
     return sp;
 }
-
-//function that

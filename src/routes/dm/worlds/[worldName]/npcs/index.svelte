@@ -9,6 +9,10 @@
     import CharBuilder from "/src/ui/components/Builder/CharBuilder.svelte";
     import BuilderButton from "/src/ui/components/Tabs/components/BuilderButton.svelte";
     import NpcBuilder from "/src/ui/components/Builder/NpcBuilder.svelte";
+    import DashModule from "/src/ui/components/DashModule/DashModule.svelte";
+    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
+    import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
 
     $: if ($selectedWorld) {
         $breadcrumb.current = "NPCs";
@@ -38,7 +42,7 @@
     </span>
 </ModWindow>
 
-{#if $selectedWorld}
+<!-- {#if $selectedWorld}
     <ListSelector
         items={$selectedWorld.allNPCs}
         bind:selectedItem={selectedChar}
@@ -52,4 +56,99 @@
             <BigButton type="warning" func={null}>Delete NPC</BigButton>
         {/if}
     </VerticleList>
+{/if} -->
+
+{#if $selectedWorld}
+    <div class="content">
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="NPCs"
+            desc="View and edit NPCs."
+        >
+            <div class="select-list" slot="extra">
+                <ListSelector
+                    bind:selectedItem={selectedChar}
+                    items={$selectedWorld.allNPCs}
+                />
+                <div class="button-list">
+                    {#if selectedChar}
+                        <LittleButton
+                            type="tool pc"
+                            func={() =>
+                                goto(`${$page.url}/${selectedChar.name}`)}
+                            >View</LittleButton
+                        >
+                    {/if}
+                    <LittleButton
+                        type="good pc"
+                        func={() => toggleMod.toggleMod()}
+                    >
+                        New</LittleButton
+                    >
+                    {#if selectedChar}
+                        <LittleButton type="warning pc" func={null}
+                            >Delete</LittleButton
+                        >
+                    {/if}
+                </div>
+            </div>
+        </DashModule>
+    </div>
 {/if}
+
+<style>
+    span {
+        color: var(--col-brand);
+        font-weight: 700;
+        font-size: 2.5rem;
+    }
+    h1 {
+        text-align: center;
+        width: 100%;
+        font-size: 1.5rem;
+    }
+    h2 {
+        margin: 2rem 0 0 0;
+        color: white;
+        font-weight: 200;
+    }
+    .content {
+        width: 100%;
+    }
+    .page {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    @media only screen and (min-width: 1030px) {
+        h1,
+        h2 {
+            width: 100%;
+            text-align: left;
+        }
+        h1 {
+            margin-bottom: 0rem;
+        }
+        .page {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .content {
+            display: flex;
+        }
+        .button-list {
+            margin-left: 1rem;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            gap: 0.5rem;
+        }
+        .select-list {
+            display: flex;
+        }
+    }
+</style>

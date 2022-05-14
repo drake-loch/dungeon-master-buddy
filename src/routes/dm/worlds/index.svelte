@@ -15,14 +15,16 @@
     import { userData } from "/src/utilities/userData";
     import { getUserData } from "/src/utilities/firebase";
     import { clearBreadcrumb } from "/src/utilities/breadCrumbStore";
+    import DashModule from "/src/ui/components/DashModule/DashModule.svelte";
+    import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
+    import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
 
     let selectedW = null;
     let toggleMod;
 
     onMount(async () => {
         clearBreadcrumb();
-        // updateWorlds();
-        // sessionStorage.setItem("worlds", JSON.stringify($worlds));
     });
     async function updateWorlds() {
         console.log($userData);
@@ -48,26 +50,40 @@
     <h1>Welcome, <br /><span>Dungeon Master!</span></h1>
     <h2>Please select a world</h2>
     <div class="content">
-        <ListSelector bind:selectedItem={selectedW} items={$worlds} />
-        <div class="margin">
-            <VerticleList>
-                {#if selectedW}
-                    <BigButton
-                        type="good"
-                        func={selectWorld}
-                        nav="/dm/worlds/{selectedW.name}"
-                        >Select World</BigButton
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
+            title="Worlds"
+            desc="View and edit worlds."
+        >
+            <div class="select-list" slot="extra">
+                <ListSelector
+                    bind:selectedItem={$selectedWorld}
+                    items={$worlds}
+                />
+                <div class="button-list">
+                    {#if $selectedWorld}
+                        <LittleButton
+                            type="tool pc"
+                            func={() =>
+                                goto(`${$page.url}/${$selectedWorld.name}`)}
+                            >View</LittleButton
+                        >
+                    {/if}
+                    <LittleButton
+                        type="good pc"
+                        func={() => toggleMod.toggleMod()}
                     >
-                    <BigButton type="warning" func={deleteWorld}
-                        >Delete World</BigButton
+                        New</LittleButton
                     >
-                {/if}
-                <BigButton func={() => toggleMod.toggleMod()}
-                    >Create World</BigButton
-                >
-                <BigButton nav="/">Back</BigButton>
-            </VerticleList>
-        </div>
+                    {#if $selectedWorld}
+                        <LittleButton type="warning pc" func={deleteWorld}
+                            >Delete</LittleButton
+                        >
+                    {/if}
+                </div>
+            </div>
+        </DashModule>
     </div>
 </div>
 
@@ -100,11 +116,10 @@
         h1,
         h2 {
             width: 100%;
-            margin-right: 10rem;
-            text-align: right;
+            text-align: left;
         }
         h1 {
-            margin-bottom: 4rem;
+            margin-bottom: 0rem;
         }
         .page {
             width: 100%;
@@ -114,15 +129,16 @@
         }
         .content {
             display: flex;
-            flex-direction: row-reverse;
-            margin-right: 10rem;
         }
-        .margin {
-            width: 60%;
-            height: fit-content;
+        .button-list {
+            margin-left: 1rem;
             display: flex;
-            justify-content: flex-end;
-            margin-right: 4rem;
+            flex-direction: column;
+            width: 50%;
+            gap: 0.5rem;
+        }
+        .select-list {
+            display: flex;
         }
     }
 </style>

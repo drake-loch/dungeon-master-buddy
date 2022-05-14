@@ -131,7 +131,7 @@
     .line {
         width: 55%;
         height: 8px;
-        background-color: rgb(210, 210, 210);
+        background-color: var(--col-brand);
     }
     .navMob {
         display: flex;
