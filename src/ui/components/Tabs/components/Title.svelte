@@ -12,11 +12,7 @@
         font-weight: 500;
         letter-spacing: 4px;
         font-style: italic;
-        color: hsl(0, 0%, 30%);
-        background-image: linear-gradient(
-            var(--col-dark-lightest),
-            rgba(0, 0, 0, 0.04)
-        );
+        color: white;
         /* border-radius: 10px; */
     }
     @media only screen and (min-width: 1030px) {

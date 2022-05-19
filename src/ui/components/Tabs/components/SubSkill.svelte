@@ -31,9 +31,10 @@
         width: 100%;
         padding: 0 0.5rem;
         box-sizing: border-box;
+        margin-bottom: 0.25rem;
     }
     .title {
-        color: black;
+        color: white;
     }
     .mod {
         color: white;

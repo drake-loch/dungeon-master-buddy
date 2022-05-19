@@ -49,11 +49,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        border: 1px solid black;
+        border: 1px solid white;
         box-sizing: border-box;
         overflow: hidden;
         border-radius: 10px;
         padding: 0.3rem 0;
+        background-color: rgba(255, 255, 255, 0.05);
     }
     .title {
         font-size: 0.75rem;
@@ -61,6 +62,7 @@
         margin-bottom: 0.25rem;
         width: 100%;
         text-align: center;
+        color: white;
     }
     input {
         text-align: center;

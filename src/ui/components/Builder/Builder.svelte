@@ -6,15 +6,7 @@
         if (currentSelectedTab !== tab) {
             tabs[currentSelectedTab].isSelected = false;
             tabs[tab].isSelected = true;
-            currentSubPageIndex = 0;
         }
-    }
-
-    export let currentSubPageIndex = 0;
-    export let subPageMaxIndex = 0;
-
-    function selectSubPage(num: number) {
-        currentSubPageIndex += num;
     }
 </script>
 
@@ -22,7 +14,9 @@
     <div class="tabs">
         {#each tabs as tab, index}
             <p
-                class={`tab ${tab.isSelected ? "selected" : ""}`}
+                class={`tab ${tab.isSelected ? "selected" : ""} ${
+                    tab.onlyMob ? "onlyMob" : ""
+                }`}
                 on:click={() => selectTab(index)}
             >
                 {tab.name}
@@ -43,7 +37,7 @@
             {:else if currentSelectedTab === 3}
                 <slot name="tab-4" />
             {/if}
-            <div class="nav2">
+            <!-- <div class="nav2">
                 <button
                     hidden={currentSubPageIndex === 0}
                     on:click={() => selectSubPage(-1)}>{"<"}</button
@@ -53,7 +47,7 @@
                     hidden={currentSubPageIndex === subPageMaxIndex}
                     on:click={() => selectSubPage(1)}>{">"}</button
                 >
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
@@ -64,17 +58,15 @@
         box-sizing: border-box;
         /* padding: 0 1rem 5rem 1rem; */
         box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 0.35);
     }
     .paper {
         position: relative;
         width: 100%;
         height: 75vh;
-        background-color: var(--col-dark-lightest);
-        /* border-radius: 15px; */
+        background-color: rgba(0, 0, 0, 0.45);
         border-bottom: 2px solid rgba(0, 0, 0, 0.65);
-        /* box-sizing: border-box; */
         overflow: hidden;
-        /* padding-bottom: 2rem; */
     }
     .tabs {
         width: 100%;
@@ -84,10 +76,10 @@
         background-color: #2f2f2f;
     }
     .tab:hover {
-        background-color: var(--shade-light-min);
+        background-color: rgba(255, 255, 255, 0.025);
     }
     .tab {
-        background-color: #2f2f2f;
+        background-color: rgba(0, 0, 0, 0.45);
         width: 25%;
         display: flex;
         justify-content: center;
@@ -101,10 +93,10 @@
         text-align: center;
     }
     .selected {
-        background-color: var(--col-dark-lightest);
+        background-color: rgba(255, 255, 255, 0.05);
     }
     .selected:hover {
-        background-color: var(--col-dark-lightest);
+        background-color: rgba(255, 255, 255, 0.05);
     }
     .content {
         /* background-color: var(--col-dark-dark); */
@@ -142,7 +134,6 @@
         height: 1.5rem;
         border-radius: 5px;
         text-align: center;
-        background-color: var(--col-dark-light);
         color: white;
         border: none;
         outline: none;
@@ -158,9 +149,7 @@
         padding: 0 1rem;
         align-items: center;
         box-sizing: border-box;
-        /* border-bottom: 1px solid var(--col-dark-light); */
-
-        background-color: var(--col-dark-lightest);
+        background: rgba(255, 255, 255, 0.025);
     }
     @media only screen and (min-width: 1030px) {
         section {
@@ -183,6 +172,10 @@
 
         .nav2 {
             height: 3rem;
+        }
+
+        .onlyMob {
+            display: none;
         }
     }
 

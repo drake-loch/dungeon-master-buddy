@@ -48,7 +48,7 @@
     textarea {
         width: 100%;
         font-size: 1rem;
-        background-color: var(--col-dark-lightest);
+        background: rgba(255, 255, 255, 0.05);
         border: none;
         border-right: 1px solid var(--col-dark-light);
         border-bottom: 1px solid var(--col-dark-light);

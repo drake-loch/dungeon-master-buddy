@@ -39,6 +39,8 @@
     }
     @media only screen and (min-width: 1030px) {
         .skills {
+            flex-direction: column;
+            width: 100%;
             padding: 1.5rem 2rem 10rem 2rem;
             justify-content: flex-start;
         }

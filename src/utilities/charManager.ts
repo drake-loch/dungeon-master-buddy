@@ -20,17 +20,45 @@ export interface Race {
     neutralNames: string[],
     familyNames: string[],
 }
+
+export interface Weapon {
+    name: string,
+    id: number,
+    damage: string,
+    range: string,
+    type: string,
+    ammo: string,
+    skill: string,
+}
+export interface Magic {
+    name: string,
+    id: number,
+    type: string,
+    level: number,
+    description: string,
+    cost: number,
+    range: string,
+    duration: string,
+    target: string,
+    components: string,
+    skill: string,
+    school: string,
+}
+
 export interface Char {
     name: string,
     level: number,
     id: number,
+    alignment: string,
     race: Race | string,
     skills: Skill[],
     subSkills: SubSkill[] | [],
-    profs: string[],
+    profs: string[], //proficentcies
     maxHitPoints: number,
     currentHitPoints: number,
+    tempHitPoints: number,
     defence: number,
+    movement: number,
     desc: string,
     age: string,
     hairColour: string,
@@ -44,6 +72,16 @@ export interface Char {
         wanderer: boolean,
     },
     languages: string,
+    combat: {
+        currentWeapon: Weapon,
+        weapons: Weapon[],
+        magic: Magic[],
+    },
+    inventory: {
+        items: [],
+        money: number[],
+    },
+    extra: [],
 }
 export interface NPC extends Char {
     isSimple: boolean,
@@ -63,13 +101,16 @@ export function createNewChar(newID?: number): PC {
         name: '',
         level: 1,
         id: newID || -1,
+        alignment: '',
         race: '',
         skills: deepCopyFunction(settings.skillSetFormat.skills),
         subSkills: deepCopyFunction(settings.skillSetFormat.subSkills),
         profs: [],
         maxHitPoints: 5,
         currentHitPoints: 5,
+        tempHitPoints: 0,
         defence: 0,
+        movement: 0,
         desc: '',
         age: '',
         hairColour: '',
@@ -84,7 +125,24 @@ export function createNewChar(newID?: number): PC {
         },
         languages: '',
         playerName: '',
-
+        combat: {
+            currentWeapon: {
+                name: 'Unarmed',
+                id: 0,
+                damage: '1',
+                range: 'melee',
+                type: 'unarmed',
+                ammo: '',
+                skill: '',
+            },
+            weapons: [],
+            magic: [],
+        },
+        inventory: {
+            items: [],
+            money: [],
+        },
+        extra: [],
     }
 }
 export function createNewNPC(newID: number): NPC {
@@ -93,13 +151,16 @@ export function createNewNPC(newID: number): NPC {
         name: '',
         level: 1,
         id: newID,
+        alignment: '',
         race: '',
         skills: deepCopyFunction(settings.skillSetFormat.skills),
         subSkills: deepCopyFunction(settings.skillSetFormat.subSkills),
         profs: [],
         maxHitPoints: 5,
         currentHitPoints: 5,
+        tempHitPoints: 0,
         defence: 0,
+        movement: 0,
         desc: '',
         age: '',
         hairColour: '',
@@ -116,8 +177,24 @@ export function createNewNPC(newID: number): NPC {
         isSimple: false,
         quests: [],
         extraNotes: '',
-
-
+        combat: {
+            currentWeapon: {
+                name: 'Unarmed',
+                id: 0,
+                damage: '1',
+                range: 'melee',
+                type: 'unarmed',
+                ammo: '',
+                skill: '',
+            },
+            weapons: [],
+            magic: [],
+        },
+        inventory: {
+            items: [],
+            money: [],
+        },
+        extra: [],
     }
 }
 

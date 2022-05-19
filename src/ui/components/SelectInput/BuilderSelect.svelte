@@ -18,7 +18,7 @@
         </p>
     {:else if mode === "create" || mode === "edit"}
         <select {placeholder} name={val} bind:value={val}>
-            <option value="" disabled>{placeholder}</option>
+            <option class="options" value="" disabled>{placeholder}</option>
             <slot />
         </select>
     {/if}
@@ -37,7 +37,8 @@
     }
     select {
         font-size: 1rem;
-        background-color: var(--col-dark-lightest);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
         border: none;
         border-right: 1px solid var(--col-dark-light);
         border-bottom: 1px solid var(--col-dark-light);
@@ -52,6 +53,11 @@
     p {
         width: 100%;
         font-size: 1rem;
+    }
+
+    .options {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: black;
     }
 
     /* Desktop */

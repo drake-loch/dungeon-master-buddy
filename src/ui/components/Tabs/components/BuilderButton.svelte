@@ -56,4 +56,12 @@
         background-color: var(--button-good-disabled);
         color: var(--col-dark-light);
     }
+    .tool {
+        background-color: var(--button-tool);
+        color: white;
+    }
+    .tool:disabled {
+        background-color: var(--button-good-disabled);
+        color: var(--col-dark-light);
+    }
 </style>
