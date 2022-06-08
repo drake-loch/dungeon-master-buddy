@@ -23,7 +23,8 @@
 <style>
     .holder {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        /* align-items: center; */
         flex-wrap: wrap;
         height: fit-content;
         margin: 1.5rem 0;
@@ -52,9 +53,9 @@
         color: var(--col-brand);
         font-weight: 700;
         line-height: 3.5rem;
-        letter-spacing: 4px;
+        letter-spacing: 3px;
         width: fit-content;
-        font-size: 3rem;
+        font-size: 2.25rem;
         margin: 0;
     }
     h2 {
@@ -75,7 +76,7 @@
             margin-left: 0.5rem;
         }
         p {
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
         a {
             text-decoration: none;
@@ -85,7 +86,7 @@
             padding: 0 0.5rem;
         }
         h1 {
-            font-size: 4.25rem;
+            font-size: 3.25rem;
             letter-spacing: 6px;
         }
     }

@@ -23,14 +23,14 @@
 
 <style>
     section {
-        position: absolute;
+        position: fixed;
         width: 100vw;
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.45);
         top: 0;
         left: 0;
         box-sizing: border-box;
-        padding: 1rem;
+        padding: 1rem 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -46,7 +46,7 @@
         border-right: 2px solid var(--col-dark-lightest); */
         border: 2px solid black;
         box-sizing: border-box;
-        padding: 1rem;
+        padding: 0.75rem;
     }
 
     @media only screen and (min-width: 1030px) {
