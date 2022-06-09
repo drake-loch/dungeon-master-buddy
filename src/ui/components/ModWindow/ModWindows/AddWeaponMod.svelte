@@ -1,46 +1,84 @@
 <script lang="ts">
     import LittleButton from "../../LittleButton/LittleButton.svelte";
     import { user } from "../../../../stores/index";
-    import { newWeapon } from "/src/utilities/combatConfig";
-    import type { Weapon } from "/src/utilities/charManager";
+    import { newWeapon, newArmour } from "/src/utilities/combatConfig";
+    import type { Weapon, Armour, Item } from "/src/utilities/charManager";
     import { addItemToWorld } from "/src/utilities/combatConfig";
     import { selectedWorld } from "/src/utilities/worldConfig";
     import { updateNPCInDB } from "/src/utilities/charManager";
+    import { onMount } from "svelte";
 
     export let toggleMod;
     export let char;
-    const customWeapon: Weapon = newWeapon();
-    let selectedWeapon: Weapon | undefined;
+    export let itemType;
+
+    //armour needs a value to calculate defence
+
+    let customItem: Weapon | Armour | Item | undefined = undefined;
+    let selectedItem: Weapon | Armour | Item | undefined;
+    onMount(() => {
+        console.log("item type", itemType);
+
+        if (itemType === "weapon") {
+            customItem = customItem as Weapon;
+            customItem = newWeapon();
+        } else if (itemType === "armour") {
+            customItem = customItem as Armour;
+            customItem = newArmour();
+        } else if (itemType === "item") {
+            customItem = customItem as Item;
+        }
+        console.log("custom item", customItem);
+    });
 
     async function submitHandler(e) {
         e.preventDefault();
-        if (weaponFormType === "custom") {
-            console.log(customWeapon);
-            customWeapon.id = $selectedWorld?.items?.length
+        if (itemFormType === "custom") {
+            customItem.id = $selectedWorld?.items?.length
                 ? $selectedWorld.items.length + 1
                 : 1;
-            char?.inventory?.items.push(customWeapon);
-            addItemToWorld($user, customWeapon, $selectedWorld);
-        } else if (weaponFormType === "list") {
-            char.inventory.items.push(selectedWeapon);
+            if (itemType === "weapon") {
+                char?.combat?.weapons.push(customItem.id);
+            } else if (itemType === "armour") {
+                //
+                char?.combat?.armour.push(customItem.id);
+            } else if (itemType === "item") {
+                //
+                char?.inventory?.items.push(customItem.id);
+            }
+            addItemToWorld($user, customItem, $selectedWorld);
+        } else if (itemFormType === "list") {
+            const existingItem = $selectedWorld.items.find(
+                (item) => item.name === customItem
+            );
+            console.log(selectedItem);
+            console.log(existingItem);
+
+            char.combat.weapons.push(existingItem.id);
         }
         updateNPCInDB($user, $selectedWorld, char);
 
         console.log(char);
+        char = char;
         toggleMod();
     }
-    let weaponFormType = "";
+    let itemFormType: "list" | "custom" | "" = "";
     function onRadioChange(type: string): void {
+        console.log(customItem);
+
         if (type === "list") {
-            weaponFormType = "list";
+            itemFormType = "list";
         } else {
-            weaponFormType = "custom";
+            itemFormType = "custom";
         }
+    }
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 </script>
 
 <form on:submit={submitHandler}>
-    <h2>Add Weapon</h2>
+    <h2>Add {capitalizeFirstLetter(itemType)}</h2>
     <div class="radios">
         <label for="list">List</label>
         <input
@@ -57,62 +95,92 @@
             value="custom"
         />
     </div>
-    {#if weaponFormType === "custom"}
+    {#if itemFormType === "custom"}
         <div class="text-input">
-            <label for="text-input-name">Weapon Name:</label>
+            <label for="text-input-name"
+                >{capitalizeFirstLetter(itemType)} Name:</label
+            >
             <input
-                placeholder="Weapon name..."
-                bind:value={customWeapon.name}
+                placeholder="{capitalizeFirstLetter(itemType)} name..."
+                bind:value={customItem.name}
                 type="text"
             />
         </div>
         <div class="select-input">
-            <label for="text-input-name">Weapon Stat:</label>
-            <select bind:value={customWeapon.stat}>
+            <label for="text-input-name"
+                >{capitalizeFirstLetter(itemType)} Stat:</label
+            >
+            <select bind:value={customItem.stat}>
                 <option value={undefined}>Select a Stat...</option>
                 {#each char.skills as skill}
                     <option value={skill.name}>{skill.name}</option>
                 {/each}
             </select>
         </div>
+        {#if itemType === "weapon"}
+            <div class="text-input">
+                <label for="text-input-name">Damage Type:</label>
+                <input
+                    placeholder="Slashing / Piercing / Ranged..."
+                    bind:value={customItem.damageType}
+                    type="text"
+                />
+            </div>
+            <div class="text-input">
+                <label for="text-input-name">Damage:</label>
+                <input
+                    placeholder="2d6"
+                    bind:value={customItem.damage}
+                    type="text"
+                />
+            </div>
+            <div class="text-input">
+                <label for="text-input-name">Range:</label>
+                <input
+                    placeholder="1m"
+                    bind:value={customItem.range}
+                    type="text"
+                />
+            </div>
+        {:else if itemType === "armour"}
+            <div class="text-input">
+                <label for="text-input-name">Armour Type:</label>
+                <input
+                    placeholder="Light / Medium / Heavy..."
+                    bind:value={customItem.damageType}
+                    type="text"
+                />
+            </div>
+        {/if}
+
         <div class="text-input">
-            <label for="text-input-name">Damage Type:</label>
+            <label for="text-input-name">Value:</label>
             <input
-                placeholder="Slashing / Piercing / Ranged..."
-                bind:value={customWeapon.damageType}
-                type="text"
+                placeholder="100gp"
+                bind:value={customItem.value}
+                type="number"
             />
         </div>
         <div class="text-input">
-            <label for="text-input-name">Damage:</label>
-            <input
-                placeholder="2d6"
-                bind:value={customWeapon.damage}
-                type="text"
-            />
-        </div>
-        <div class="text-input">
-            <label for="text-input-name">Range:</label>
-            <input
-                placeholder="1m"
-                bind:value={customWeapon.range}
-                type="text"
-            />
+            <label for="text-input-name">Unique?:</label>
+            <input bind:value={customItem.unique} type="checkbox" />
         </div>
         <div class="text-input">
             <label for="text-input-name">Notes:</label>
             <input
                 placeholder="A jagged blade with a jeweled hilt"
-                bind:value={customWeapon.description}
+                bind:value={customItem.description}
                 type="text"
             />
         </div>
-    {:else if weaponFormType === "list"}
+    {:else if itemFormType === "list"}
         <div class="select-input">
             <label for="select-input-name">Weapon Name:</label>
-            <select bind:value={selectedWeapon}>
+            <select bind:value={selectedItem}>
                 <option value={undefined}>Select a weapon...</option>
-                {#each $selectedWorld.items as item}
+                {#each $selectedWorld.items
+                    .filter((item) => !item.unique)
+                    .filter((item) => item.type === itemType) as item}
                     <option value={item.name}>{item.name}</option>
                 {/each}
             </select>

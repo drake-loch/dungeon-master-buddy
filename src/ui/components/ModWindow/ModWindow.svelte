@@ -47,6 +47,7 @@
         border: 2px solid black;
         box-sizing: border-box;
         padding: 0.75rem;
+        overflow-y: auto;
     }
 
     @media only screen and (min-width: 1030px) {

@@ -4,6 +4,7 @@ import type { Skill, SubSkill } from './skillsConfig';
 import { selectedWorld, UpdateWorld, worlds } from './worldConfig';
 import type { World } from './worldConfig';
 import { UpdateWorldsInDB } from './firebase';
+import type { Armour, Weapon } from './combatConfig';
 
 export interface Race {
     name: string,
@@ -21,15 +22,6 @@ export interface Race {
     familyNames: string[],
 }
 
-export interface Weapon {
-    name: string,
-    id: number,
-    damage: string,
-    range: string,
-    type: string,
-    ammo: string,
-    skill: string,
-}
 export interface Magic {
     name: string,
     id: number,
@@ -52,7 +44,7 @@ export interface Char {
     alignment: string,
     race: Race | string,
     skills: Skill[],
-    subSkills: SubSkill[] | [],
+    subSkills: SubSkill[] | any[],
     profs: string[], //proficentcies
     maxHitPoints: number,
     currentHitPoints: number,
@@ -74,7 +66,9 @@ export interface Char {
     languages: string,
     combat: {
         currentWeapon: Weapon,
+        equippedArmour: Armour | '',
         weapons: Weapon[],
+        armour: Armour[]
         magic: Magic[],
     },
     inventory: {
@@ -127,15 +121,21 @@ export function createNewChar(newID?: number): PC {
         playerName: '',
         combat: {
             currentWeapon: {
-                name: 'Unarmed',
+                name: 'unarmed',
+                type: 'weapon',
+                description: '',
+                weight: '',
+                value: '',
+                damage: '',
+                range: '5ft',
+                damageType: 'Bludgeoning',
                 id: 0,
-                damage: '1',
-                range: 'melee',
-                type: 'unarmed',
-                ammo: '',
-                skill: '',
+                stat: '',
+                unique: false,
             },
+            equippedArmour: '',
             weapons: [],
+            armour: [],
             magic: [],
         },
         inventory: {
@@ -179,15 +179,21 @@ export function createNewNPC(newID: number): NPC {
         extraNotes: '',
         combat: {
             currentWeapon: {
-                name: 'Unarmed',
+                name: 'unarmed',
+                type: 'weapon',
+                description: '',
+                weight: '',
+                value: '',
+                damage: '',
+                range: '5ft',
+                damageType: 'Bludgeoning',
                 id: 0,
-                damage: '1',
-                range: 'melee',
-                type: 'unarmed',
-                ammo: '',
-                skill: '',
+                stat: '',
+                unique: false,
             },
+            equippedArmour: '',
             weapons: [],
+            armour: [],
             magic: [],
         },
         inventory: {

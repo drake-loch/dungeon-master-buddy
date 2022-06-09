@@ -16,6 +16,10 @@
     import LittleButton from "/src/ui/components/LittleButton/LittleButton.svelte";
     import ModWindow from "/src/ui/components/ModWindow/ModWindow.svelte";
     import AddWeaponMod from "/src/ui/components/ModWindow/ModWindows/AddWeaponMod.svelte";
+    import type { Item, Weapon } from "/src/utilities/combatConfig";
+    import WeaponSelectMod from "/src/ui/components/ModWindow/ModWindows/WeaponSelectMod.svelte";
+    import { getItemById } from "/src/utilities/combatConfig";
+    import type { Armour } from "src/utilities/combatConfig";
 
     let npc: NPC;
 
@@ -87,14 +91,53 @@
     let showSettings = false;
 
     let toggleMod;
-    $: weapons = npc?.inventory?.items.filter((i) => i.type === "weapon");
+    $: weapons = npc?.combat?.weapons.map((weapon) => {
+        return getItemById(weapon, $selectedWorld);
+    });
+    $: armour = npc?.combat?.armour?.map((armour) => {
+        return getItemById(armour, $selectedWorld);
+    });
 
-    function addWeapon() {}
+    function weaponStat(weaponSkill: string) {
+        let toReturn = 0;
+        npc.skills.forEach((skill) => {
+            if (skill.name === weaponSkill) {
+                toReturn = skill.mod;
+            }
+        });
+        return toReturn;
+    }
+    // let selectedWeapon: Weapon | undefined;
+    let modToShow:
+        | "Add Weapon Mod"
+        | "Add Gear Mod"
+        | "Select Weapon Mod"
+        | undefined;
+    function selectWeapon(weapon: Weapon) {
+        selectedItem = weapon;
+        modToShow = "Select Weapon Mod";
+        toggleMod.toggleMod();
+    }
+    let selectedItem: Item | Weapon | Armour | undefined;
+    let modCatergory: "item" | "weapon" | "armour" | undefined;
 </script>
 
 {#if npc}
     <ModWindow bind:this={toggleMod}>
-        <AddWeaponMod bind:char={npc} toggleMod={toggleMod.toggleMod} />
+        {#if modToShow === "Add Weapon Mod"}
+            <AddWeaponMod
+                bind:char={npc}
+                toggleMod={toggleMod.toggleMod}
+                itemType={modCatergory}
+            />
+        {:else if modToShow === "Select Weapon Mod"}
+            <!--  -->
+            <WeaponSelectMod
+                bind:char={npc}
+                toggleMod={toggleMod.toggleMod}
+                {selectedItem}
+            />
+        {/if}
     </ModWindow>
     <div class="page">
         <div class="toolbar">
@@ -212,9 +255,13 @@
                                     <span class="data">{npc.movement}</span>
                                 </p>
                             </div>
-                            <div class="weapons">
+                            <div class="items">
+                                <h3>Weapons</h3>
                                 <!--  -->
-                                <p class="label">Weapons</p>
+                                <p class="label small">
+                                    Current Weapon: {npc.combat.currentWeapon
+                                        .name}
+                                </p>
                                 <div class="weapons-header">
                                     <!--  -->
                                     <p class="header-title">Name</p>
@@ -223,21 +270,68 @@
                                     <p class="header-title">Damage</p>
                                 </div>
                                 {#each weapons as item}
-                                    <div class="weapon">
-                                        <p class="weapon-name">{item.name}</p>
-                                        <p class="weapon-bonus">{item.bonus}</p>
-                                        <p class="weapon-type">
+                                    <button
+                                        on:click={() => selectWeapon(item)}
+                                        class="weapon"
+                                    >
+                                        <p class="header-title">{item.name}</p>
+                                        <p class="header-title">
+                                            {weaponStat(item.stat)}
+                                        </p>
+                                        <p class="header-title">
                                             {item.damageType}
                                         </p>
-                                        <p class="weapon-damage">
+                                        <p class="header-title">
                                             {item.damage}
                                         </p>
-                                    </div>
+                                    </button>
                                 {/each}
                                 <!-- </div> -->
 
-                                <button on:click={() => toggleMod.toggleMod()}
-                                    >+</button
+                                <button
+                                    on:click={() => {
+                                        modToShow = "Add Weapon Mod";
+                                        modCatergory = "weapon";
+                                        toggleMod.toggleMod();
+                                    }}>+</button
+                                >
+                            </div>
+                            <div class="items">
+                                <h3>Armour</h3>
+
+                                <!--  -->
+                                <p class="label small">
+                                    Equipped Amrour: {npc.combat.currentWeapon
+                                        .name}
+                                </p>
+                                <div class="weapons-header">
+                                    <!--  -->
+                                    <p class="header-title">Name</p>
+                                    <p class="header-title">Defense</p>
+                                    <p class="header-title">Type</p>
+                                </div>
+                                {#each armour as item}
+                                    <button
+                                        on:click={() => selectWeapon(item)}
+                                        class="weapon"
+                                    >
+                                        <p class="header-title">{item.name}</p>
+                                        <p class="header-title">
+                                            {weaponStat(item.stat)}
+                                        </p>
+                                        <p class="header-title">
+                                            {item.damageType}
+                                        </p>
+                                    </button>
+                                {/each}
+                                <!-- </div> -->
+
+                                <button
+                                    on:click={() => {
+                                        modToShow = "Add Weapon Mod";
+                                        modCatergory = "armour";
+                                        toggleMod.toggleMod();
+                                    }}>+</button
                                 >
                             </div>
                         </div>
@@ -451,8 +545,12 @@
         padding: 0.2rem 0;
         width: 25%;
         text-align: center;
+        margin: auto 0;
+    }
+    button .weapon {
     }
     .weapon {
+        all: unset;
         display: flex;
         justify-content: space-evenly;
         width: 100%;
@@ -467,6 +565,12 @@
     .weapon-item {
         width: 25%;
         text-align: center;
+    }
+    .small {
+        margin: 1rem 0 0.5rem 0.5rem;
+        width: 100%;
+        text-align: left;
+        font-size: 0.8rem;
     }
     @media only screen and (min-width: 1030px) {
         .info {
