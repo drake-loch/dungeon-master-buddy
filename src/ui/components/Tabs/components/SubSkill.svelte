@@ -27,17 +27,32 @@
 <style>
     div {
         display: flex;
-        justify-content: space-between;
+        /* justify-content: space-between; */
+        align-items: center;
+        gap: 0.5rem;
         width: 100%;
-        padding: 0 0.5rem;
+        height: fit-content;
+        /* padding: 0 0.5rem; */
         box-sizing: border-box;
         margin-bottom: 0.25rem;
     }
+    div:nth-child(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
     .title {
         color: white;
+        width: 80%;
+        text-align: right;
     }
     .mod {
         color: white;
+        width: 20%;
+        text-align: left;
+    }
+    @media only screen and (min-width: 1030px) {
+        .title {
+            font-size: 0.65rem;
+        }
     }
     .red {
         color: var(--col-label-red);

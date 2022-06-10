@@ -78,7 +78,7 @@ export function addItemToWorld(user: any, item: Item, world: World) {
 }
 
 export function getItemById(id: number, world: World) {
-    console.log('getting item by id', id, world);
+    // console.log('getting item by id', id, world);
 
     return world.items.find(item => item.id === id);
 }

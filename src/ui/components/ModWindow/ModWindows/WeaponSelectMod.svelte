@@ -6,51 +6,54 @@
     import { addItemToWorld } from "/src/utilities/combatConfig";
     import { selectedWorld } from "/src/utilities/worldConfig";
     import { updateNPCInDB } from "/src/utilities/charManager";
+    import type { Armour, Item } from "src/utilities/combatConfig";
+    import type { NPC, PC } from "src/utilities/charManager";
 
     export let toggleMod;
-    export let char;
-    export let selectedWeapon: Weapon | undefined;
+    export let char: NPC | PC | undefined;
+    export let selectedItem: Item | Weapon | Armour | undefined;
 
-    function equipWeapon(): void {
+    function equipItem(): void {
         console.log("equiping sword");
-        if (selectedWeapon) {
-            char.combat.currentWeapon = selectedWeapon;
+        if (selectedItem && selectedItem.type === "weapon") {
+            char.combat.currentWeapon = selectedItem;
             updateNPCInDB($user, $selectedWorld, char);
         }
         toggleMod();
     }
-    function unequipWeapon() {
-        char.combat.currentWeapon = {
-            name: "Unarmed",
-            id: 0,
-            damage: "1",
-            range: "melee",
-            type: "unarmed",
-            ammo: "",
-            skill: "",
-        };
+    function unequipItem() {
+        char.combat.currentWeapon = undefined;
         updateNPCInDB($user, $selectedWorld, char);
         toggleMod();
     }
 </script>
 
 <div>
-    <a href={`/dm/world/${$selectedWorld}/items/${selectedWeapon.name}`}
-        >{selectedWeapon.name}</a
-    >
+    {#if selectedItem}
+        <a href={`/dm/world/${$selectedWorld}/items/${selectedItem.name}`}
+            >{selectedItem.name}</a
+        >
 
-    <div class="button-list">
-        <LittleButton disabled={false} type="warning"
-            >Remove from Character</LittleButton
-        >
-        <LittleButton func={() => equipWeapon()} disabled={false} type="good"
-            >Equip</LittleButton
-        >
-        <LittleButton func={unequipWeapon} disabled={false} type=""
-            >Unequip</LittleButton
-        >
-        <LittleButton func={toggleMod} type="">Cancel</LittleButton>
-    </div>
+        <div class="button-list">
+            <LittleButton disabled={false} type="warning"
+                >Remove from Character</LittleButton
+            >
+            {#if selectedItem.type === "weapon" || selectedItem.type === "armour"}
+                {#if char.combat.currentWeapon.id === selectedItem.id}
+                    <LittleButton func={unequipItem} disabled={false} type=""
+                        >Unequip</LittleButton
+                    >
+                {:else}
+                    <LittleButton
+                        func={() => equipItem()}
+                        disabled={false}
+                        type="good">Equip</LittleButton
+                    >
+                {/if}
+            {/if}
+            <LittleButton func={toggleMod} type="">Close</LittleButton>
+        </div>
+    {/if}
 </div>
 
 <style>

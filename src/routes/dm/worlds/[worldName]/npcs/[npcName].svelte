@@ -111,11 +111,13 @@
     let modToShow:
         | "Add Weapon Mod"
         | "Add Gear Mod"
-        | "Select Weapon Mod"
+        | "Item Select Mod"
         | undefined;
-    function selectWeapon(weapon: Weapon) {
-        selectedItem = weapon;
-        modToShow = "Select Weapon Mod";
+    function selectItem(item: Item | Weapon | Armour) {
+        // console.log("item", item);
+
+        selectedItem = item;
+        modToShow = "Item Select Mod";
         toggleMod.toggleMod();
     }
     let selectedItem: Item | Weapon | Armour | undefined;
@@ -130,7 +132,7 @@
                 toggleMod={toggleMod.toggleMod}
                 itemType={modCatergory}
             />
-        {:else if modToShow === "Select Weapon Mod"}
+        {:else if modToShow === "Item Select Mod"}
             <!--  -->
             <WeaponSelectMod
                 bind:char={npc}
@@ -271,7 +273,9 @@
                                 </div>
                                 {#each weapons as item}
                                     <button
-                                        on:click={() => selectWeapon(item)}
+                                        on:click={() => {
+                                            selectItem(item);
+                                        }}
                                         class="weapon"
                                     >
                                         <p class="header-title">{item.name}</p>
@@ -286,9 +290,9 @@
                                         </p>
                                     </button>
                                 {/each}
-                                <!-- </div> -->
 
                                 <button
+                                    class="add-button"
                                     on:click={() => {
                                         modToShow = "Add Weapon Mod";
                                         modCatergory = "weapon";
@@ -296,6 +300,23 @@
                                     }}>+</button
                                 >
                             </div>
+                        </div>
+                    {/if}
+                    {#if selectedTab.name === "Skills"}
+                        <div class="skills">
+                            <!--  -->
+
+                            {#each npc.skills as skill}
+                                <SkillBox
+                                    {mode}
+                                    bind:skill
+                                    bind:subSkills={npc.subSkills}
+                                />
+                            {/each}
+                        </div>
+                    {/if}
+                    {#if selectedTab.name === "Gear/Spells"}
+                        <div class="info">
                             <div class="items">
                                 <h3>Armour</h3>
 
@@ -312,12 +333,12 @@
                                 </div>
                                 {#each armour as item}
                                     <button
-                                        on:click={() => selectWeapon(item)}
+                                        on:click={() => selectItem(item)}
                                         class="weapon"
                                     >
                                         <p class="header-title">{item.name}</p>
                                         <p class="header-title">
-                                            {weaponStat(item.stat)}
+                                            {item.defence}
                                         </p>
                                         <p class="header-title">
                                             {item.damageType}
@@ -327,6 +348,7 @@
                                 <!-- </div> -->
 
                                 <button
+                                    class="add-button"
                                     on:click={() => {
                                         modToShow = "Add Weapon Mod";
                                         modCatergory = "armour";
@@ -336,30 +358,16 @@
                             </div>
                         </div>
                     {/if}
-                    {#if selectedTab.name === "Skills"}
-                        <div class="skills">
-                            <!--  -->
-
-                            {#each npc.skills as skill}
-                                <SkillBox {mode} bind:skill>
-                                    {#each npc.subSkills.filter((subSkill) => subSkill.parentSkill === skill.name) as subSkill}
-                                        <SubSkill bind:subSkill />
-                                    {/each}
-                                </SkillBox>
-                            {/each}
-                        </div>
-                    {/if}
                 </div>
                 <div class="desktop">
                     <div class="skills">
                         <!--  -->
-
                         {#each npc.skills as skill}
-                            <SkillBox {mode} bind:skill>
-                                {#each npc.subSkills.filter((subSkill) => subSkill.parentSkill === skill.name) as subSkill}
-                                    <SubSkill bind:subSkill />
-                                {/each}
-                            </SkillBox>
+                            <SkillBox
+                                {mode}
+                                bind:skill
+                                bind:subSkills={npc.subSkills}
+                            />
                         {/each}
                     </div>
 
@@ -405,6 +413,15 @@
         background-color: rgba(0, 0, 0, 0.45);
         box-sizing: border-box;
         border: 1px solid black;
+    }
+    .items {
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+    }
+    h3 {
+        padding: 0.25rem 0.25rem 0 0.25rem;
+        background-color: rgba(0, 0, 0, 0.1);
     }
 
     .info-box {
@@ -503,6 +520,7 @@
         display: flex;
         width: 100%;
         justify-content: center;
+        padding-bottom: 3rem;
     }
     .desktop {
         display: none;
@@ -572,6 +590,13 @@
         text-align: left;
         font-size: 0.8rem;
     }
+    .add-button {
+        all: unset;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 0.2rem 0.5rem;
+        border-radius: 100%;
+        margin: 0.25rem auto;
+    }
     @media only screen and (min-width: 1030px) {
         .info {
             display: flex;
@@ -585,7 +610,7 @@
             width: 100%;
         }
         .skills {
-            width: 15%;
+            width: 25%;
             height: 100%;
             flex-direction: column;
         }

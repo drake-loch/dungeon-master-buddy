@@ -1,7 +1,10 @@
 <script>
+    import SubSkill from "./SubSkill.svelte";
+
     import { CheckForModChange } from "/src/utilities/skillsConfig";
 
     export let skill = null;
+    export let subSkills = null;
     export let mode = "view";
 
     $: if (skill) {
@@ -19,83 +22,114 @@
     };
 </script>
 
-<div>
-    {#if skill}
-        <p class="title" for="this">
-            {skill.name.toUpperCase()}
-        </p>
-        {#if mode === "edit" || mode === "create"}
-            <input
-                type="text"
-                placeholder={skill.name}
-                bind:value={skill.baseValue}
-            />
-        {:else if mode === "view"}
-            <p class="view">{skill.baseValue}</p>
+<div class="skillbox">
+    <div class="skill">
+        {#if skill}
+            <p class="title" for="this">
+                {skill.name.toUpperCase()}
+            </p>
+            <p class="mod {modCol()}">
+                {Math.sign(skill.mod) === 1 ? "+" : ""}{skill.mod}
+            </p>
+            {#if mode === "edit" || mode === "create"}
+                <input
+                    type="text"
+                    placeholder={skill.name}
+                    bind:value={skill.baseValue}
+                />
+            {:else if mode === "view"}
+                <p class="view">{skill.baseValue}</p>
+            {/if}
         {/if}
-        <p class="mod {modCol()}">
-            {Math.sign(skill.mod) === 1 ? "+" : ""}{skill.mod}
-        </p>
-        <p class="title" for="this">
-            <slot />
-        </p>
+    </div>
+    {#if subSkills}
+        <div class="subskills" for="this">
+            {#each subSkills.filter((subSkill) => subSkill.parentSkill === skill.name) as subSkill}
+                <SubSkill bind:subSkill />
+            {/each}
+        </div>
     {/if}
 </div>
 
 <style>
-    div {
-        width: 8rem;
-        /* height: fit-content; */
+    .skillbox {
+        width: 100%;
+        /* width: 16rem; */
+        height: fit-content;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid white;
+        flex-direction: row;
+        justify-content: space-between;
+        /* align-items: center; */
+        /* border: 1px solid rgba(0, 0, 0, 0.5);
+         */
+        border: 2px solid var(--col-dark-light);
         box-sizing: border-box;
         overflow: hidden;
         border-radius: 10px;
-        padding: 0.3rem 0;
+        /* padding: 0rem 0.5rem 0 0; */
+        margin: 0 6px;
         background-color: rgba(255, 255, 255, 0.05);
+    }
+    .skill {
+        width: 50%;
+        /* height: 100%; */
+        border-right: 1px solid var(--col-dark-light);
+        box-sizing: border-box;
     }
     .title {
         font-size: 0.75rem;
         align-items: center;
+        padding-bottom: 0.25rem;
         margin-bottom: 0.25rem;
         width: 100%;
         text-align: center;
         color: white;
+        border-bottom: 2px solid var(--col-dark-light);
+    }
+    .subskills {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        width: 50%;
+        font-size: 0.75rem;
+        align-items: center;
+        margin-bottom: 0.25rem;
+        text-align: center;
+        color: white;
+        padding: 0.25rem 0;
     }
     input {
         text-align: center;
         width: 100%;
-        font-size: 1.2rem;
-        background-color: var(--col-light-darkgrey);
+        font-size: 1rem;
+        background-color: transparent;
+        background-color: rgba(255, 255, 255, 0.1);
         border: none;
-        border-top: 2px solid var(--col-dark-light);
         border-radius: 5px;
         color: white;
-        /* text-align: center; */
+        box-sizing: border-box;
     }
     .view {
         text-align: center;
         width: 100%;
-        font-size: 1.2rem;
-        background-color: var(--col-light-darkgrey);
+        font-size: 0.8rem;
+        background-color: transparent;
         border: none;
-        border-top: 2px solid var(--col-dark-light);
         color: white;
+        margin-bottom: 0.5rem;
     }
     input:focus {
         outline: none;
         border: 2px solid rebeccapurple;
     }
     .mod {
-        border: 1px solid black;
-        border-radius: 50%;
-        padding: 0.5rem 0.8rem;
-        margin: 0.25rem 0;
-        background-color: var(--col-light-darkgrey);
-        font-size: 0.8rem;
+        text-align: center;
+        margin: 0 0 0.25rem 0;
+        background-color: transparent;
+        font-size: 1.25rem;
         color: white;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 0.1);
     }
     .red {
         color: var(--col-label-red);
@@ -109,11 +143,18 @@
         .title {
             margin: 0;
         }
+        .view {
+            font-size: 0.75rem;
+        }
         input {
             width: 100%;
             display: flex;
             align-items: center;
-            font-size: 1.5rem;
+            font-size: 1rem;
+        }
+        .skillbox {
+            width: 100%;
+            margin: 0 6px;
         }
     }
 </style>

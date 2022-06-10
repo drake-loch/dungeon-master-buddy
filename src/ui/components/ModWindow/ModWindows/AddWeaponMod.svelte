@@ -17,7 +17,7 @@
     let customItem: Weapon | Armour | Item | undefined = undefined;
     let selectedItem: Weapon | Armour | Item | undefined;
     onMount(() => {
-        console.log("item type", itemType);
+        // console.log("item type", itemType);
 
         if (itemType === "weapon") {
             customItem = customItem as Weapon;
@@ -84,14 +84,14 @@
         <input
             on:change={() => onRadioChange("list")}
             type="radio"
-            name="list"
+            name="typeOfForm"
             value="list"
         />
         <label for="custom">Custom</label>
         <input
             on:change={() => onRadioChange("custom")}
             type="radio"
-            name="custom"
+            name="typeOfForm"
             value="custom"
         />
     </div>
@@ -151,6 +151,14 @@
                     type="text"
                 />
             </div>
+            <div class="text-input">
+                <label for="text-input-name">Defense Bonus:</label>
+                <input
+                    placeholder="2"
+                    bind:value={customItem.defence}
+                    type="text"
+                />
+            </div>
         {/if}
 
         <div class="text-input">
@@ -175,9 +183,13 @@
         </div>
     {:else if itemFormType === "list"}
         <div class="select-input">
-            <label for="select-input-name">Weapon Name:</label>
+            <label for="select-input-name"
+                >{capitalizeFirstLetter(itemType)} Name:</label
+            >
             <select bind:value={selectedItem}>
-                <option value={undefined}>Select a weapon...</option>
+                <option value={undefined}
+                    >Select a {capitalizeFirstLetter(itemType)}...</option
+                >
                 {#each $selectedWorld.items
                     .filter((item) => !item.unique)
                     .filter((item) => item.type === itemType) as item}
@@ -186,11 +198,14 @@
             </select>
         </div>
     {/if}
-
-    <div class="button-list">
-        <LittleButton disabled={false} type="good">Add Weapon</LittleButton>
-        <LittleButton func={toggleMod} type="">Cancel</LittleButton>
-    </div>
+    {#if itemFormType !== ""}
+        <div class="button-list">
+            <LittleButton disabled={false} type="good"
+                >Add {capitalizeFirstLetter(itemType)}</LittleButton
+            >
+            <LittleButton func={toggleMod} type="">Cancel</LittleButton>
+        </div>
+    {/if}
 </form>
 
 <style>
@@ -203,6 +218,7 @@
         background-color: rgba(0, 0, 0, 0.3);
         padding: 1rem 1rem 4rem 1rem;
         color: white;
+        /* width: 90%; */
     }
     .radios {
         margin-bottom: 2rem;

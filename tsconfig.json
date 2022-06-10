@@ -22,7 +22,7 @@
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"baseUrl": "./src",
+		"baseUrl": "./",
 		"allowJs": true,
 		"checkJs": true,
 		"paths": {
@@ -36,6 +36,7 @@
 	},
 	"include": [
 		"src/**/*",
+		"/src/**/*",
 		"src/**/*.d.ts",
 		"src/**/*.js",
 		"src/**/*.ts",
