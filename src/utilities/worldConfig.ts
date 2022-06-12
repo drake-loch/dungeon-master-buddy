@@ -6,7 +6,7 @@ import { get } from "svelte/store";
 import type { Continent } from "./continentsConfig";
 import type { Creature, NPC, PC, Race } from './charManager';
 import { createNewRace } from './charManager';
-import type { Item } from './combatConfig';
+import type { Item, Spell } from './combatConfig';
 
 export interface World {
     name: string,
@@ -24,6 +24,7 @@ export interface World {
     races: Race[],
     species: [],
     items: Item[],
+    spells: Spell[],
     settings: {
         skillSetFormat: [],
         skillSets: [],
@@ -59,6 +60,7 @@ export function CreateNewWorld(name: string, user, skillset?) {
         races: [human],
         species: [],
         items: [],
+        spells: [],
         settings: {
             skillSetFormat: skillset ? skillset : AddDefaultSkills()[0],
             skillSets: AddDefaultSkills(),

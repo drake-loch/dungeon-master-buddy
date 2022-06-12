@@ -126,6 +126,18 @@
         <DashModule
             canEditTitle={false}
             canEditDesc={false}
+            title="Spellbook"
+            desc="View, Create amd edit Spells."
+            buttons={[
+                {
+                    title: "View Spells",
+                    func: () => goto(`${$page.url}/spellbook`),
+                },
+            ]}
+        />
+        <DashModule
+            canEditTitle={false}
+            canEditDesc={false}
             title="Factions"
             desc="View, Create amd edit factions."
             buttons={[
@@ -170,6 +182,7 @@
         }
         section {
             padding-bottom: 5rem;
+            align-items: center;
         }
         .select-list {
             display: flex;

@@ -35,6 +35,20 @@
             },
         ];
     }
+    let contName = $page.params.contName;
+    let province = $page.params.provinceName;
+    let settlement = $page.params.settlementName;
+
+    $: if (!$selectedSettlement && $selectedWorld && province) {
+        const cont = $selectedWorld.continents.find(
+            (cont) => cont.name === contName
+        );
+        const prov = cont?.provinces.find((prov) => prov.name === province);
+        // console.log(prov);
+        $selectedSettlement = prov?.settlements.find(
+            (sett) => sett?.name === settlement
+        );
+    }
 </script>
 
 {#if $selectedWorld && $selectedContinent && $selectedProvince && $selectedSettlement}

@@ -104,6 +104,10 @@
         font-size: 0.9rem;
         background-color: rgba(255, 255, 255, 0.5);
     }
+    .button:hover {
+        background-color: rgba(255, 255, 255, 0.75);
+        cursor: pointer;
+    }
     .edit-icon {
         background: none;
         border: none;

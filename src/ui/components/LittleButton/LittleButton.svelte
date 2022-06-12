@@ -5,6 +5,7 @@
     export let nav = undefined;
     export let type = "";
     export let disabled = false;
+    export let buttonType = "button";
 
     function navHandler() {
         goto(nav);
@@ -12,15 +13,15 @@
 </script>
 
 {#if func}
-    <button {disabled} class={type} on:click={func}>
+    <button type={buttonType} {disabled} class={type} on:click={func}>
         <slot />
     </button>
 {:else if nav}
-    <button {disabled} class={type} on:click={navHandler}>
+    <button type={buttonType} {disabled} class={type} on:click={navHandler}>
         <slot />
     </button>
 {:else}
-    <button {disabled} class={type}>
+    <button type={buttonType} {disabled} class={type}>
         <slot />
     </button>
 {/if}
@@ -46,6 +47,7 @@
     }
     button:hover {
         background-color: var(--col-dark-lightest);
+        cursor: pointer;
     }
 
     .warning {

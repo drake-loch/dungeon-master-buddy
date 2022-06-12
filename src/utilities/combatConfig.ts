@@ -1,5 +1,8 @@
-import { UpdateWorld } from "./worldConfig";
+import { selectedWorld, UpdateWorld } from "./worldConfig";
 import type { World } from "./worldConfig";
+import { get } from "svelte/store";
+import { user } from "../stores";
+import type { User } from "firebase/auth";
 
 export interface Item {
     name: string;
@@ -23,6 +26,35 @@ export interface Armour extends Item {
     defence: number | string;
     armorType: string;
     stat: string;
+}
+
+export const physicalDamageTypes = ['bludgeoning', 'piercing', 'slashing'];
+export const magicalDamageTypes = ['fire', 'ice', 'lightning', 'acid', 'poison', 'radiatant'];
+
+
+export const magicSchools: string[] = [
+    "Abjuration",
+    "Conjuration",
+    "Divination",
+    "Enchantment",
+    "Evocation",
+    "Illusion",
+    "Necromancy",
+    "Transmutation",
+    "Other"
+];
+export interface Spell {
+    name: string;
+    description: string;
+    id: number;
+    damage: number | string;
+    school: string;
+    range: number | string;
+    components: string[];
+    material?: string[];
+    duration: number | string;
+    level: number | string;
+    isRitual: boolean;
 }
 
 export function newItem(): Item {
@@ -66,7 +98,7 @@ export function newArmour(): Armour {
     }
 }
 
-export function addItemToWorld(user: any, item: Item, world: World) {
+export function addItemToWorld(user: any, item: Item, world: World): void {
     world.items.push(item);
     console.log('adding item to world', world);
 
@@ -81,4 +113,38 @@ export function getItemById(id: number, world: World) {
     // console.log('getting item by id', id, world);
 
     return world.items.find(item => item.id === id);
+}
+
+export function newSpell(): Spell {
+    return {
+        name: '',
+        description: '',
+        id: 0,
+        damage: '',
+        school: '',
+        range: '',
+        components: [],
+        duration: '',
+        level: '',
+        isRitual: false,
+    }
+}
+
+export function addSpellToWorld(user: any, spell: Spell): void {
+    const world: World = get(selectedWorld);
+    if (user === undefined || world === undefined) return;
+    world.spells.push(spell);
+    UpdateWorld(user, world);
+}
+export function updateSpellToWorld(user: any, spell: Spell): void {
+    const world: World = get(selectedWorld);
+    if (user === undefined || world === undefined) return;
+    const index = world.spells.findIndex(s => s.id === spell.id);
+    world.spells[index] = spell;
+    UpdateWorld(user, world);
+}
+export function removeSpellFromWorld(user: any, spell: Spell, world: World): void {
+    if (user === undefined || world === undefined) return;
+    world.spells = world.spells.filter(s => s.id !== spell.id);
+    UpdateWorld(user, world);
 }
