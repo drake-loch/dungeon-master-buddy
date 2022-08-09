@@ -153,7 +153,7 @@
     .box-info {
         display: flex;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.5-+rem;
         width: 100%;
         margin-bottom: 0.5rem;
         /* border: 1px solid black; */
